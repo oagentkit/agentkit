@@ -29,9 +29,13 @@ import "github.com/oagentkit/textx/textutil"
 一次性改写：
 
 ```bash
-# 逐包替换 import 前缀
-grep -rl 'git.enjoye.top/enjoydream/agentkit' . \
-  | xargs sed -i '' 's|git.enjoye.top/enjoydream/agentkit/\([a-z]*\)|github.com/oagentkit/...|g'
+# 建议按 MIGRATION.md 的映射表逐包替换，逐条核对而不是一条通配。
+# 通配 sed 的坑：新路径的模块段不是旧包名（worker/pglease -> queue/pglease、
+# knowledge/rag -> rag/rag），正则很难覆盖；且改写会打乱 import 组内字母序，
+# 必须让 gofmt 重排，否则挂 CI 门禁。
+#
+# 用 matrix-tools 的脚本（只改 import 块内的引号字符串，改完自动 gofmt）：
+python3 -c "import urllib.request;exec(urllib.request.urlopen('https://raw.githubusercontent.com/oagentkit/matrix-tools/main/scripts/rewrite_imports.py').read())" --org oagentkit --print-rules
 ```
 
 **推荐做法**：按 [MIGRATION.md](MIGRATION.md) 的映射表直接换到最终路径，不要先引门面 ——
