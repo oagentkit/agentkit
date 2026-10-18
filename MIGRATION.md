@@ -8,7 +8,7 @@
 | `diffx` | `textx` | `github.com/oagentkit/textx/diffx` |
 | `reportutil` | `textx` | `github.com/oagentkit/textx/reportutil` |
 | `textutil` | `textx` | `github.com/oagentkit/textx/textutil` |
-| `breaker` | `runtime` | `github.com/oagentkit/runtime/breaker` |
+| `breaker` | **已退役** | `github.com/oekit/concurrency/breaker` |
 | `hookx` | `runtime` | `github.com/oagentkit/runtime/hookx` |
 | `hotplug` | `runtime` | `github.com/oagentkit/runtime/hotplug` |
 | `pacer` | `runtime` | `github.com/oagentkit/runtime/pacer` |
@@ -54,3 +54,21 @@
 - `hotplug.NewHolder` → `github.com/oagentkit/runtime/hotplug.NewHolder`
 - `progress.NewBus` → `github.com/oagentkit/runtime/progress.NewBus`
 - `reportutil.Aggregate` → `github.com/oagentkit/textx/reportutil.Aggregate`
+
+## 已退役的包
+
+### `breaker` —— 三态熔断器
+
+runtime v0.3.0 移除了本包，熔断能力改由上游 `oekit/concurrency/breaker` 承担
+（llm 仓 v0.4.0 起全量使用）。
+
+```go
+// 旧
+import "github.com/oagentkit/runtime/breaker"
+// 新
+import "github.com/oekit/concurrency/breaker"
+```
+
+⚠️ **语义不同**：上游是「速率型 or 计数型并联触发」，显式三态 + 代绑定 +
+冷却期/探测时限独立配置；不是原包那种纯计数型的三态熔断器。
+配置项映射见上游 [README](https://github.com/oekit/concurrency/blob/main/breaker/README.md)。
