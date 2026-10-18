@@ -16,7 +16,7 @@ require (
 	github.com/oagentkit/runtime v0.5.0
 	github.com/oagentkit/skillkit v0.5.0
 	github.com/oagentkit/textx v0.3.0
-	github.com/oagentkit/toolgate v0.7.0
+	github.com/oagentkit/toolgate v0.8.0
 	github.com/oagentkit/tools v0.6.0
 )
 
