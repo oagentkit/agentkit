@@ -36,7 +36,7 @@
 | `llm` | `llm` | `github.com/oagentkit/llm` |
 | `llm/llmtest` | `llm` | `github.com/oagentkit/llm/llmtest` |
 | `llm/wrap` | `llm` | `github.com/oagentkit/llm/wrap` |
-| `invoke` | `toolgate` | `github.com/oagentkit/toolgate/invoke` |
+| `invoke` | `guardx` | `github.com/oagentkit/guardx/invoke` |
 | `policy` | `toolgate` | `github.com/oagentkit/toolgate/policy` |
 | `toolprior` | `toolgate` | `github.com/oagentkit/toolgate/toolprior` |
 | `toolsched` | `toolgate` | `github.com/oagentkit/toolgate/toolsched` |

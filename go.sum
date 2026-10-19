@@ -252,8 +252,8 @@ github.com/nikolalohinski/gonja v1.5.3 h1:GsA+EEaZDZPGJ8JtpeGN78jidhOlxeJROpqMT9
 github.com/nikolalohinski/gonja v1.5.3/go.mod h1:RmjwxNiXAEqcq1HeK5SSMmqFJvKOfTfXhkJv6YBtPa4=
 github.com/oagentkit/agent v0.10.0 h1:Xf9nTWtcLH0Np4nXXX2Nd7ObsqPu6JR4uJ78mgGTJa4=
 github.com/oagentkit/agent v0.10.0/go.mod h1:u4Gnl8uiAoHL+YoUzqjfkQ6vQrkmwgUREJSeSKFaJx8=
-github.com/oagentkit/guardx v0.7.0 h1:PIewjFAeQubd5f+NpzpnY69hB/sd2rau0Jk/Rcn5Uuk=
-github.com/oagentkit/guardx v0.7.0/go.mod h1:pg+SXHt9ZKAsq8oxDynewC4BO37gQ9XJqHftpVELHO8=
+github.com/oagentkit/guardx v0.8.0 h1:4NG+LkpEZPAuO4rQKxZCam11W4hzcGuBDGp6OXJ8avk=
+github.com/oagentkit/guardx v0.8.0/go.mod h1:2rIT0WetJbf4diOm69xneg4+/Mzkl+3gu3xS6qoC/8g=
 github.com/oagentkit/llm v0.11.0 h1:ncNDLxHjhQUON2nB7JeYEx220nw/Xg+bMEF7xoCnJU8=
 github.com/oagentkit/llm v0.11.0/go.mod h1:OXeFVp4p3BHnwCyuziYCCzihSM90lzVuaRoSaP1nhkU=
 github.com/oagentkit/mcpkit v0.8.0 h1:Lv2vMXCruVqApvYF6kA77ngijpbb9JOtIeaizm3WNlI=
@@ -272,8 +272,8 @@ github.com/oagentkit/skillkit v0.8.0 h1:AZCPp88IWote2y3ptZo2j1lXF4VpzvOJId7+V9Nc
 github.com/oagentkit/skillkit v0.8.0/go.mod h1:ejO5hrfGQA2E+Ndyr7+PPSYN/73aL7KrxA1UJgieEFI=
 github.com/oagentkit/textx v0.6.0 h1:JRoaBxI1bIecX/an2m6dlhoRK29EuXp53poE5ZQ4hmM=
 github.com/oagentkit/textx v0.6.0/go.mod h1:1QrM4vtTbcRxU7nchnfCiJYqTPumTJRhNeYnjL+KXCY=
-github.com/oagentkit/toolgate v0.11.0 h1:kThhfvu7X2p4wh4D/Wd52YQxtpIp4kEx0ij33nHq51c=
-github.com/oagentkit/toolgate v0.11.0/go.mod h1:z2Y3GLBxaHrgL/6fcdMskKhWGNUcmXVhMwhhDCCW9uM=
+github.com/oagentkit/toolgate v0.12.0 h1:JLf+9haQgHJ52rxbT1JAo+85GfRqBesuEI2miyi+7OQ=
+github.com/oagentkit/toolgate v0.12.0/go.mod h1:KEOaBCZFFURisXA64x/a9PYyuXJ4ybJkbZfx2LNvDl8=
 github.com/oagentkit/tools v0.10.0 h1:iZgqLivOTLzppGtreJOoz7q0uT0w2hQleABB+DEU5O8=
 github.com/oagentkit/tools v0.10.0/go.mod h1:Zc8EwEWydpN4Pt4po2QUeO6L1aZd2edTxlRT933waaY=
 github.com/oekit/concurrency v0.17.1 h1:AEYElvycBC7UTqVp6EPe6avWGE3ljjVT8N3+SDlChQA=
