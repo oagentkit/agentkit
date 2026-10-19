@@ -18,6 +18,7 @@
 | `bashguard` | `guardx` | `github.com/oagentkit/guardx/bashguard` |
 | `egress` | `guardx` | `github.com/oagentkit/guardx/egress` |
 | `fence` | `guardx` | `github.com/oagentkit/guardx/fence` |
+| `injectband` | `guardx` | `github.com/oagentkit/guardx/injectband` |
 | `logredact` | `guardx` | `github.com/oagentkit/guardx/logredact` |
 | `permgate` | `guardx` | `github.com/oagentkit/guardx/permgate` |
 | `worker` | `queue` | `github.com/oagentkit/queue/worker` |
@@ -35,6 +36,7 @@
 | `llm` | `llm` | `github.com/oagentkit/llm` |
 | `llm/llmtest` | `llm` | `github.com/oagentkit/llm/llmtest` |
 | `llm/wrap` | `llm` | `github.com/oagentkit/llm/wrap` |
+| `invoke` | `toolgate` | `github.com/oagentkit/toolgate/invoke` |
 | `policy` | `toolgate` | `github.com/oagentkit/toolgate/policy` |
 | `toolprior` | `toolgate` | `github.com/oagentkit/toolgate/toolprior` |
 | `toolsched` | `toolgate` | `github.com/oagentkit/toolgate/toolsched` |

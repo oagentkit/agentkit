@@ -2,7 +2,7 @@
 
 > ⚠️ **本仓是兼容门面，不是开发目标。**
 > 原单仓已拆分为 [`github.com/oagentkit/*`](https://github.com/oagentkit) 下 **13 个独立发版的仓**。
-> 本仓只把 **45 个**包的导出符号做成别名转发，让下游**只需改 import 前缀、无需改调用点**。
+> 本仓只把 **47 个**包的导出符号做成别名转发，让下游**只需改 import 前缀、无需改调用点**。
 > 另有 1 个包（`breaker`）已退役，不在此列——见 [MIGRATION.md](MIGRATION.md#已退役的包)。
 > **v1.x 后本仓退役。**
 
@@ -21,7 +21,7 @@
 # 迁移前
 import "git.enjoye.top/enjoydream/agentkit/textutil"
 
-# 迁移后（45 个包的完整映射见 MIGRATION.md）
+# 迁移后（47 个包的完整映射见 MIGRATION.md）
 import "github.com/oagentkit/textx/textutil"
 ```
 
