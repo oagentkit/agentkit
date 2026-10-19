@@ -80,13 +80,16 @@ var (
 	NewResilient            = upstream.NewResilient
 	NewStageRouter          = upstream.NewStageRouter
 	NewUsageHandler         = upstream.NewUsageHandler
-	PriceOf                 = upstream.PriceOf
-	PriceOfMatched          = upstream.PriceOfMatched
-	RetryAfterFrom          = upstream.RetryAfterFrom
-	RetryableLLMError       = upstream.RetryableLLMError
-	SelectRetryDelay        = upstream.SelectRetryDelay
-	SuspiciousEmptyResult   = upstream.SuspiciousEmptyResult
-	WithCallCounter         = upstream.WithCallCounter
-	WithRetryAfterSink      = upstream.WithRetryAfterSink
-	WithUsageLabels         = upstream.WithUsageLabels
+	// 门面按契约转发上游的**全部**导出符号；上游标 Deprecated 的符号在此仍必须转发
+	// （删掉会让走门面的下游编译断裂，而符号级门禁也会判成「幽灵转发」）。
+	// 故此处按行豁免 SA1019——豁免的是「转发」这个动作，不是「上游已弃用」这个事实。
+	PriceOf               = upstream.PriceOf        //nolint:staticcheck // 上游已弃用：改用 PriceTable.Lookup
+	PriceOfMatched        = upstream.PriceOfMatched //nolint:staticcheck // 上游已弃用：改用 PriceTable.Lookup
+	RetryAfterFrom        = upstream.RetryAfterFrom
+	RetryableLLMError     = upstream.RetryableLLMError
+	SelectRetryDelay      = upstream.SelectRetryDelay
+	SuspiciousEmptyResult = upstream.SuspiciousEmptyResult
+	WithCallCounter       = upstream.WithCallCounter
+	WithRetryAfterSink    = upstream.WithRetryAfterSink
+	WithUsageLabels       = upstream.WithUsageLabels
 )
