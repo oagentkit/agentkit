@@ -2,6 +2,15 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.9] — 2026-10-20
+
+### 重构：obsx 的转发改指 llm（obsx 已迁仓）
+
+BREAKING CHANGE: github.com/oagentkit/obs/obsx → github.com/oagentkit/llm/obsx
+门面的公共路径不变。地板跟到 obs v0.9.0 / llm v0.12.0。
+
+- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
+
 ## [v1.8.8] — 2026-10-20
 
 ### 重构：invoke 的转发改指 guardx
