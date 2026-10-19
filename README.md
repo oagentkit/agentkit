@@ -71,6 +71,18 @@ python3 rewrite_imports.py --org oagentkit --modules ./modules.json --root . --a
 
 未导出符号（内部实现）不在门面范围内，这是 Go 包机制的固有边界。
 
+## 转发保真度
+
+门面对每个包做 **kind 一致** 的转发：上游的 `type` 用 type 块、`const` 用 const 块、
+`func`/`var` 用 var 块。所以：
+
+- 上游的 `const` 在门面这边**仍是 const**——可以用于常量位置（const 声明、数组长度、
+  const 块、iota 组），语义与直接 import 上游完全一致。（不是「降级成 var」：
+  那样会丢掉常量位置，编译不过。）
+- 上游新增导出符号时，必须在本仓对应包的 `alias.go` 里补上对应别名，否则下游按门面
+  import 会编译失败。矩阵侧有符号级门禁
+  （`matrix-tools/scripts/verify_facade_symbols.py`）守着这条不变量。
+
 ## 模块矩阵
 
 13 个仓，按 tier 严格自底向上：
