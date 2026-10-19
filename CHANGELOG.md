@@ -2,6 +2,29 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.7] — 2026-10-19
+
+### 重构：audit / bashguard 的转发改指 obs / tools
+
+BREAKING CHANGE: 门面上游的两个包已迁仓（guardx v0.7.0 起）：
+  github.com/oagentkit/guardx/audit     → github.com/oagentkit/obs/audit
+  github.com/oagentkit/guardx/bashguard → github.com/oagentkit/tools/bashguard
+门面的**公共路径不变**（github.com/oagentkit/agentkit/audit 等照旧可用），
+只有内部转发指向改了。go.mod 跟新地板：guardx v0.7.0 / obs v0.8.0 / tools v0.10.0，
+并去掉两条嵌套 module 的 require（guardx/audit、guardx/bashguard）。
+关联 oagentkit/guardx#3
+
+## [v1.8.6] — 2026-10-19
+
+- 杂务(deps)：追平 textx v0.6.0 + oekit/pkg v0.16.0
+
+## [v1.8.5] — 2026-10-19
+
+- 杂务(deps)：跟进 guardx v0.6.0 + 嵌套模块 audit/bashguard v0.1.0
+
+- 文档(changelog)：按远端真实 tag 重生成
+- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
+
 ## [v1.8.4] — 2026-10-19
 
 - 杂务(deps)：依赖地板对齐远端最新（agent v0.10.0 / guardx v0.5.0 / llm v0.11.0 / mcpkit v0.8.0 / obs v0.7.0 / promptx v0.8.0 / queue v0.6.0 / rag v0.8.0 / runtime v0.7.0 / skillkit v0.8.0 / textx v0.5.0 / toolgate v0.11.0 / tools v0.9.0） (13)
