@@ -25,10 +25,15 @@ type (
 	FailoverModel        = upstream.FailoverModel
 	FallbackChain        = upstream.FallbackChain
 	Generator            = upstream.Generator
+	MatchKind            = upstream.MatchKind
 	ModelSummary         = upstream.ModelSummary
 	OpenAIProvider       = upstream.OpenAIProvider
 	OpenAIProviderConfig = upstream.OpenAIProviderConfig
 	Price                = upstream.Price
+	PriceLookup          = upstream.PriceLookup
+	PriceStatus          = upstream.PriceStatus
+	PriceTable           = upstream.PriceTable
+	PricedProvider       = upstream.PricedProvider
 	Provider             = upstream.Provider
 	Resilient            = upstream.Resilient
 	ResilientConfig      = upstream.ResilientConfig
@@ -41,26 +46,37 @@ type (
 )
 
 const (
+	MatchExact               = upstream.MatchExact
+	MatchNone                = upstream.MatchNone
+	MatchNormalized          = upstream.MatchNormalized
 	MaxServerRetryAfter      = upstream.MaxServerRetryAfter
 	MaxStreamRecoveryRetries = upstream.MaxStreamRecoveryRetries
+	PricePriced              = upstream.PricePriced
+	PriceUnpriced            = upstream.PriceUnpriced
 )
 
 var (
 	BusyAdmissionDelay      = upstream.BusyAdmissionDelay
 	BusyAdmissionDelays     = upstream.BusyAdmissionDelays
 	ClassifyLLMError        = upstream.ClassifyLLMError
+	DefaultPriceTable       = upstream.DefaultPriceTable
+	ErrPriceUnknown         = upstream.ErrPriceUnknown
 	IsContextExceededError  = upstream.IsContextExceededError
 	IsContextExceededFinish = upstream.IsContextExceededFinish
 	IsProviderBusyCode      = upstream.IsProviderBusyCode
 	IsRateLimitError        = upstream.IsRateLimitError
 	IsTransientStreamError  = upstream.IsTransientStreamError
 	IsTruncatedError        = upstream.IsTruncatedError
+	LookupPrice             = upstream.LookupPrice
+	LookupPriceStrict       = upstream.LookupPriceStrict
 	NewBudget               = upstream.NewBudget
 	NewClient               = upstream.NewClient
 	NewCostTracker          = upstream.NewCostTracker
+	NewCostTrackerWithTable = upstream.NewCostTrackerWithTable
 	NewFailoverModel        = upstream.NewFailoverModel
 	NewFallbackChain        = upstream.NewFallbackChain
 	NewOpenAIProvider       = upstream.NewOpenAIProvider
+	NewPriceTable           = upstream.NewPriceTable
 	NewResilient            = upstream.NewResilient
 	NewStageRouter          = upstream.NewStageRouter
 	NewUsageHandler         = upstream.NewUsageHandler
