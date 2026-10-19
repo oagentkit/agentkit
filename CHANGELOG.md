@@ -2,6 +2,41 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.13] — 2026-10-20
+
+### 修复(docs)：更正 v1.8.10 发布说明里关于 const 降级影响的描述
+
+v1.8.10 的 CHANGELOG 段（由 git 历史生成）有一处不准确的描述。该段无法手改
+——CHANGELOG 由 gen_changelogs.py 从历史重生成，手改会被覆盖；tag 又受
+protect-tags ruleset 保护不可变。所以在此更正，让后续版本明确记下正确机制。
+## 错在哪
+v1.8.10 段写的是：
+    下游写 `switch op { case policy.OpToolCall: }` 会编译不过（case 要求常量表达式）。
+**不成立。** Go 规范里 expression switch 的 case 表达式不必是常量（只有 type
+switch 的 case 必须是类型）。编译器实证：上游 const 被门面降级成 var 之后，
+`switch op { case policy.OpToolCall: }` 照样编译通过、运行正确。
+## 真正断裂的是「常量位置」
+    const x = policy.OpToolCall    →  x (variable of type int) is not constant
+    var arr [policy.OpToolCall]int →  invalid array length policy.OpToolCall
+即 const 声明、数组长度、const 块、iota 组——这些位置要求常量表达式。
+## 影响范围
+**修复本身完全正确且必要**：131 处 kind 失真是真实缺陷（上游是 const，门面统一
+转成 var），门面的声明形态必须与上游一致。本更正只针对影响描述里的那个举例，
+不改变修复内容、不影响任何升级决策。
+## 本次一并做的事
+README 补一节「转发保真度」，把正确机制写给消费方：门面对上游 const 用 const
+块转发，所以常量位置可用，与直接 import 上游语义一致。顺带把「上游新增导出符号
+必须在本仓补别名」这条不变量和守它的门禁写进去。
+## 相关位置
+- 门禁报错文案已按此更正：matrix-tools/scripts/verify_facade_symbols.py
+- GitHub Release v1.8.10 正文写的是正确机制
+- 符号级门禁本身：oagentkit/matrix-tools#20
+
+- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
+
+- Merge pull request #18 from oagentkit/fix/docs/correct-v1.8.10-const-claim
+- Merge pull request #17 from oagentkit/docs/changelog-v1.8.12
+
 ## [v1.8.12] — 2026-10-20
 
 - 杂务(deps)：门面依赖地板跟到各模块最新 tag
