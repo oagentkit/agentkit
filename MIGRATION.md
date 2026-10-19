@@ -31,8 +31,8 @@
 | `pack` | `skillkit` | `github.com/oagentkit/skillkit/pack` |
 | `skill` | `skillkit` | `github.com/oagentkit/skillkit/skill` |
 | `mcp` | `mcpkit` | `github.com/oagentkit/mcpkit/mcp` |
-| `knowledge/rag` | `rag` | `github.com/oagentkit/rag/rag` |
-| `llm` | `llm` | `github.com/oagentkit/llm/llm` |
+| `knowledge/rag` | `rag` | `github.com/oagentkit/rag` |
+| `llm` | `llm` | `github.com/oagentkit/llm` |
 | `llm/llmtest` | `llm` | `github.com/oagentkit/llm/llmtest` |
 | `llm/wrap` | `llm` | `github.com/oagentkit/llm/wrap` |
 | `policy` | `toolgate` | `github.com/oagentkit/toolgate/policy` |

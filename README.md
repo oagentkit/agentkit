@@ -32,7 +32,7 @@ import "github.com/oagentkit/textx/textutil"
 ```bash
 # 建议按 MIGRATION.md 的映射表逐包替换，逐条核对而不是一条通配。
 # 通配 sed 的坑：新路径的模块段不是旧包名（worker/pglease -> queue/pglease、
-# knowledge/rag -> rag/rag），正则很难覆盖；且改写会打乱 import 组内字母序，
+# knowledge/rag -> rag），正则很难覆盖；且改写会打乱 import 组内字母序，
 # 必须让 gofmt 重排，否则挂 CI 门禁。
 #
 # 用 matrix-tools 的脚本（只改 import 块内的引号字符串，改完自动 gofmt）：

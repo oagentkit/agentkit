@@ -2,12 +2,12 @@
 
 // Package llm 是已迁移包的兼容门面。
 //
-// 新代码请直接 import github.com/oagentkit/llm/llm。
+// 新代码请直接 import github.com/oagentkit/llm。
 // 本仓将在 v1.x 后退役，见 MIGRATION.md。
 
 package llm
 
-import upstream "github.com/oagentkit/llm/llm"
+import upstream "github.com/oagentkit/llm"
 
 type (
 	Attempt              = upstream.Attempt

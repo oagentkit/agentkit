@@ -2,12 +2,12 @@
 
 // Package rag 是已迁移包的兼容门面。
 //
-// 新代码请直接 import github.com/oagentkit/rag/rag。
+// 新代码请直接 import github.com/oagentkit/rag。
 // 本仓将在 v1.x 后退役，见 MIGRATION.md。
 
 package rag
 
-import upstream "github.com/oagentkit/rag/rag"
+import upstream "github.com/oagentkit/rag"
 
 type (
 	Chunk            = upstream.Chunk

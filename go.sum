@@ -250,12 +250,12 @@ github.com/nats-io/nkeys v0.1.0/go.mod h1:xpnFELMwJABBLVhffcfd1MZx6VsNRFpEugbxzi
 github.com/nats-io/nuid v1.0.1/go.mod h1:19wcPz3Ph3q0Jbyiqsd0kePYG7A95tJPxeL+1OSON2c=
 github.com/nikolalohinski/gonja v1.5.3 h1:GsA+EEaZDZPGJ8JtpeGN78jidhOlxeJROpqMT9fTj9c=
 github.com/nikolalohinski/gonja v1.5.3/go.mod h1:RmjwxNiXAEqcq1HeK5SSMmqFJvKOfTfXhkJv6YBtPa4=
-github.com/oagentkit/agent v0.7.0 h1:kxpV1qo9nVsMJ0IHyjjy9bJ+ZP5w0v0HCpTBCvg2VJc=
-github.com/oagentkit/agent v0.7.0/go.mod h1:SK/UB8Gaehszgn7AV/4FQJICXk/FgK6n+jpkFW0T8jc=
+github.com/oagentkit/agent v0.8.0 h1:7iBBzHyLBmDuVIGWergsviXr0PcnPPdK7gx22D/5S+A=
+github.com/oagentkit/agent v0.8.0/go.mod h1:C21yfQr/WmRkbOKUE5Emd8sXVGeBUPxfzTF86Jpqbi0=
 github.com/oagentkit/guardx v0.4.0 h1:VJVRHbiH71MdfbChuzErnm0RTurJ/GY78w5JPANGzDA=
 github.com/oagentkit/guardx v0.4.0/go.mod h1:p/P49CZgtpMBXRKf7MTqMm8EDsFecpr0AglrEX1QwG8=
-github.com/oagentkit/llm v0.8.0 h1:skD+DjioC+EwvQA4fVzVW5QoXlJcxWAEoEVw3mAsQbM=
-github.com/oagentkit/llm v0.8.0/go.mod h1:iPU4kOLZJLt3uQxuhP0aXOgUBIGqrQAIMt+2BXQnv6o=
+github.com/oagentkit/llm v0.9.0 h1:DYNVTTnkwwMiUHLo92PCrf8tmYVSH75xBG7UHiGpZLY=
+github.com/oagentkit/llm v0.9.0/go.mod h1:iPU4kOLZJLt3uQxuhP0aXOgUBIGqrQAIMt+2BXQnv6o=
 github.com/oagentkit/mcpkit v0.6.0 h1:cjaTLrqDQURTE5SLM0x1AEchzQowM3dKLBH7x01/g9U=
 github.com/oagentkit/mcpkit v0.6.0/go.mod h1:xOaNCSZU980hQIssqrPU72/Q3XP24NVW1s88DrYsucc=
 github.com/oagentkit/obs v0.5.0 h1:6uDXpupIOdIG8edJ8PdRQh58XvOesrYJnLKdc48cMCo=
@@ -264,8 +264,8 @@ github.com/oagentkit/promptx v0.6.0 h1:UYa4heKkR6iPSqsWHLmNMDhCcSmtoH/wLHeGypq/X
 github.com/oagentkit/promptx v0.6.0/go.mod h1:A/oS6zyklK5C69fBUtyUGHrjgU/HM8oFedOQv6xkLHE=
 github.com/oagentkit/queue v0.5.0 h1:6TNzat09SSLcmwt5eSp6EkmQsncZeNlFw9LYhl0eUuw=
 github.com/oagentkit/queue v0.5.0/go.mod h1:OYN5L6GI1kMDvZDTP2ttUO/K6QDvqmZlyZmCQsTv3vk=
-github.com/oagentkit/rag v0.5.0 h1:a5i0CfPvv2in7XgRo2R4CSjyE8VBO1ivg5bE4tQAIBg=
-github.com/oagentkit/rag v0.5.0/go.mod h1:YSiafbpH/H905f4R0iaEU+YDGf2Sf11i7+8va+5X+Z4=
+github.com/oagentkit/rag v0.6.0 h1:s9+U7C+sNaaYAhbNpfrYxk9xGxwz/oDHtqi+OWzZm2I=
+github.com/oagentkit/rag v0.6.0/go.mod h1:YSiafbpH/H905f4R0iaEU+YDGf2Sf11i7+8va+5X+Z4=
 github.com/oagentkit/runtime v0.6.0 h1:e0KnT4bAR9Z/Dkaxa4MKaYG3MU8ffZkcahBz7wpgHQ8=
 github.com/oagentkit/runtime v0.6.0/go.mod h1:DHBhQLb7hGApwz0AIlGx/A/F6nuhtaGvb7AK3MsFa00=
 github.com/oagentkit/skillkit v0.6.0 h1:hNMglj4m5pGhkgkaNV83NB0SK5An7NIE2iks5memrs0=
