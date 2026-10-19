@@ -14,8 +14,8 @@
 | `pacer` | `runtime` | `github.com/oagentkit/runtime/pacer` |
 | `procx` | `runtime` | `github.com/oagentkit/runtime/procx` |
 | `progress` | `runtime` | `github.com/oagentkit/runtime/progress` |
-| `audit` | `guardx` | `github.com/oagentkit/guardx/audit` |
-| `bashguard` | `guardx` | `github.com/oagentkit/guardx/bashguard` |
+| `audit` | `obs` | `github.com/oagentkit/obs/audit` |
+| `bashguard` | `tools` | `github.com/oagentkit/tools/bashguard` |
 | `egress` | `guardx` | `github.com/oagentkit/guardx/egress` |
 | `fence` | `guardx` | `github.com/oagentkit/guardx/fence` |
 | `injectband` | `guardx` | `github.com/oagentkit/guardx/injectband` |
