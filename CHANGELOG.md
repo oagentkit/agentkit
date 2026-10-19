@@ -2,6 +2,40 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.14] — 2026-10-20
+
+### 新增(facade)：转发 llm 的价表 API（16 个新符号）+ 依赖地板抬到 llm v0.13.0
+
+llm v0.13.0 新增了内建价表与「价格未知」的记账语义（见 oagentkit/llm#13），
+门面必须同步转发这些导出符号，否则走门面的下游够不到它们。
+转发 16 个符号：
+- type: MatchKind / PriceLookup / PriceStatus / PriceTable / PricedProvider
+- const: MatchExact / MatchNone / MatchNormalized / PricePriced / PriceUnpriced
+- var: ErrPriceUnknown
+- func: DefaultPriceTable / LookupPrice / LookupPriceStrict /
+        NewCostTrackerWithTable / NewPriceTable
+go.mod 地板：llm v0.12.1 → v0.13.0（门面是消费方的单一入口，MVS 只看被消费
+版本的 go.mod；地板落后 ⇒ 消费方 go get 门面仓静默拿到旧实现）。
+⚠️ 这条改动是被**矩阵的符号级转发完整性门禁**逼出来的
+（matrix-tools/scripts/verify_facade_symbols.py）——门禁在 llm#13 合入后
+报出这 16 个缺失。门禁只对账不生成，改动仍走人工 PR。
+验证：go build ./... / go vet ./... / go test ./... 全绿；gofmt 干净；
+符号级门禁对 47 个门面包全绿。
+
+### 修复(facade)：转发已弃用符号时按行豁免 SA1019
+
+staticcheck SA1019 把「转发上游已弃用符号」判成「使用已弃用 API」——
+门面按契约转发上游的**全部**导出符号，删掉 PriceOf/PriceOfMatched 会让走门面的
+下游编译断裂，而矩阵的符号级门禁也会判成「幽灵转发」。
+故按行豁免 SA1019：豁免的是「转发」这个动作，不是「上游已弃用」这个事实。
+上游真正弃用与否由 llm 仓的 Deprecated 注释与 README 承载。
+本地同版本 golangci-lint v2.14.0 验证：golangci-lint run ./llm/... → 0 issues。
+
+- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
+
+- Merge pull request #20 from oagentkit/feat/facade-forward-pricing
+- Merge pull request #19 from oagentkit/docs/changelog-v1.8.13
+
 ## [v1.8.13] — 2026-10-20
 
 ### 修复(docs)：更正 v1.8.10 发布说明里关于 const 降级影响的描述
