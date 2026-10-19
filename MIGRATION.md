@@ -27,7 +27,7 @@
 | `steering` | `promptx` | `github.com/oagentkit/promptx/steering` |
 | `sysprompt` | `promptx` | `github.com/oagentkit/promptx/sysprompt` |
 | `langfuse` | `obs` | `github.com/oagentkit/obs/langfuse` |
-| `obsx` | `obs` | `github.com/oagentkit/obs/obsx` |
+| `obsx` | `llm` | `github.com/oagentkit/llm/obsx` |
 | `lineage` | `skillkit` | `github.com/oagentkit/skillkit/lineage` |
 | `pack` | `skillkit` | `github.com/oagentkit/skillkit/pack` |
 | `skill` | `skillkit` | `github.com/oagentkit/skillkit/skill` |

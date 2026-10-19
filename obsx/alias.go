@@ -2,12 +2,12 @@
 
 // Package obsx 是已迁移包的兼容门面。
 //
-// 新代码请直接 import github.com/oagentkit/obs/obsx。
+// 新代码请直接 import github.com/oagentkit/llm/obsx。
 // 本仓将在 v1.x 后退役，见 MIGRATION.md。
 
 package obsx
 
-import upstream "github.com/oagentkit/obs/obsx"
+import upstream "github.com/oagentkit/llm/obsx"
 
 type (
 	Options        = upstream.Options
