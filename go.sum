@@ -274,8 +274,8 @@ github.com/oagentkit/runtime v0.7.0 h1:UR5LkrimyhqTOCEmAjLJUOrybNZWXktOX/U2oOtz4
 github.com/oagentkit/runtime v0.7.0/go.mod h1:iR4vHCFAF/fecITk3nE0pjKuZIYJ0WA4tg4YVV3FFvc=
 github.com/oagentkit/skillkit v0.8.0 h1:AZCPp88IWote2y3ptZo2j1lXF4VpzvOJId7+V9NcFrc=
 github.com/oagentkit/skillkit v0.8.0/go.mod h1:ejO5hrfGQA2E+Ndyr7+PPSYN/73aL7KrxA1UJgieEFI=
-github.com/oagentkit/textx v0.5.0 h1:cEicl++JNXVTm0PoqZxbXhvqrMGa0ojlD6Fl0cESME8=
-github.com/oagentkit/textx v0.5.0/go.mod h1:1QrM4vtTbcRxU7nchnfCiJYqTPumTJRhNeYnjL+KXCY=
+github.com/oagentkit/textx v0.6.0 h1:JRoaBxI1bIecX/an2m6dlhoRK29EuXp53poE5ZQ4hmM=
+github.com/oagentkit/textx v0.6.0/go.mod h1:1QrM4vtTbcRxU7nchnfCiJYqTPumTJRhNeYnjL+KXCY=
 github.com/oagentkit/toolgate v0.11.0 h1:kThhfvu7X2p4wh4D/Wd52YQxtpIp4kEx0ij33nHq51c=
 github.com/oagentkit/toolgate v0.11.0/go.mod h1:z2Y3GLBxaHrgL/6fcdMskKhWGNUcmXVhMwhhDCCW9uM=
 github.com/oagentkit/tools v0.9.0 h1:GYsSaIicspZBwBUeaKY1dkq2EXZekdEiJ2SnsLqZW1I=
@@ -284,8 +284,8 @@ github.com/oekit/concurrency v0.17.1 h1:AEYElvycBC7UTqVp6EPe6avWGE3ljjVT8N3+SDlC
 github.com/oekit/concurrency v0.17.1/go.mod h1:2t5QeK3WHWbJVKwTnPiiBZqHxig3fzEPTefGedFU648=
 github.com/oekit/logx v0.7.1 h1:u+AbbPn0iCnzt11brLXpfj+2CIQhThFEsAwBDXzAfyE=
 github.com/oekit/logx v0.7.1/go.mod h1:mU3HRko52yW+XVuJD5ZtiND5zIbBAIZ23Yhu+Mqzy/Q=
-github.com/oekit/pkg v0.15.1 h1:lfePssUYHCAs1T7ahvdcQnkJNGsFzNpWmPhmd3Lkk3g=
-github.com/oekit/pkg v0.15.1/go.mod h1:sVeOtmG1sLY2aSnzFIbUAF2Qoh7G8R5vnWtWmLCv8NM=
+github.com/oekit/pkg v0.16.0 h1:xySw2ieinBiTJaBuPV4zMtWcSigMT/mnKaFLZqdvc3c=
+github.com/oekit/pkg v0.16.0/go.mod h1:sVeOtmG1sLY2aSnzFIbUAF2Qoh7G8R5vnWtWmLCv8NM=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.8.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.10.3/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
