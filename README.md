@@ -36,8 +36,24 @@ import "github.com/oagentkit/textx/textutil"
 # 必须让 gofmt 重排，否则挂 CI 门禁。
 #
 # 用 matrix-tools 的脚本（只改 import 块内的引号字符串，改完自动 gofmt）：
-python3 -c "import urllib.request;exec(urllib.request.urlopen('https://raw.githubusercontent.com/oagentkit/matrix-tools/main/scripts/rewrite_imports.py').read())" --org oagentkit --print-rules
+#
+#   三个文件必须放在同一目录：rewrite_imports.py 依赖同目录的 matrix_paths.py，
+#   矩阵定义 modules.json 用 --modules 显式指定。
+#   ⚠️ 不能用 `python3 -c "exec(urlopen(...).read())"` 的写法：exec 的代码里
+#   没有 __file__，脚本定位同目录依赖与 spawn 子进程都会炸（NameError）。
+#   脚本必须作为文件运行。
+curl -sSfL https://raw.githubusercontent.com/oagentkit/matrix-tools/main/scripts/rewrite_imports.py -o rewrite_imports.py
+curl -sSfL https://raw.githubusercontent.com/oagentkit/matrix-tools/main/scripts/matrix_paths.py -o matrix_paths.py
+curl -sSfL https://raw.githubusercontent.com/oagentkit/matrix-tools/main/modules.json -o modules.json
+
+# 看映射表（不动文件）
+python3 rewrite_imports.py --org oagentkit --modules ./modules.json --print-rules
+
+# 真改写（--root 指向你的工程根；只改 import 块内的引号字符串，改完自动 gofmt）
+python3 rewrite_imports.py --org oagentkit --modules ./modules.json --root . --apply
 ```
+
+改写后按脚本提示收尾：`go mod tidy && go build ./... && gofmt -l .`。
 
 **推荐做法**：按 [MIGRATION.md](MIGRATION.md) 的映射表直接换到最终路径，不要先引门面 ——
 门面只是过渡手段。
