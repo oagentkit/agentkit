@@ -2,6 +2,10 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.15] — 2026-10-20
+
+- 杂务(deps)：oekit 基座地板跟到 pkg v0.17.0
+
 ## [v1.8.14] — 2026-10-20
 
 ### 新增(facade)：转发 llm 的价表 API（16 个新符号）+ 依赖地板抬到 llm v0.13.0
