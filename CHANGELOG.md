@@ -51,6 +51,11 @@ verify_facade_release.py 守的是 tag 不是 main，本次随 tag 一并发布�
 
 ## [v1.7.0] — 2026-10-19
 
+- 杂务(deps)：依赖地板跟进到本轮发布的各模块 tag
+- 杂务(deps)：oekit 依赖升级 + 迁出被强推的 tag
+
+## [v1.6.0] — 2026-10-19
+
 ### 修复(deps)：模块仓 tag 移走后重算 go.sum
 
 agent / llm / toolgate 三个 tag 已移到修复 go.sum 的提交上（原先指向的提交里，
@@ -63,11 +68,6 @@ tag 一动，依赖它的仓记的哈希就失效——本仓 go.sum 记的还�
 记回去（命令成功、依据是错的）；CI 的 setup-go 缓存也会把重写前的副本回退恢复。
 go.mod 地板不变（版本号没动），verify_facade_release 应仍为通过。
 验证：go build ./... 通过、go test ./... 0 失败、go mod tidy -diff 无差异。
-
-- 杂务(deps)：依赖地板跟进到本轮发布的各模块 tag
-- 杂务(deps)：oekit 依赖升级 + 迁出被强推的 tag
-
-## [v1.6.0] — 2026-10-19
 
 - 杂务(deps)：依赖地板跟进到 8 个模块仓的新 tag
 
