@@ -14,10 +14,10 @@ require (
 	github.com/oagentkit/queue v0.5.0
 	github.com/oagentkit/rag v0.6.0
 	github.com/oagentkit/runtime v0.6.0
-	github.com/oagentkit/skillkit v0.6.0
+	github.com/oagentkit/skillkit v0.6.1
 	github.com/oagentkit/textx v0.4.0
 	github.com/oagentkit/toolgate v0.9.0
-	github.com/oagentkit/tools v0.7.0
+	github.com/oagentkit/tools v0.7.1
 )
 
 require (
