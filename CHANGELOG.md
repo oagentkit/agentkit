@@ -2,6 +2,10 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.15] — 2026-10-20
+
+- 杂务(deps)：oekit 基座地板跟到 pkg v0.17.0
+
 ## [v1.8.14] — 2026-10-20
 
 ### 新增(facade)：转发 llm 的价表 API（16 个新符号）+ 依赖地板抬到 llm v0.13.0
@@ -30,11 +34,6 @@ staticcheck SA1019 把「转发上游已弃用符号」判成「使用已弃用 
 故按行豁免 SA1019：豁免的是「转发」这个动作，不是「上游已弃用」这个事实。
 上游真正弃用与否由 llm 仓的 Deprecated 注释与 README 承载。
 本地同版本 golangci-lint v2.14.0 验证：golangci-lint run ./llm/... → 0 issues。
-
-- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
-
-- Merge pull request #20 from oagentkit/feat/facade-forward-pricing
-- Merge pull request #19 from oagentkit/docs/changelog-v1.8.13
 
 ## [v1.8.13] — 2026-10-20
 
@@ -66,20 +65,9 @@ README 补一节「转发保真度」，把正确机制写给消费方：门面�
 - GitHub Release v1.8.10 正文写的是正确机制
 - 符号级门禁本身：oagentkit/matrix-tools#20
 
-- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
-
-- Merge pull request #18 from oagentkit/fix/docs/correct-v1.8.10-const-claim
-- Merge pull request #17 from oagentkit/docs/changelog-v1.8.12
-
 ## [v1.8.12] — 2026-10-20
 
 - 杂务(deps)：门面依赖地板跟到各模块最新 tag
-
-- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成） (#15)
-- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
-
-- Merge pull request #16 from oagentkit/chore/bump-dep-floor-to-latest-tags
-- Merge pull request #14 from oagentkit/docs/changelog-v1.8.10
 
 ## [v1.8.11] — 2026-10-20
 
@@ -135,18 +123,12 @@ Co-authored-by: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 判据不复用任何生成逻辑）。
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 
-- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
-
-- Merge pull request #12 from oagentkit/fix/facade-symbol-fidelity
-
 ## [v1.8.9] — 2026-10-20
 
 ### 重构：obsx 的转发改指 llm（obsx 已迁仓）
 
 BREAKING CHANGE: github.com/oagentkit/obs/obsx → github.com/oagentkit/llm/obsx
 门面的公共路径不变。地板跟到 obs v0.9.0 / llm v0.12.0。
-
-- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
 
 ## [v1.8.8] — 2026-10-20
 
@@ -157,8 +139,6 @@ invoke 是框架无关的原语（自身只 import oekit/pkg/errors），迁到�
 消费它不会再被拖进 eino 家族的 34 个第三方模块。
 门面的公共路径（github.com/oagentkit/agentkit/invoke）不变。
 依赖地板跟到 guardx v0.8.0 / toolgate v0.12.0。
-
-- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
 
 ## [v1.8.7] — 2026-10-19
 
@@ -179,9 +159,6 @@ BREAKING CHANGE: 门面上游的两个包已迁仓（guardx v0.7.0 起）：
 ## [v1.8.5] — 2026-10-19
 
 - 杂务(deps)：跟进 guardx v0.6.0 + 嵌套模块 audit/bashguard v0.1.0
-
-- 文档(changelog)：按远端真实 tag 重生成
-- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
 
 ## [v1.8.4] — 2026-10-19
 
