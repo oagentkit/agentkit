@@ -2,6 +2,16 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.12] — 2026-10-20
+
+- 杂务(deps)：门面依赖地板跟到各模块最新 tag
+
+- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成） (#15)
+- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
+
+- Merge pull request #16 from oagentkit/chore/bump-dep-floor-to-latest-tags
+- Merge pull request #14 from oagentkit/docs/changelog-v1.8.10
+
 ## [v1.8.11] — 2026-10-20
 
 ### 修复(docs)：一键改写命令改为下载三文件后执行——exec 写法必炸 (#13)
