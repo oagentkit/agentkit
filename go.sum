@@ -250,12 +250,12 @@ github.com/nats-io/nkeys v0.1.0/go.mod h1:xpnFELMwJABBLVhffcfd1MZx6VsNRFpEugbxzi
 github.com/nats-io/nuid v1.0.1/go.mod h1:19wcPz3Ph3q0Jbyiqsd0kePYG7A95tJPxeL+1OSON2c=
 github.com/nikolalohinski/gonja v1.5.3 h1:GsA+EEaZDZPGJ8JtpeGN78jidhOlxeJROpqMT9fTj9c=
 github.com/nikolalohinski/gonja v1.5.3/go.mod h1:RmjwxNiXAEqcq1HeK5SSMmqFJvKOfTfXhkJv6YBtPa4=
-github.com/oagentkit/agent v0.6.1 h1:PPxroe00JaPtBNqBKFh+VzNGNT/0NK3ulsUVtfP+CKU=
-github.com/oagentkit/agent v0.6.1/go.mod h1:o4U+CwtQ3KVsQ6qJj8S+Pzr9GzRRgWbmuxeFgUhvlQI=
+github.com/oagentkit/agent v0.6.2 h1:R7U9QKVjRwcGadHli98D5kH6qesoi6BZftdCkDiJc6o=
+github.com/oagentkit/agent v0.6.2/go.mod h1:o4U+CwtQ3KVsQ6qJj8S+Pzr9GzRRgWbmuxeFgUhvlQI=
 github.com/oagentkit/guardx v0.3.0 h1:EiTC9JdMMpkP1NRgRDaB+CXNM143kxVHsENAejYkTcU=
 github.com/oagentkit/guardx v0.3.0/go.mod h1:p/P49CZgtpMBXRKf7MTqMm8EDsFecpr0AglrEX1QwG8=
-github.com/oagentkit/llm v0.7.1 h1:KckLbZBHOBzhLuyGVIX7j7M9ofYiWT7AlaoaHEs/y/0=
-github.com/oagentkit/llm v0.7.1/go.mod h1:50c5nQAZJexO8CSADQI4mzi6XCHz6zxICSVEdBvRA/o=
+github.com/oagentkit/llm v0.7.2 h1:5Q9IWOLYFuQGicguC8vZOuITfC6hB/FsOAC0dTONtnE=
+github.com/oagentkit/llm v0.7.2/go.mod h1:50c5nQAZJexO8CSADQI4mzi6XCHz6zxICSVEdBvRA/o=
 github.com/oagentkit/mcpkit v0.5.1 h1:6upzeRkPbSdE/QM03IFsCzBvtedBUcYv94Nn8ICTbU0=
 github.com/oagentkit/mcpkit v0.5.1/go.mod h1:yW8N7N58AxPlrGqv1Po8KlvfiKlwZcbBUyK6cOmW7mw=
 github.com/oagentkit/obs v0.4.1 h1:gqPkiIPdB+0ESUdn93XzRCvU+FTzAJ9P4DXds8g4s9E=
@@ -276,8 +276,8 @@ github.com/oagentkit/toolgate v0.8.0 h1:mwLGmgK43gk3ypLycz+7GRRRzTAxu0q4jjQ3NCdW
 github.com/oagentkit/toolgate v0.8.0/go.mod h1:5PoN702zsws5qv6rcVxLYfrbLhdHCDGL1K8dvCGk1pU=
 github.com/oagentkit/tools v0.6.1 h1:JrtdqY9E3BfEyYRMx3yLjZV/To5E7VZ6g1nx3spt/qs=
 github.com/oagentkit/tools v0.6.1/go.mod h1:022SfIc+w6RjtAIWPtQHukkqiElr1NwijYGK6x/6oSs=
-github.com/oekit/concurrency v0.16.0 h1:oKTJ6lrsBAVF2jkvsAqK7uAWVfAlOVQFmnUwetxB1ZM=
-github.com/oekit/concurrency v0.16.0/go.mod h1:K5wV2UwkfvYUQFOawBCmaE29AGhWTGs3hsKu2vvKw4Y=
+github.com/oekit/concurrency v0.17.0 h1:pYepgeTVhNLK9h7D0HzwfAKEWEREQ/7ewA+zCCiG/Uw=
+github.com/oekit/concurrency v0.17.0/go.mod h1:K5wV2UwkfvYUQFOawBCmaE29AGhWTGs3hsKu2vvKw4Y=
 github.com/oekit/logx v0.7.0 h1:CHyzcS6uR2Gq2JkOIqW0b04mHhu48+4ESm7dQvlk1RA=
 github.com/oekit/logx v0.7.0/go.mod h1:x3wn+/0aYDrcs7EavWWAz8qUbwtysTB/gvuLZxtl2B0=
 github.com/oekit/pkg v0.14.0 h1:XizanwRws/3c6qHRiXidTTv6TgaN43M//GNoOUBWxbY=
