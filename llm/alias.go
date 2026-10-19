@@ -25,10 +25,15 @@ type (
 	FailoverModel        = upstream.FailoverModel
 	FallbackChain        = upstream.FallbackChain
 	Generator            = upstream.Generator
+	MatchKind            = upstream.MatchKind
 	ModelSummary         = upstream.ModelSummary
 	OpenAIProvider       = upstream.OpenAIProvider
 	OpenAIProviderConfig = upstream.OpenAIProviderConfig
 	Price                = upstream.Price
+	PriceLookup          = upstream.PriceLookup
+	PriceStatus          = upstream.PriceStatus
+	PriceTable           = upstream.PriceTable
+	PricedProvider       = upstream.PricedProvider
 	Provider             = upstream.Provider
 	Resilient            = upstream.Resilient
 	ResilientConfig      = upstream.ResilientConfig
@@ -41,36 +46,50 @@ type (
 )
 
 const (
+	MatchExact               = upstream.MatchExact
+	MatchNone                = upstream.MatchNone
+	MatchNormalized          = upstream.MatchNormalized
 	MaxServerRetryAfter      = upstream.MaxServerRetryAfter
 	MaxStreamRecoveryRetries = upstream.MaxStreamRecoveryRetries
+	PricePriced              = upstream.PricePriced
+	PriceUnpriced            = upstream.PriceUnpriced
 )
 
 var (
 	BusyAdmissionDelay      = upstream.BusyAdmissionDelay
 	BusyAdmissionDelays     = upstream.BusyAdmissionDelays
 	ClassifyLLMError        = upstream.ClassifyLLMError
+	DefaultPriceTable       = upstream.DefaultPriceTable
+	ErrPriceUnknown         = upstream.ErrPriceUnknown
 	IsContextExceededError  = upstream.IsContextExceededError
 	IsContextExceededFinish = upstream.IsContextExceededFinish
 	IsProviderBusyCode      = upstream.IsProviderBusyCode
 	IsRateLimitError        = upstream.IsRateLimitError
 	IsTransientStreamError  = upstream.IsTransientStreamError
 	IsTruncatedError        = upstream.IsTruncatedError
+	LookupPrice             = upstream.LookupPrice
+	LookupPriceStrict       = upstream.LookupPriceStrict
 	NewBudget               = upstream.NewBudget
 	NewClient               = upstream.NewClient
 	NewCostTracker          = upstream.NewCostTracker
+	NewCostTrackerWithTable = upstream.NewCostTrackerWithTable
 	NewFailoverModel        = upstream.NewFailoverModel
 	NewFallbackChain        = upstream.NewFallbackChain
 	NewOpenAIProvider       = upstream.NewOpenAIProvider
+	NewPriceTable           = upstream.NewPriceTable
 	NewResilient            = upstream.NewResilient
 	NewStageRouter          = upstream.NewStageRouter
 	NewUsageHandler         = upstream.NewUsageHandler
-	PriceOf                 = upstream.PriceOf
-	PriceOfMatched          = upstream.PriceOfMatched
-	RetryAfterFrom          = upstream.RetryAfterFrom
-	RetryableLLMError       = upstream.RetryableLLMError
-	SelectRetryDelay        = upstream.SelectRetryDelay
-	SuspiciousEmptyResult   = upstream.SuspiciousEmptyResult
-	WithCallCounter         = upstream.WithCallCounter
-	WithRetryAfterSink      = upstream.WithRetryAfterSink
-	WithUsageLabels         = upstream.WithUsageLabels
+	// 门面按契约转发上游的**全部**导出符号；上游标 Deprecated 的符号在此仍必须转发
+	// （删掉会让走门面的下游编译断裂，而符号级门禁也会判成「幽灵转发」）。
+	// 故此处按行豁免 SA1019——豁免的是「转发」这个动作，不是「上游已弃用」这个事实。
+	PriceOf               = upstream.PriceOf        //nolint:staticcheck // 上游已弃用：改用 PriceTable.Lookup
+	PriceOfMatched        = upstream.PriceOfMatched //nolint:staticcheck // 上游已弃用：改用 PriceTable.Lookup
+	RetryAfterFrom        = upstream.RetryAfterFrom
+	RetryableLLMError     = upstream.RetryableLLMError
+	SelectRetryDelay      = upstream.SelectRetryDelay
+	SuspiciousEmptyResult = upstream.SuspiciousEmptyResult
+	WithCallCounter       = upstream.WithCallCounter
+	WithRetryAfterSink    = upstream.WithRetryAfterSink
+	WithUsageLabels       = upstream.WithUsageLabels
 )
