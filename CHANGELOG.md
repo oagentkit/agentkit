@@ -2,6 +2,18 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.8] — 2026-10-20
+
+### 重构：invoke 的转发改指 guardx
+
+BREAKING CHANGE: github.com/oagentkit/toolgate/invoke → github.com/oagentkit/guardx/invoke
+invoke 是框架无关的原语（自身只 import oekit/pkg/errors），迁到零依赖底座后，
+消费它不会再被拖进 eino 家族的 34 个第三方模块。
+门面的公共路径（github.com/oagentkit/agentkit/invoke）不变。
+依赖地板跟到 guardx v0.8.0 / toolgate v0.12.0。
+
+- 文档(changelog)：补 CHANGELOG.md（从 git 历史生成）
+
 ## [v1.8.7] — 2026-10-19
 
 ### 重构：audit / bashguard 的转发改指 obs / tools
