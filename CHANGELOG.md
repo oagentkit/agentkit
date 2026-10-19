@@ -2,6 +2,12 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.11] — 2026-10-20
+
+### 修复(docs)：一键改写命令改为下载三文件后执行——exec 写法必炸 (#13)
+
+Co-authored-by: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
 ## [v1.8.10] — 2026-10-20
 
 ### 修复(facade)：补齐 23 个漏转发符号 + 修正 131 处 const 被转发成 var
