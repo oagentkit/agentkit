@@ -252,8 +252,8 @@ github.com/nikolalohinski/gonja v1.5.3 h1:GsA+EEaZDZPGJ8JtpeGN78jidhOlxeJROpqMT9
 github.com/nikolalohinski/gonja v1.5.3/go.mod h1:RmjwxNiXAEqcq1HeK5SSMmqFJvKOfTfXhkJv6YBtPa4=
 github.com/oagentkit/agent v0.10.0 h1:Xf9nTWtcLH0Np4nXXX2Nd7ObsqPu6JR4uJ78mgGTJa4=
 github.com/oagentkit/agent v0.10.0/go.mod h1:u4Gnl8uiAoHL+YoUzqjfkQ6vQrkmwgUREJSeSKFaJx8=
-github.com/oagentkit/guardx v0.8.1 h1:Hn0FglSc6oWFu25wVL8v4uIlEwAnrRt05+xXEX+HmJk=
-github.com/oagentkit/guardx v0.8.1/go.mod h1:2rIT0WetJbf4diOm69xneg4+/Mzkl+3gu3xS6qoC/8g=
+github.com/oagentkit/guardx v0.8.2 h1:iQNL7xL/d/3pLACUvvYf2IIXSYDc+HCWIovnvN3WmHc=
+github.com/oagentkit/guardx v0.8.2/go.mod h1:9HvYhp4TouXv02XBRM3zA2X9s6eHITXrJUWvtLaOjwY=
 github.com/oagentkit/llm v0.13.0 h1:ucU5OZ+BczNy9hR9cCVzgKyCI5zEVRXyqWP606cp8sk=
 github.com/oagentkit/llm v0.13.0/go.mod h1:S73c7MLfAmf6jkg4RCvmyHFyP7+QhiMdS7Xw7kL84WQ=
 github.com/oagentkit/mcpkit v0.8.1 h1:6OpEAGys6DfWcDvDKO8bg5rzC1Y/zFIxjzREIHGL/Wk=
@@ -266,12 +266,12 @@ github.com/oagentkit/queue v0.6.1 h1:uv9fP7m9/l2ZY66DLWIKRkdrY8xRC3q7pQpX3fXXh+M
 github.com/oagentkit/queue v0.6.1/go.mod h1:by3sX/iyVgyax66ZysVwMGu7+lziuYKU+QBo//wFp+8=
 github.com/oagentkit/rag v0.8.1 h1:hNEqnEPiOUYmqkHaBg+g8G9VqBpdj10Ybh3f/Ui20Ew=
 github.com/oagentkit/rag v0.8.1/go.mod h1:P6vplXDTR0yOCUWcoAYzN8qDJA7burPSnTqi1qpoOXU=
-github.com/oagentkit/runtime v0.7.0 h1:UR5LkrimyhqTOCEmAjLJUOrybNZWXktOX/U2oOtz46I=
-github.com/oagentkit/runtime v0.7.0/go.mod h1:iR4vHCFAF/fecITk3nE0pjKuZIYJ0WA4tg4YVV3FFvc=
+github.com/oagentkit/runtime v0.7.1 h1:1agVkDDbxzDLDkCuVMrz/n6yclPmBBYRXc5p9ShL62U=
+github.com/oagentkit/runtime v0.7.1/go.mod h1:5J0N36LMqHEz48UpUoaFgZOoyXIcD2rzwzZ3hWssOKo=
 github.com/oagentkit/skillkit v0.8.0 h1:AZCPp88IWote2y3ptZo2j1lXF4VpzvOJId7+V9NcFrc=
 github.com/oagentkit/skillkit v0.8.0/go.mod h1:ejO5hrfGQA2E+Ndyr7+PPSYN/73aL7KrxA1UJgieEFI=
-github.com/oagentkit/textx v0.6.0 h1:JRoaBxI1bIecX/an2m6dlhoRK29EuXp53poE5ZQ4hmM=
-github.com/oagentkit/textx v0.6.0/go.mod h1:1QrM4vtTbcRxU7nchnfCiJYqTPumTJRhNeYnjL+KXCY=
+github.com/oagentkit/textx v0.6.1 h1:sv2CZN0mtuZV+BMpK9PpSr+X/kfm4BFMG06QGm0kAL8=
+github.com/oagentkit/textx v0.6.1/go.mod h1:3u7RVcT2ZWbIolyEy3h+Lk7W2xbs75qbKg0s0Qc625A=
 github.com/oagentkit/toolgate v0.12.0 h1:JLf+9haQgHJ52rxbT1JAo+85GfRqBesuEI2miyi+7OQ=
 github.com/oagentkit/toolgate v0.12.0/go.mod h1:KEOaBCZFFURisXA64x/a9PYyuXJ4ybJkbZfx2LNvDl8=
 github.com/oagentkit/tools v0.10.0 h1:iZgqLivOTLzppGtreJOoz7q0uT0w2hQleABB+DEU5O8=

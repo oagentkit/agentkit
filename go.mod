@@ -6,16 +6,16 @@ toolchain go1.27.2
 
 require (
 	github.com/oagentkit/agent v0.10.0
-	github.com/oagentkit/guardx v0.8.1
+	github.com/oagentkit/guardx v0.8.2
 	github.com/oagentkit/llm v0.13.0
 	github.com/oagentkit/mcpkit v0.8.1
 	github.com/oagentkit/obs v0.9.1
 	github.com/oagentkit/promptx v0.8.0
 	github.com/oagentkit/queue v0.6.1
 	github.com/oagentkit/rag v0.8.1
-	github.com/oagentkit/runtime v0.7.0
+	github.com/oagentkit/runtime v0.7.1
 	github.com/oagentkit/skillkit v0.8.0
-	github.com/oagentkit/textx v0.6.0
+	github.com/oagentkit/textx v0.6.1
 	github.com/oagentkit/toolgate v0.12.0
 	github.com/oagentkit/tools v0.10.0
 )
