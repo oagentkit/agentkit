@@ -2,6 +2,45 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.21] — 2026-10-20
+
+- 文档：门面仓标记为「已废弃」——v1.x 退役条件已满足
+
+本仓的退役条件已满足：README 一直写着「v1.x 后本仓退役」，而本仓现在已是
+**v1.8.20**（v1.x 之内）。`SPLIT-PLAN.md` §8-4 的裁定原文是「README 写死退役
+时间表（v1.x 后转 archive）」，现在该执行了。
+## 消费方核查：矩阵内零消费方
+- oagentkit org 内：0 个仓依赖它（唯一命中是它自己的 module 声明行）；
+- 姊妹 org oekit 内：0 个；
+- GitHub 全站代码搜索 `github.com/oagentkit/agentkit`：**命中 0**；
+- 本机：0 个项目依赖它。
+所以「废弃」不会打断任何已知消费方。
+## 改动
+- **README**：顶部告示从「兼容门面，不是开发目标 / v1.x 后本仓退役」改成明确的
+  **已废弃**状态，并写清现状与边界：
+  - v1.x 退役条件**已满足**；本仓只保留兼容转发与安全修复，不接受任何新功能；
+  - **新代码请直接 import 上游模块**；
+  - **归档（archive）待旧单仓 `git.enjoye.top/enjoydream/agentkit`（module path
+    的实际所在）下线后执行**——那才是真正切断旧路径的一步。在此之前本仓继续可用，
+    **已有 tag 的 `go get` 照常解析**（归档的仓仍可只读 clone）。
+  - 顺带修正 README 里过期的「47 个包」→ **48 个**（`breaker` 退役后新增了
+    rag 的 embedder 注入缝等符号）。
+- **48 个 `*/alias.go`** 的包文档注释：从「本仓将在 v1.x 后退役」改成
+  「本仓**已废弃**：v1.x 退役条件已满足，只保留兼容转发，不接受任何新功能。
+  新代码请直接 import 上游模块（见 MIGRATION.md 的映射表）。」
+## 为什么归档 ≠ 删除
+归档后仓仍可只读 clone，已有 tag 的 `go get` 照常解析；而删仓会让任何没进
+代理缓存的版本直接 404，下游构建断。先例：`github.com/yi-nology/agentkit`
+已 `archived=true` + description 改成迁移指引。
+## 门禁继续跑
+门面的 4 条守卫（`check_facade_imports` / `verify_facade_packages` /
+`verify_facade_release` / `verify_facade_symbols`）在门面活着期间**必须继续跑**——
+它们保护存量下游拿到正确的兼容层，且「不许再引门面」这条机器约束就靠
+`check_facade_imports.py` 守着。
+另在 matrix-tools 侧加一条「门面包集合冻结」守卫，把「不继续长胖」也变成红灯。
+关联：oagentkit/matrix-tools#41（门禁改造）、SPLIT-PLAN §8-4 / §8-5
+
+
 ## [v1.8.20] — 2026-10-20
 
 - 杂务(deps)：门面地板跟到 llm v0.14.2
