@@ -2,6 +2,46 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.18] — 2026-10-20
+
+### 新增(mcp)：门面转发 mcpkit v0.8.2 的自检/健康/错误分类原语
+
+补齐 mcpkit v0.8.2 新增的 34 个导出符号转发（Aggregate / Catalog / CatalogDiff / ClassifiedError / Classify / ClassifyError / ClassifyRPCCode / DefaultSelfcheckTTL / DefaultSelfcheckTimeout / Diff / DiffNames / ErrorKind / Health* / HealthIssue / HealthState / Kind* / NewCatalog / NewSelfchecker / SelfcheckOptions / SelfcheckResult / Selfchecker / ToolCheck / ToolFailed / ToolMissing / ToolOK / ToolStatus / ToolUnreachable）。
+门禁实测漏转发 34 个（run 39357779865 job Facade symbols）。
+
+- 杂务(deps)：门面地板跟到各模块新 tag
+
+本仓是门面（转发各模块的导出符号），地板必须跟到各模块**刚发的新 tag**，
+否则门面转发的仍是旧实现。
+矩阵内模块：
+- obs      v0.9.2 → v0.9.3
+- rag      v0.8.2 → v0.8.3
+- skillkit v0.8.1 → v0.8.2
+- mcpkit   v0.8.2 → v0.8.3
+- tools    v0.10.0 → v0.10.1
+oekit 基座：
+- oekit/pkg        v0.17.0 → v0.18.0
+- oekit/concurrency v0.17.1 → v0.18.0
+- oekit/logx       已是最新 v0.7.1，不动
+依据 oagentkit/matrix-tools#44：各仓最新 tag 的依赖地板在「打 tag 那一刻」就已
+落后一格，tag 受 protect-tags ruleset 保护不能重打，只能靠后续版本补齐。
+本仓是最后发的那一个——它的地板必须等各模块的新 tag 出来才能跟。
+
+
+- 文档(changelog)：按新生成器规则重生成 CHANGELOG.md
+
+生成器修复（oagentkit/matrix-tools#43）落地：
+① `[round-N] ` 前缀被剥离 → conventional commit 解析不再失效，
+   **commit body 保留**（此前整段被丢弃，发布说明只剩标题）；
+② 非 conventional 提交也保留 body；
+③ `--check` 识别「待发版段」（预写了但还没打 tag 的那段）。
+本 PR 恢复的是**本就在 commit body 里**的正文（迁移步骤、代码块、
+判据锚点）——此前被 `[round-N] ` 前缀导致的解析失败丢弃了。
+**没有任何发布说明内容被删除**：删除的行都能在新增行里找到对应
+（规范化掉 `(#N)` 与 `[round-N] ` 前缀后逐行比对）。
+关联：oagentkit/matrix-tools#43、oagentkit/matrix-tools#40
+
+
 ## [v1.8.17] — 2026-10-20
 
 ### 新增(facade)：转发 llm/port 的 51 个导出符号 + 依赖地板抬到 llm v0.14.1
