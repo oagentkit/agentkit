@@ -2,6 +2,25 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.17] — 2026-10-20
+
+### 新增(facade)：转发 llm/port 的 51 个导出符号 + 依赖地板抬到 llm v0.14.1
+
+llm 新增了 `port` 包（窄接口层，不引 eino）——见 oagentkit/llm#20 / issue llm#11。
+门面必须同步转发它的全部导出符号，否则走门面的下游够不到这些 API。
+转发 51 个符号：20 type / 7 const / 24 var+func
+（Breakers、Budget、Chain、ChainOption、Classifier、Completer、CostRecord、
+CostTracker、Entry、MatchKind、ModelSummary、Price、PriceLookup、PriceStatus、
+PriceTable、Request、StatusError、TokenAccountant、TokenCounter、Usage 等）
+go.mod 地板：llm v0.13.0 → v0.14.1。门面是消费方的单一入口，MVS 只看被消费
+版本的 go.mod；地板落后 ⇒ 消费方 go get 门面仓静默拿到旧实现。
+⚠️ PriceOf / PriceOfMatched 是上游已弃用的符号，转发它们按行豁免 SA1019
+（staticcheck 会把「转发」判成「使用已弃用 API」，但门面按契约必须转发上游的
+全部导出符号——移除=对下游的破坏性变更，且会被符号级门禁判成幽灵转发）。
+验证：go build / go vet / go test 全绿；gofmt 干净；
+本地同版本 golangci-lint v2.14.0 → 0 issues；
+符号级门禁 → ✅ 48 个门面包全绿（原 47 + 新增 llm/port）。
+
 ## [v1.8.16] — 2026-10-20
 
 - 杂务(deps)：门面依赖地板跟到 guardx v0.8.2 / runtime v0.7.1 / textx v0.6.1 + 预写 v1.8.16 段
