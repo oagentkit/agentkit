@@ -4,7 +4,7 @@
 
 ## [v1.8.16] — 2026-10-20
 
-- 杂务(deps)：门面依赖地板跟到 guardx v0.8.2 / runtime v0.7.1 / textx v0.6.1
+- 杂务(deps)：门面依赖地板跟到 guardx v0.8.2 / runtime v0.7.1 / textx v0.6.1 + 预写 v1.8.16 段
 
 ## [v1.8.15] — 2026-10-20
 
@@ -75,7 +75,7 @@ README 补一节「转发保真度」，把正确机制写给消费方：门面�
 
 ## [v1.8.11] — 2026-10-20
 
-### 修复(docs)：一键改写命令改为下载三文件后执行——exec 写法必炸 (#13)
+### 修复(docs)：一键改写命令改为下载三文件后执行——exec 写法必炸
 
 Co-authored-by: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 
@@ -261,7 +261,7 @@ govulncheck / tidy -diff），与 13 个模块仓同一套规则。
 生成方式：go/parser 读各模块真实源码生成 alias.go，非手写（tools/gen）。
 门禁：go build / go vet 通过，gofmt 干净。
 
-### 修复(docs)：re-export 包数 46 → 45（breaker 退役后门面仓不再转发它） (#1)
+### 修复(docs)：re-export 包数 46 → 45（breaker 退役后门面仓不再转发它）
 
 `README.md` 写「本仓只把 46 个包的导出符号做成别名转发」，
 两处数字在 `runtime/breaker` 退役后已经不成立。
@@ -285,9 +285,9 @@ oekit/concurrency/breaker，由 llm 仓消费）。
 注意语义：上游是「速率型 or 计数型并联触发」，
 不是本包原来的纯计数型三态。
 
-- 杂务(deps)：依赖地板升到「历史最新 + 0.1.0」 (#4)
-- 杂务(deps)：跟进最新 tag (#3)
-- 杂务(deps)：oekit 依赖升级 (#2)
+- 杂务(deps)：依赖地板升到「历史最新 + 0.1.0」
+- 杂务(deps)：跟进最新 tag
+- 杂务(deps)：oekit 依赖升级
 
 - 文档：去掉迁移示例里的字面量 ... 占位与不可用的通配 sed
 
