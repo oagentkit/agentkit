@@ -2,6 +2,10 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.16] — 2026-10-20
+
+- 杂务(deps)：门面依赖地板跟到 guardx v0.8.2 / runtime v0.7.1 / textx v0.6.1
+
 ## [v1.8.15] — 2026-10-20
 
 - 杂务(deps)：oekit 基座地板跟到 pkg v0.17.0
