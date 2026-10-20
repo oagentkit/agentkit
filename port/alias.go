@@ -7,7 +7,8 @@
 // Package port 是已迁移包的兼容门面。
 //
 // 新代码请直接 import github.com/oagentkit/llm/port。
-// 本仓将在 v1.x 后退役，见 MIGRATION.md。
+// 本仓**已废弃**：v1.x 退役条件已满足，只保留兼容转发，不接受任何新功能。
+// 新代码请直接 import 上游模块（见 MIGRATION.md 的映射表）。
 //
 // ⚠️ 转发**已弃用**的上游符号时按行豁免 SA1019：staticcheck 会把「转发」判成
 // 「使用已弃用 API」，但门面按契约必须转发上游的全部导出符号（移除=对下游的
