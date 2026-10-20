@@ -2,6 +2,17 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.20] — 2026-10-20
+
+- 杂务(deps)：门面地板跟到 llm v0.14.2
+
+llm v0.14.2 带上了 oagentkit/llm#26 的修复（`NewPriceTable` 的覆盖键归一化——
+调用方显式配的单价不再被内建参考价顶掉）。门面转发 llm 的导出符号，
+地板必须跟到 llm 的新 tag，否则消费方 `go get oagentkit/agentkit/...` 拿到的
+仍是 llm v0.14.1 的实现——门禁 `verify_facade_release.py` 判的正是这一条：
+「门面 tag 钉着旧版本 ⇒ 消费方会静默拿到旧实现，不报错、不告警、go build 照样过」。
+
+
 ## [v1.8.19] — 2026-10-20
 
 ### 修复(facade)：门面补转发 rag v0.8.3 新增的 4 个导出符号
