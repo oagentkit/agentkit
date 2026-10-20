@@ -12,29 +12,64 @@ package mcp
 import upstream "github.com/oagentkit/mcpkit/mcp"
 
 type (
+	Catalog           = upstream.Catalog
+	CatalogDiff       = upstream.CatalogDiff
+	ClassifiedError   = upstream.ClassifiedError
+	ErrorKind         = upstream.ErrorKind
+	Health            = upstream.Health
+	HealthIssue       = upstream.HealthIssue
+	HealthState       = upstream.HealthState
 	OAuthClientConfig = upstream.OAuthClientConfig
 	OutputSchemer     = upstream.OutputSchemer
 	Pool              = upstream.Pool
+	SelfcheckOptions  = upstream.SelfcheckOptions
+	SelfcheckResult   = upstream.SelfcheckResult
+	Selfchecker       = upstream.Selfchecker
 	ServerConfig      = upstream.ServerConfig
+	ToolCheck         = upstream.ToolCheck
 	ToolHints         = upstream.ToolHints
 	ToolResultError   = upstream.ToolResultError
 	ToolSpec          = upstream.ToolSpec
+	ToolStatus        = upstream.ToolStatus
 	ToolsResult       = upstream.ToolsResult
 )
 
 const (
-	DefaultProbeTimeout   = upstream.DefaultProbeTimeout
-	DefaultRequestTimeout = upstream.DefaultRequestTimeout
-	DefaultTimeout        = upstream.DefaultTimeout
+	DefaultProbeTimeout     = upstream.DefaultProbeTimeout
+	DefaultRequestTimeout   = upstream.DefaultRequestTimeout
+	DefaultSelfcheckTTL     = upstream.DefaultSelfcheckTTL
+	DefaultSelfcheckTimeout = upstream.DefaultSelfcheckTimeout
+	DefaultTimeout          = upstream.DefaultTimeout
+	HealthDegraded          = upstream.HealthDegraded
+	HealthDown              = upstream.HealthDown
+	HealthHealthy           = upstream.HealthHealthy
+	KindInvalidArgs         = upstream.KindInvalidArgs
+	KindProtocol            = upstream.KindProtocol
+	KindToolMissing         = upstream.KindToolMissing
+	KindUnknown             = upstream.KindUnknown
+	KindUnreachable         = upstream.KindUnreachable
+	ToolFailed              = upstream.ToolFailed
+	ToolMissing             = upstream.ToolMissing
+	ToolOK                  = upstream.ToolOK
+	ToolUnreachable         = upstream.ToolUnreachable
 )
 
 var (
+	Aggregate              = upstream.Aggregate
 	CallMeta               = upstream.CallMeta
+	Classify               = upstream.Classify
+	ClassifyError          = upstream.ClassifyError
+	ClassifyRPCCode        = upstream.ClassifyRPCCode
+	Diff                   = upstream.Diff
+	DiffNames              = upstream.DiffNames
 	ErrNotConnected        = upstream.ErrNotConnected
 	ExpandEnvRef           = upstream.ExpandEnvRef
 	ExpandEnvRefs          = upstream.ExpandEnvRefs
 	IsToolResultError      = upstream.IsToolResultError
+	KindOf                 = upstream.KindOf
+	NewCatalog             = upstream.NewCatalog
 	NewPool                = upstream.NewPool
+	NewSelfchecker         = upstream.NewSelfchecker
 	OutputSchemaOf         = upstream.OutputSchemaOf
 	UnwrapMCPText          = upstream.UnwrapMCPText
 	WithCallMeta           = upstream.WithCallMeta
