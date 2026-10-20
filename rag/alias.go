@@ -14,6 +14,7 @@ import upstream "github.com/oagentkit/rag"
 type (
 	Chunk            = upstream.Chunk
 	Embedder         = upstream.Embedder
+	EmbedderOption   = upstream.EmbedderOption
 	Filter           = upstream.Filter
 	Hybrid           = upstream.Hybrid
 	KnowledgeService = upstream.KnowledgeService
@@ -33,4 +34,7 @@ var (
 	NewNoop           = upstream.NewNoop
 	NewOpenAIEmbedder = upstream.NewOpenAIEmbedder
 	NewSearchTool     = upstream.NewSearchTool
+	WithHTTPClient    = upstream.WithHTTPClient
+	WithRetry         = upstream.WithRetry
+	WithTimeout       = upstream.WithTimeout
 )
