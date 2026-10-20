@@ -25,9 +25,36 @@ go.mod 地板：llm v0.13.0 → v0.14.1。门面是消费方的单一入口，MV
 
 - 杂务(deps)：门面依赖地板跟到 guardx v0.8.2 / runtime v0.7.1 / textx v0.6.1 + 预写 v1.8.16 段
 
+* chore(deps): 门面依赖地板跟到 guardx v0.8.2 / runtime v0.7.1 / textx v0.6.1
+门面 tag v1.8.15 的依赖地板门禁报出 3 处落后——这三个 tag 是 v1.8.15
+发布**之后**（2026-10-20 08:07）才发的：
+- guardx   应为 v0.8.2   实际 v0.8.1
+- runtime  应为 v0.7.1   实际 v0.7.0
+- textx    应为 v0.6.1   实际 v0.6.0
+为什么这要当错误处理：MVS 只看被消费版本的 go.mod。门面仓是消费方的
+单一入口，门面 tag 钉着旧版本 ⇒ 消费方 `go get 门面仓` 会静默拿到旧实现
+——不报错、不告警、go build 照样过，只是代码是几个月前的。
+验证：go build ./... / go vet ./... / go test ./... 全绿；gofmt 干净。
+* docs(changelog): 预写 v1.8.16 待发版段
+发版流程第一步：`gen_changelogs.py --next-version v1.8.16` → 提交 → 在该提交上
+打 tag v1.8.16。tag 快照里就带着自己那一段（下游 go get 拿到的发布说明完整）。
+段内容：门面依赖地板跟到 guardx v0.8.2 / runtime v0.7.1 / textx v0.6.1。
+不变式：tag 快照里的 CHANGELOG 与 main 一致——gen_changelogs.py --selftest
+端到端覆盖「直推打 tag」与「走 PR 打 tag」两种打法。
+
+
 ## [v1.8.15] — 2026-10-20
 
 - 杂务(deps)：oekit 基座地板跟到 pkg v0.17.0
+
+门面 tag v1.8.13 的依赖地板门禁（verify_facade_release.py --org oagentkit）报出
+基座落后：github.com/oekit/pkg 应为 v0.17.0，实际钉在 v0.16.0。
+为什么这要当错误处理：MVS 只看被消费版本的 go.mod。门面仓是消费方的单一入口，
+门面 tag 钉着旧版本 ⇒ 消费方 go get 门面仓会静默拿到旧实现——不报错、不告警、
+go build 照样过，只是代码是几个月前的。concurrency v0.17.1 与 logx v0.7.1 已是
+最新，只有 pkg 落后这一处。
+验证：go build ./... / go vet ./... / go test ./... 全绿；gofmt 干净。
+
 
 ## [v1.8.14] — 2026-10-20
 
@@ -91,6 +118,26 @@ README 补一节「转发保真度」，把正确机制写给消费方：门面�
 ## [v1.8.12] — 2026-10-20
 
 - 杂务(deps)：门面依赖地板跟到各模块最新 tag
+
+上一轮 6 个仓打了补丁 tag，门面仓的 go.mod 还钉在旧版本：
+  guardx  v0.8.0 → v0.8.1
+  llm     v0.12.0 → v0.12.1
+  mcpkit  v0.8.0 → v0.8.1
+  obs     v0.9.0 → v0.9.1
+  queue   v0.6.0 → v0.6.1
+  rag     v0.8.0 → v0.8.1
+为什么这要当错误处理（门禁 verify_facade_release.py 的原话）：
+门面仓是消费方的单一入口，而 Go 的 MVS 只看**被消费的那个版本**的 go.mod。
+所以 `go get github.com/oagentkit/agentkit@v1.8.11` 的模块图由 v1.8.11 处的
+go.mod 决定——它钉着 6 个旧版本，消费方就静默拿到旧实现：不报错、不告警、
+go build 照样过，只是代码是上一轮的。
+这条是 .github 的 repo-ci 门禁「门面仓已发布 tag 的依赖地板」抓出来的
+（.github#13 的 Matrix docs drift job 红）。注意它与那条 PR 无关——
+**别让一个 PR 的红看起来像是它自己改坏的**。
+本 PR 只改 main；tag 另发（门面已发布的 tag 是消费方实际拿到的东西，
+只改 main 不发 tag 等于没修）。
+验证：go build ./... / go test ./... / go vet ./... / gofmt -l 全绿。
+
 
 ## [v1.8.11] — 2026-10-20
 
@@ -179,13 +226,44 @@ BREAKING CHANGE: 门面上游的两个包已迁仓（guardx v0.7.0 起）：
 
 - 杂务(deps)：追平 textx v0.6.0 + oekit/pkg v0.16.0
 
+门面发布地板门禁（verify_facade_release.py）报两处落后：
+- textx v0.5.0 → v0.6.0（本轮新增 EstTokensWithRatio / Tokens 等原语）
+- oekit/pkg v0.15.1 → v0.16.0
+MVS 只看被消费版本的 go.mod：门面 tag 钉着旧版本，消费方从门面装走的就是旧实现，
+不报错、不告警、go build 照样过。
+
+
 ## [v1.8.5] — 2026-10-19
 
 - 杂务(deps)：跟进 guardx v0.6.0 + 嵌套模块 audit/bashguard v0.1.0
 
+guardx 把 audit / bashguard 拆成嵌套 module（import 路径不变），门面仓要多
+require 这两个 module 才拿得到包。
+连带把 guardx 地板从 v0.5.0 抬到 v0.6.0（logredact 规则表可组合 + 新增掩码档）。
+关联 oagentkit/guardx#3
+
+
 ## [v1.8.4] — 2026-10-19
 
 - 杂务(deps)：依赖地板对齐远端最新（agent v0.10.0 / guardx v0.5.0 / llm v0.11.0 / mcpkit v0.8.0 / obs v0.7.0 / promptx v0.8.0 / queue v0.6.0 / rag v0.8.0 / runtime v0.7.0 / skillkit v0.8.0 / textx v0.5.0 / toolgate v0.11.0 / tools v0.9.0） (13)
+
+矩阵地板对齐的最后一波：门面把 13 个模块仓的 require 全部跟到最新 tag。
+门面是消费方的单一入口，而 MVS 只看被消费版本的 go.mod——门面 tag 钉着旧版本，
+消费方 go get 门面仓会静默拿到旧实现，不报错、不告警、go build 照样过。
+**只改 main 不发 tag 等于没修**，所以本次必须重新发 tag。
+本轮按 tier 拓扑顺序推进（tier0 → tier1 → tier2 → tier3 → 门面）：
+每层发完，下一层才把地板跟到它的新 tag。否则就是「发了新的、旧的立刻变落后」，
+永远收敛不了——首轮 11 仓齐发时就实测到这一点：一次发完立刻冒出 17 条新漂移。
+所升版本与原钉版本相比源码零改动，逐版实测确认（diff -rq 排除 go.mod/go.sum）：
+- textx / obs / runtime / mcpkit 的新旧版本 全树逐字节相同
+- oekit/pkg v0.14.0→v0.15.1  仅新增 urlguard 包（纯标准库，零新增三方依赖）
+- oekit/concurrency v0.17.0→v0.17.1  仅三个文档文件
+- oekit/logx v0.7.0→v0.7.1  仅 CI 配置与文档
+无 API 变更、无兼容风险。
+本地门禁：go mod tidy -diff 无输出 / go build / go vet / gofmt / go test 全通过；
+另用独立消费方模块实跑，确认 47 个 re-export 包的别名可被下游真正 import 并调用。
+关联 oagentkit/matrix-tools#13
+
 
 ## [v1.8.3] — 2026-10-19
 
@@ -215,9 +293,25 @@ oekit/pkg v0.14.0 → v0.15.1。
 
 - 杂务(deps)：依赖地板跟进 skillkit v0.6.1 / tools v0.7.1
 
+skillkit 与 tools 各自把落后的地板清到最新：guardx v0.3.0 → v0.4.1
+（拿到 oagentkit/guardx#2 的 egress SSRF 修复），另带 textx v0.3.0 →
+v0.4.0、runtime v0.5.0 → v0.6.0。
+两仓只分别用 guardx/fence 与 guardx/logredact，而 guardx v0.3.0 与 v0.4.0
+指向同一 commit、这两个包零变更，所以对门面仓而言本次是零行为变化。
+本次仅 go.mod / go.sum 两文件变化，13 个模块仓地板其余 11 条未动。
+
+
 ## [v1.8.1] — 2026-10-19
 
 - 杂务(deps)：guardx v0.4.0 → v0.4.1（egress 补 0.0.0.0/8 拦截）
+
+guardx v0.4.1 修 egress 的 "this network" 段 SSRF 缺口：netip 的
+IsUnspecified() 只匹配全零这一个地址，不是 0.0.0.0/8 的判定，而该段
+此前不在显式段表里，0.1.2.3 一类目标在纯 IP 判定层全放行（oagentkit/guardx#2）。
+门面仓 re-export egress，必须跟着走：main 上 go.mod 不跟进，等于门面
+最新 tag 仍钉 v0.4.0，消费方 go get agentkit 会静默拿到带洞的实现。
+go.sum 仅 guardx 两行变化，三方依赖一条未动。
+
 
 ## [v1.8.0] — 2026-10-19
 
@@ -233,7 +327,32 @@ verify_facade_release.py 守的是 tag 不是 main，本次随 tag 一并发布�
 ## [v1.7.0] — 2026-10-19
 
 - 杂务(deps)：依赖地板跟进到本轮发布的各模块 tag
+
+各模块仓已发布新版本，门面仓跟进到这些 tag：
+  guardx v0.3.0→v0.4.0   textx  v0.3.0→v0.4.0   queue  v0.4.0→v0.5.0
+  runtime v0.5.0→v0.6.0  skillkit v0.5.1→v0.6.0 toolgate v0.8.0→v0.9.0
+  mcpkit v0.5.1→v0.6.0   obs    v0.4.1→v0.5.0   promptx v0.5.1→v0.6.0
+  rag v0.4.1→v0.5.0      tools  v0.6.1→v0.7.0   agent   v0.6.2→v0.7.0
+  llm v0.7.2→v0.8.0
+门面仓是本组织依赖的唯一入口，必须指向已发布版本，否则消费方拉到的
+会是上一轮的旧地板。
+已按 CI 环境（GOPRIVATE 直连 VCS）验证 `go mod tidy -diff` 无差异。
+go.sum 的 h1 全部取自 sum.golang.org，仅就地替换目标模块的两行。
+
 - 杂务(deps)：oekit 依赖升级 + 迁出被强推的 tag
+
+两项改动：
+1. oekit `concurrency` v0.16.0 → v0.17.0（姊妹矩阵依赖地板对齐）。
+   v0.16.0...v0.17.0 仅 2 个提交：KeyedLimiter.Create 原子登记修复 + 文档，
+   无 breaking，未触及任何已有导出签名。
+2. 依赖迁到未被强推过的 tag。
+   原先依赖的 tag 在发布后被 force 移到重写后的 main，内容与
+   sum.golang.org 记录不一致，走 proxy.golang.org / GOPROXY=direct 的构建
+   会 SECURITY ERROR。本地不报错是因为模块缓存预热 + goproxy.cn 还留着
+   移动前的字节。已为这些模块重打不可变的附注 tag 并迁移过来。
+   全部 14 个仓已启用 tag 保护规则集，禁止 tag 更新与删除。
+go.sum 的 h1 全部取自 sum.golang.org，仅就地替换目标模块的两行。
+
 
 ## [v1.6.0] — 2026-10-19
 
@@ -252,9 +371,58 @@ go.mod 地板不变（版本号没动），verify_facade_release 应仍为通过
 
 - 杂务(deps)：依赖地板跟进到 8 个模块仓的新 tag
 
+各模块仓发了新 tag（agent v0.6.1 / llm v0.7.1 / mcpkit v0.5.1 / obs v0.4.1 /
+promptx v0.5.1 / rag v0.4.1 / skillkit v0.5.1 / tools v0.6.1），而门面仓 v1.5.0
+处的 go.mod 仍钉着上一轮版本，verify_facade_release 判为漂移（8 处落后）。
+门面仓是消费方的单一入口，MVS 只看**被消费版本**的 go.mod：main 跟上不算数，
+线上流传的是 tag 处那份。所以合并后还要重新发 tag（v1.6.0），否则门禁照红。
+go.sum 仍用空 GOMODCACHE + GOPRIVATE 直连 VCS 重算。原因有两个，都不是洁癖：
+  1. **复用共享模块缓存会把陈旧哈希原样记回去**。本仓 #5 那次已经吃过一次：
+     本地 tidy 全绿、CI 仍报 checksum mismatch——命令成功，依据却是错的。
+  2. **CI 的 setup-go 缓存会把重写前的模块副本回退恢复**。go.sum 一变，缓存 key
+     就变，setup-go 会按 restore-keys 回退恢复**上一份**缓存；若那份是 tag 重写
+     之前建的，里面存的就是旧内容，于是正确的新哈希反而被判为 mismatch
+     （toolgate #8 实测：清掉该仓 setup-go 缓存后同一次提交立刻绿）。
+验证（空模块缓存 + GOPRIVATE 直连，与 CI 同配置）：go build ./... 通过、
+go test ./... 0 失败（全包无测试文件）、go mod tidy -diff 无差异。
+
+
 ## [v1.5.0] — 2026-10-19
 
 - 杂务(deps)：toolgate 地板跟进到 v0.8.0，并重算已失效的 go.sum
+
+# 为什么必须动 go.sum
+org 那次全量 tag/历史重写把同名 tag 指到了新提交，于是**同名 tag 对应新内容**，
+而本仓 go.sum 仍记着重写前的 h1。共 8 个第一方模块的条目是陈旧的：
+    agent  llm  mcpkit  obs  promptx  rag  skillkit  tools
+（toolgate 一项由本次 v0.7.0 → v0.8.0 跟进覆盖）
+后果不是「下载慢一点」，是硬失败：
+    verifying github.com/oagentkit/agent@v0.6.0: checksum mismatch
+    SECURITY ERROR … the bits may have been replaced on the origin server
+门面仓 main 上一次 CI 绿在 2026-10-18 16:34Z（重写之前），之后没再跑过——
+**这条红是潜伏的**，下一次触发 CI 就会炸。本次重算把它一并修掉。
+# 坑：复用旧模块缓存会把陈旧哈希原样记回去
+第一次重算在本机做的，看着成功，CI 却仍然报 agent@v0.6.0 校验失败。
+原因是共享的模块缓存里存着重写**之前**下载的副本，`go mod tidy` 直接复用了它，
+于是把旧哈希原样写回 go.sum——校验通过了，但通过的是错的依据。
+正确做法是重算时给一份**空的 GOMODCACHE**，让每个第一方模块都从 VCS 现取现算：
+    GOMODCACHE=$(mktemp -d) GOPRIVATE='github.com/oagentkit/*' \
+    GONOPROXY='github.com/oagentkit/*' GONOSUMDB='github.com/oagentkit/*' go mod tidy
+反查确认：新 go.sum 里 agent@v0.6.0 = h1:MhklGKt0QPo1MK4PmZ7N/N4JezXld7HaDEy1ve4Euik=
+与 CI 报出的 downloaded 哈希逐字一致。
+三方模块条目本次一条未变（仍走 sumdb 校验），变的只是「第一方模块不经公共 proxy」，
+而这正是 CI 里一直在用的配置——goproxy.cn 的旧 tag 缓存无法清除，只能绕开。
+# toolgate v0.8.0
+facade 是消费方的单一入口，而 Go 的 MVS 只看**被消费版本**的 go.mod：
+`go get github.com/oagentkit/agentkit/...` 拿到的是 tag 处的模块图，与 main 无关。
+所以 v0.8.0（toolgate #7：导出只求值不执行的判定环入口）必须在这里跟进，
+否则门面仓发出去的 v1.4.0 仍带着 toolgate v0.7.0。
+verify_facade_release.py 守的正是这一条：各模块仓最新 tag 与门面仓最新 tag 的
+go.mod 地板必须一致。toolgate 单仓打 tag 而门面仓不跟进，就是让门面仓 CI 转红——
+这也是「发 tag 必须全矩阵联动」的原因。
+本地验证：go build ./... 通过、go test ./...（全包无测试文件）0 失败、
+go vet 与 gofmt 干净、go mod tidy -diff 无差异（即 CI 的 tidy 门禁）。
+
 
 ## [v1.4.0] — 2026-10-18
 
@@ -305,9 +473,87 @@ oekit/concurrency/breaker，由 llm 仓消费）。
 不是本包原来的纯计数型三态。
 
 - 杂务(deps)：依赖地板升到「历史最新 + 0.1.0」
+
+chore(deps): 依赖地板升到「历史最新 + 0.1.0」
+本轮做了版本线重置：清空全部历史 tag，按「历史最新 + 0.1.0」重打新版本
+（如 llm v0.6.0 → v0.7.0、toolgate v0.6.1 → v0.7.0、agentkit v1.3.0 → v1.4.0）。
+各仓 go.mod 的矩阵内依赖地板同步跟进到新版本号。
+**go.sum 的 oagentkit 行已整段删除**，由 CI 的 `go mod tidy` 重算：
+新 tag 的内容与任何历史版本都不同，`h1` 必须现算；本地没有 Go 工具链，
+且 `/go.mod` 的 dirhash 无法自行复现（zip hash 可复现，gomod hash 不可复现）。
+重算依赖 `.github` 的 go-ci 配了 `GOPRIVATE=github.com/oagentkit/*` 直连 VCS：
+goproxy.cn 缓存着旧版本，若走 proxy 会拉回**旧代码**并算出旧 hash，
+门禁全绿但依赖是错的。
+（第二个提交会补上重算好的 go.sum。）
+* chore(deps): 依赖地板升到「历史最新 + 0.1.0」
+chore(deps): 依赖地板升到「历史最新 + 0.1.0」
+本轮做了版本线重置：清空全部历史 tag，按「历史最新 + 0.1.0」重打新版本
+（如 llm v0.6.0 → v0.7.0、toolgate v0.6.1 → v0.7.0、agentkit v1.3.0 → v1.4.0）。
+各仓 go.mod 的矩阵内依赖地板同步跟进到新版本号。
+**go.sum 的 oagentkit 行已整段删除**，由 CI 的 `go mod tidy` 重算：
+新 tag 的内容与任何历史版本都不同，`h1` 必须现算；本地没有 Go 工具链，
+且 `/go.mod` 的 dirhash 无法自行复现（zip hash 可复现，gomod hash 不可复现）。
+重算依赖 `.github` 的 go-ci 配了 `GOPRIVATE=github.com/oagentkit/*` 直连 VCS：
+goproxy.cn 缓存着旧版本，若走 proxy 会拉回**旧代码**并算出旧 hash，
+门禁全绿但依赖是错的。
+（第二个提交会补上重算好的 go.sum。）
+* chore(deps): 回填 CI 重算的 go.sum
+`h1` 由 CI 里真实的 `go mod tidy` 算出后回填——本地没有 Go 工具链，
+且 `/go.mod` 的 dirhash 无法自行复现（zip hash 可复现，gomod hash 不可复现），
+所以这是唯一权威来源。
+重算依赖 `.github` go-ci 里的 `GOPRIVATE=github.com/oagentkit/*` 直连 VCS：
+goproxy.cn 仍缓存着版本线重置前的旧内容，走 proxy 会拉回**旧代码**并算出旧 hash，
+门禁全绿但依赖是错的。
+验证方式就是本 PR 的 `go mod tidy -diff`：若回填有任何偏差，它会照样报差异。
+* chore(deps): 回填 CI 重算的 go.sum
+`h1` 由 CI 里真实的 `go mod tidy` 算出后回填——本地没有 Go 工具链，
+且 `/go.mod` 的 dirhash 无法自行复现（zip hash 可复现，gomod hash 不可复现），
+所以这是唯一权威来源。
+重算依赖 `.github` go-ci 里的 `GOPRIVATE=github.com/oagentkit/*` 直连 VCS：
+goproxy.cn 仍缓存着版本线重置前的旧内容，走 proxy 会拉回**旧代码**并算出旧 hash，
+门禁全绿但依赖是错的。
+验证方式就是本 PR 的 `go mod tidy -diff`：若回填有任何偏差，它会照样报差异。
+* chore(deps): 回填 CI 重算的 go.sum
+`h1` 由 CI 里真实的 `go mod tidy` 算出后回填——本地没有 Go 工具链，
+且 `/go.mod` 的 dirhash 无法自行复现（zip hash 可复现，gomod hash 不可复现），
+所以这是唯一权威来源。
+重算依赖 `.github` go-ci 里的 `GOPRIVATE=github.com/oagentkit/*` 直连 VCS：
+goproxy.cn 仍缓存着版本线重置前的旧内容，走 proxy 会拉回**旧代码**并算出旧 hash，
+门禁全绿但依赖是错的。
+验证方式就是本 PR 的 `go mod tidy -diff`：若回填有任何偏差，它会照样报差异。
+
 - 杂务(deps)：跟进最新 tag
+
+oagentkit/agent v0.1.0→v0.5.0、oagentkit/guardx v0.1.0→v0.2.0、oagentkit/llm v0.1.0→v0.6.0、oagentkit/mcpkit v0.1.0→v0.4.0、oagentkit/obs v0.1.0→v0.3.0、oagentkit/promptx v0.1.0→v0.4.0、oagentkit/queue v0.1.0→v0.3.0、oagentkit/rag v0.1.0→v0.3.0、oagentkit/runtime v0.1.0→v0.4.0、oagentkit/skillkit v0.1.0→v0.4.0、oagentkit/textx v0.1.0→v0.2.0、oagentkit/toolgate v0.1.0→v0.5.0、oagentkit/tools v0.1.0→v0.5.0
+go.sum 取 sumdb 权威 h1，仅就地替换目标 mod 两行。
+
 - 杂务(deps)：oekit 依赖升级
+
+concurrency v0.6.0→v0.16.0、logx v0.5.1→v0.7.0、pkg v0.11.0→v0.14.0
+姊妹矩阵 oekit 的依赖地板此前被漏掉（上一轮只扫了 oagentkit 内部依赖），本次一并对齐到最新。
+升级前已确认 oekit/concurrency v0.13.1..v0.16.0 的 8 个提交全是 feat/docs/chore，
+无 breaking/remove 标记。其中 #28 订正了 `WithCooldown(0)` 的语义——
+即 llms.txt 里警告过的那个陷阱，升上去正好拿到修正后的行为。
+go.sum 的 h1 取自 sumdb，仅就地替换目标 mod 的两行、其余行不动。
+
 
 - 文档：去掉迁移示例里的字面量 ... 占位与不可用的通配 sed
 
+原示例是一条通配 sed，目标路径写成 github.com/oagentkit/... —— 读者照抄会得到一个
+真不存在的路径。而且通配 sed 本身有两处错：新路径的模块段不是旧包名
+（worker/pglease -> queue/pglease、knowledge/rag -> rag/rag），正则覆盖不到；
+改写还会打乱 import 组内字母序，不 gofmt 重排会挂 CI 门禁。
+改为指向 matrix-tools 的 rewrite_imports.py（只改 import 块内引号，改完自动 gofmt）。
+
+
 - 回滚：go.mod/go.sum 回退到 v1.0.0 的自洽版本
+
+上一提交把 13 个依赖直接对齐到当前 tag，但 go.sum 的哈希无法在本环境可靠产出
+（sum.golang.org 不可达，proxy 的 zip 虽可下但我复现的 dirhash 与 Go 实测值
+不一致）。与其推一个无法验证的 go.sum，不如回退。
+go.mod 里的 pin 是【最低版本】——Go 的 MVS 会让消费方 go get -u 自行升到更新版本，
+而门面本身已写明「新代码不要引它」。版本对齐是打磨，不是正确性问题。
+本次提交的实质价值在别处：
+- 移除已退役的 breaker 门面（runtime v0.3.0 已删除该包）
+- 首次接入 org 共享 CI —— 此前面门仓 46 个 re-export 包坏掉不会有人知道
+- MIGRATION.md 补 breaker 迁移路径
