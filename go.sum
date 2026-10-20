@@ -256,8 +256,8 @@ github.com/oagentkit/guardx v0.8.2 h1:iQNL7xL/d/3pLACUvvYf2IIXSYDc+HCWIovnvN3WmH
 github.com/oagentkit/guardx v0.8.2/go.mod h1:9HvYhp4TouXv02XBRM3zA2X9s6eHITXrJUWvtLaOjwY=
 github.com/oagentkit/llm v0.14.1 h1:sWRHSRuSd0IQp2MPBPHlfjaeLm2P51ue+ZMsBgi7Hao=
 github.com/oagentkit/llm v0.14.1/go.mod h1:eOT1TPRPyLW1NrC8BbvDzyMGypEvKnGWCKWUtQ7Oszo=
-github.com/oagentkit/mcpkit v0.8.1 h1:6OpEAGys6DfWcDvDKO8bg5rzC1Y/zFIxjzREIHGL/Wk=
-github.com/oagentkit/mcpkit v0.8.1/go.mod h1:MlrQtWnBV2wsJ0Zd9nleMSzfJS8cLqDNFcyAqzscrcs=
+github.com/oagentkit/mcpkit v0.8.2 h1:oJTIlMnRrjpa97ouabbtINRPN+S/ghmmODkWqU6zEKw=
+github.com/oagentkit/mcpkit v0.8.2/go.mod h1:MlrQtWnBV2wsJ0Zd9nleMSzfJS8cLqDNFcyAqzscrcs=
 github.com/oagentkit/obs v0.9.1 h1:kWirw6N/Fby13NQDO5MSAWb/b2Rm/EW6tWlE3PViKbU=
 github.com/oagentkit/obs v0.9.1/go.mod h1:Ox75SkHvNEzwBAfrxiP68OoU4FPOpbCWTX0zPN0Xf+Y=
 github.com/oagentkit/promptx v0.8.0 h1:jtQSy3xEtRIgN+T9ItpA8N2mPExCxSe6oV4IeRQ89qs=

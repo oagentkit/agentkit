@@ -8,7 +8,7 @@ require (
 	github.com/oagentkit/agent v0.10.0
 	github.com/oagentkit/guardx v0.8.2
 	github.com/oagentkit/llm v0.14.1
-	github.com/oagentkit/mcpkit v0.8.1
+	github.com/oagentkit/mcpkit v0.8.2
 	github.com/oagentkit/obs v0.9.1
 	github.com/oagentkit/promptx v0.8.0
 	github.com/oagentkit/queue v0.6.1
