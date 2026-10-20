@@ -2,6 +2,29 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.19] — 2026-10-20
+
+### 修复(facade)：门面补转发 rag v0.8.3 新增的 4 个导出符号
+
+rag v0.8.3 带上了 oagentkit/rag#15 的修复（`NewOpenAIEmbedder` 的注入缝），
+新增 4 个导出符号：
+- `EmbedderOption`（type）
+- `WithHTTPClient`（func）
+- `WithTimeout`（func）
+- `WithRetry`（func）
+门禁 `matrix-tools/scripts/verify_facade_symbols.py` 抓到门面漏转发这 4 个：
+```
+❌ 门面符号级转发不完整（remote org=oagentkit facade=agentkit，核对 48 个包）：
+   - rag: 漏转发上游导出符号 EmbedderOption（上游 kind=type）
+   - rag: 漏转发上游导出符号 WithHTTPClient（上游 kind=func）
+   - rag: 漏转发上游导出符号 WithRetry（上游 kind=func）
+   - rag: 漏转发上游导出符号 WithTimeout（上游 kind=func）
+```
+门面是消费方的**单一入口**（README 推荐 `go get github.com/oagentkit/agentkit/...`）。
+漏转发 ⇒ 按门面 import 的下游拿不到 embedding 的注入缝，只能绕门面直接 import
+上游仓——这正是门面要消除的分裂。
+按 alias.go 的既有约定补：type 进 type 块，func 进 var 块。
+
 ## [v1.8.18] — 2026-10-20
 
 ### 新增(mcp)：门面转发 mcpkit v0.8.2 的自检/健康/错误分类原语
