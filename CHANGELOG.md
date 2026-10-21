@@ -2,6 +2,23 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.27] — 2026-10-21
+
+- 杂务(deps)：门面依赖地板跟到 llm v0.15.0
+
+llm v0.15.0 新增 `OpenAIProviderConfig.HTTPClient`——宿主可注入自己的
+`*http.Client`，把出站守卫挂到 `Transport.DialContext` 上（写面校验拦不住
+DNS rebinding，守卫必须在拨号层）。
+门面对该类型是**类型别名**（`type OpenAIProviderConfig = upstream.OpenAIProviderConfig`），
+故新字段**自动透传**，门面**不需要改任何转发代码**，只抬依赖地板即可让下游拿到。
+无行为差异：llm v0.14.2 → v0.15.0 只新增了一个可选字段（缺省 nil 时行为逐字不变）
++ 抬了 llm 自身的 oekit 地板；门面转发的 48 个包与符号集一字未动。
+门禁自检：go build / vet / test ✅、gofmt ✅、
+verify_facade_frozen.py ✅（48 包 ⊆ 冻结基线 48）、
+verify_facade_symbols.py（llm 门本地可判，通过；其余 18 门因本机未克隆对应上游仓
+判不了，CI 走联网模式全量判）。
+
+
 ## [v1.8.26] — 2026-10-21
 
 - 杂务(deps)：门面依赖地板跟到 guardx v0.13.1
