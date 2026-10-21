@@ -2,6 +2,19 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.23] — 2026-10-21
+
+- 杂务(deps)：门面依赖地板抬到 guardx v0.10.0
+
+guardx v0.10.0 已发布（sandbox 预算面补 MaxMemory + 可选能力面 Capable）。
+门面的每个 tag 都是一份**对外承诺**——Go 的 MVS 只看被消费那个版本的 go.mod，
+所以 `go get github.com/oagentkit/agentkit@vX` 装走的是**该 tag 快照**里钉的版本。
+本仓的 `verify_facade_release.py` 守的就是这条：门面的最新 tag 必须钉着
+各模块的当前最新 tag。
+v1.8.22 钉的是 guardx v0.9.0，而 guardx 随后发了 v0.10.0 ⇒ 门面落后一格。
+本地门禁：go mod tidy 无差异 / go build / go vet 通过。
+
+
 ## [v1.8.22] — 2026-10-21
 
 - 杂务(deps)：门面依赖地板抬到 agent v0.10.1 / guardx v0.9.0
