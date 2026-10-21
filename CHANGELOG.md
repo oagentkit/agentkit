@@ -2,6 +2,31 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.25] — 2026-10-21
+
+- 杂务(deps)：门面依赖地板抬到最新（oekit/pkg v0.20.0、oekit/concurrency v0.19.0）
+
+门面的已发布 tag v1.8.24 的 go.mod 钉着 oekit/pkg v0.18.0 与
+oekit/concurrency v0.18.0，而远端最新已是 v0.20.0 / v0.19.0。
+Go 的 MVS 只看**被消费版本**的 go.mod ⇒ 存量下游
+`go get github.com/oagentkit/agentkit@v1.8.24` 装走的是旧基座实现，
+不报错、不告警、go build 照样过。
+oagentkit/* 侧的 13 个第一方依赖地板已在 main 上跟平（guardx v0.13.0 见 #45），
+本次补齐 oekit 基座两项。
+门禁依据：matrix-tools/scripts/verify_facade_release.py
+
+- 杂务(deps)：guardx 依赖地板抬到 v0.13.0
+
+本仓转发的 6 个 guardx 包（egress / fence / injectband / invoke / logredact /
+permgate）在 v0.11.0 → v0.13.0 之间**未变**——那几版只加了 sandbox 的
+Capable 与 wire，而这两个新包**不在门面的 48 个转发包里**。故这是纯地板追平，
+**无行为差异**，门面转发的符号集一字未动。
+属本仓「只做别名转发与安全修复」范畴：抬地板不改变任何转发面，冻结的
+48 个包集合不变（verify_facade_frozen 不读 go.mod 版本）。
+矩阵的依赖地板时效门禁（verify_dep_floors.py）会把「地板落后远端最新」报出来。
+门禁自检：go build / vet ✅，go test ✅，gofmt ✅，go mod tidy ✅
+
+
 ## [v1.8.24] — 2026-10-21
 
 - 杂务(deps)：门面依赖地板抬到 guardx v0.11.0
