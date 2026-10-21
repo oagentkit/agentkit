@@ -2,6 +2,52 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.28] — 2026-10-21
+
+- 杂务(deps)：门面依赖地板跟到矩阵本轮新版本（12 块）
+
+## 下游要做什么
+**`go mod tidy`**。地板抬高对下游是隐式 breaking：不跑就报
+`updates to go.mod needed`，且报错不提真正原因（**不是门面的 API 变了**）。
+门面**自身代码零改动**——转发的 48 个包与符号集一字未动。
+## 抬了哪 12 块
+```
+oagentkit/textx     v0.6.1 → v0.6.2      oagentkit/skillkit  v0.8.2 → v0.8.3
+oagentkit/runtime   v0.7.1 → v0.7.2      oagentkit/mcpkit    v0.8.3 → v0.8.4
+oagentkit/queue     v0.6.2 → v0.6.3      oagentkit/rag       v0.8.3 → v0.8.4
+oagentkit/promptx   v0.8.1 → v0.8.2      oagentkit/toolgate  v0.12.0 → v0.12.1
+oagentkit/obs       v0.9.3 → v0.9.4      oagentkit/tools     v0.10.1 → v0.10.2
+oagentkit/agent     v0.10.1 → v0.10.2
+```
+## 为什么无行为差异
+**这 12 个版本全部是「纯依赖地板追平」——各仓自身代码零改动**：
+- textx / runtime / queue / promptx / obs / skillkit / mcpkit / rag /
+  toolgate / tools / agent：各自只抬了 `oekit/pkg`（v0.18.0→v0.20.0）、
+  `oekit/concurrency`（v0.18.0→v0.19.0）、`oagentkit/guardx`
+  （v0.13.0→v0.13.1）、`oagentkit/llm`（v0.14.2→v0.15.0）四类地板之一，
+  **没有一行业务代码变更**。
+四类上游地板的变更本身也已逐项核过：
+- `oekit/pkg` v0.18.0→v0.20.0：`errors` 纯增量（新增 `Errorf`）、
+  `httpjson` 退避溢出修复（正常 attempt 下逐字相同）、`urlguard` 新增可选
+  `WithExactHosts`（未设置即行为不变）、`stringx` 仅注释、`pathx` 新包。
+- `oekit/concurrency` v0.18.0→v0.19.0：`retry` 抖动 panic 修复 +
+  `syncx` 新增 `Gate`；**`breaker` 与 `async` 一字未动**。
+- `oagentkit/guardx` v0.13.0→v0.13.1：上游只改 `go.mod`/`go.sum`，
+  **没有 Go 源码变更**。
+- `oagentkit/llm` v0.14.2→v0.15.0：新增**可选**字段
+  `OpenAIProviderConfig.HTTPClient`（缺省 nil 时行为逐字不变）。
+门面对这些类型都是**类型别名**，故上游的新增能力自动透传——
+`llm.OpenAIProviderConfig.HTTPClient`（宿主可注入自己的 `*http.Client`，
+把出站守卫挂到 `Transport.DialContext` 上）经门面同样可用。
+## 门禁
+```
+go build / vet / test -race   ✅
+gofmt -l .                    ✅ 空
+verify_facade_frozen.py       ✅（48 包 ⊆ 冻结基线 48）
+verify_facade_symbols.py      ✅（llm 门本地可判，通过）
+```
+
+
 ## [v1.8.27] — 2026-10-21
 
 - 杂务(deps)：门面依赖地板跟到 llm v0.15.0
