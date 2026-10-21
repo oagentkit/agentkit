@@ -47,6 +47,8 @@ const (
 var (
 	AuditGate     = upstream.AuditGate
 	DefaultPolicy = upstream.DefaultPolicy
+	Disposition   = upstream.Disposition
+	FailureClass  = upstream.FailureClass
 	LoadOverrides = upstream.LoadOverrides
 	NewGate       = upstream.NewGate
 	Normalize     = upstream.Normalize
