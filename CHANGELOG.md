@@ -2,6 +2,22 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.26] — 2026-10-21
+
+- 杂务(deps)：门面依赖地板跟到 guardx v0.13.1
+
+发 v1.8.25 之后、跑 `verify_facade_release.py --org oagentkit` 复核时，
+guardx 已在 2026-10-21T15:42:26+0800 发了 v0.13.1
+（`chore(deps): oekit/pkg 依赖地板抬到 v0.20.0`），
+而 v1.8.25 的 go.mod 钉的是 v0.13.0 ⇒ 门面地板门禁判红：
+    ❌ 门面仓 tag v1.8.25 的依赖地板有 1 处落后：
+      guardx       应为 v0.13.1      实际 v0.13.0
+本提交把门面钉到 guardx v0.13.1。guardx v0.13.1 相对 v0.13.0 只改了
+CHANGELOG.md / go.mod / go.sum（**无 Go 源码变更**），故门面的 48 个转发包
+与转发符号集一字未动；门面的 oekit/pkg 本就已是 v0.20.0，与 guardx 对齐。
+门禁依据：matrix-tools/scripts/verify_facade_release.py
+
+
 ## [v1.8.25] — 2026-10-21
 
 - 杂务(deps)：门面依赖地板抬到最新（oekit/pkg v0.20.0、oekit/concurrency v0.19.0）
