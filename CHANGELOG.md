@@ -2,6 +2,35 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.30] — 2026-10-21
+
+### 新增(policy)：转发 toolgate/policy 的两个新符号——Disposition 与 FailureClass
+
+上游 toolgate v0.12.3 新增了「协议层失败分类 → 处置层类别的机械映射」：
+```go
+func FailureClass(kind mcp.ErrorKind) toolfail.Class
+func Disposition(err error) toolfail.Class
+```
+门面对这些类型是**类型别名**，但**函数/变量必须逐个转发**（别名只覆盖类型）——
+漏转发一个符号，下游按门面 import 就**编译不过**。
+矩阵的「门面符号级转发完整性」门禁（`verify_facade_symbols.py --org oagentkit`）
+当场报红：
+```
+❌ 门面符号级转发不完整（remote org=oagentkit facade=agentkit，核对 48 个包）：
+   - policy: 漏转发上游导出符号 Disposition（上游 kind=func）
+   - policy: 漏转发上游导出符号 FailureClass（上游 kind=func）
+```
+## 改动
+`policy/alias.go` 的 var 块补两个别名（按既有约定：**func/var 上游 → var 块**），
+并把 `toolgate` 依赖地板抬到 v0.12.3。
+## 门禁
+```
+go build / vet / test -race   ✅
+gofmt -l .                    ✅ 空
+verify_facade_symbols.py      ✅（48 个包，policy 门补齐后不再漏）
+verify_facade_frozen.py       ✅（48 包 ⊆ 冻结基线 48）
+```
+
 ## [v1.8.29] — 2026-10-21
 
 - 杂务(deps)：依赖地板跟到矩阵本轮新版本——agent v0.10.3 obs v0.9.5 promptx v0.8.3 rag v0.8.5 skillkit v0.8.4 toolgate v0.12.2 tools v0.10.3
