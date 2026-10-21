@@ -36,6 +36,7 @@
 | `llm` | `llm` | `github.com/oagentkit/llm` |
 | `llm/llmtest` | `llm` | `github.com/oagentkit/llm/llmtest` |
 | `llm/wrap` | `llm` | `github.com/oagentkit/llm/wrap` |
+| `port` | `llm` | `github.com/oagentkit/llm/port` |
 | `invoke` | `guardx` | `github.com/oagentkit/guardx/invoke` |
 | `policy` | `toolgate` | `github.com/oagentkit/toolgate/policy` |
 | `toolprior` | `toolgate` | `github.com/oagentkit/toolgate/toolprior` |
@@ -50,6 +51,10 @@
 | `dispatch` | `agent` | `github.com/oagentkit/agent/dispatch` |
 | `reflection` | `agent` | `github.com/oagentkit/agent/reflection` |
 | `router` | `agent` | `github.com/oagentkit/agent/router` |
+
+> 表中 **48 个活包**的映射与门面实际的 48 个 `alias.go` 包**一一对应**
+> （`verify_facade_packages.py` 守这条：矩阵有、门面没有 = 覆盖空洞）。
+> 另有一行是已退役的 `breaker`（见文末「已退役的包」），**不计入**活包映射数。
 
 ## 泛型函数（门面无法转发，需直接引用上游）
 

@@ -2,10 +2,11 @@
 
 > 🗄️ **本仓已废弃：只保留兼容转发，不是开发目标，新代码不要引它。**
 > 原单仓已拆分为 [`github.com/oagentkit/*`](https://github.com/oagentkit) 下 **13 个独立发版的仓**。
-> 本仓只把 **48 个**包的导出符号做成别名转发，让**存量**下游只需改 import 前缀、无需改调用点。
+> 本仓只把 **48 个活包**的导出符号做成别名转发，让**存量**下游只需改 import 前缀、无需改调用点。
 > 另有 1 个包（`breaker`）已退役，不在此列——见 [MIGRATION.md](MIGRATION.md#已退役的包)。
+> 所以 [MIGRATION.md](MIGRATION.md) 的映射表 = **48 个活包**的迁移映射 **+ 1 行已退役包**。
 >
-> **状态**：v1.x 退役条件**已满足**（当前 v1.8.20）。本仓不接受任何新功能，
+> **状态**：v1.x 退役条件**已满足**（当前 v1.8.21）。本仓不接受任何新功能，
 > 只做别名转发与安全修复。归档（archive）待旧单仓
 > `git.enjoye.top/enjoydream/agentkit`（module path 的实际所在）下线后执行——
 > 那才是真正切断旧路径的一步；在此之前本仓继续可用，**已有 tag 的 `go get` 照常解析**。
@@ -31,7 +32,7 @@
 # 迁移前
 import "git.enjoye.top/enjoydream/agentkit/textutil"
 
-# 迁移后（47 个包的完整映射见 MIGRATION.md）
+# 迁移后（48 个包的完整映射见 MIGRATION.md）
 import "github.com/oagentkit/textx/textutil"
 ```
 
