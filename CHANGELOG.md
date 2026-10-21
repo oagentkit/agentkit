@@ -2,6 +2,50 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.22] — 2026-10-21
+
+- 杂务(deps)：门面依赖地板抬到 agent v0.10.1 / guardx v0.9.0
+
+门面的每个 tag 都是一份**对外承诺**：Go 的 MVS 只看被消费的那个版本的 go.mod，
+所以 `go get github.com/oagentkit/agentkit@vX` 装走的是**该 tag 快照**里钉的版本。
+本仓的 `verify_facade_release.py` 守的就是这条——门面的最新 tag 必须钉着
+各模块的当前最新，否则下游装走的是旧实现。
+两个模块刚发过新版，所以门面必须跟发：
+- agent v0.10.0 → v0.10.1（含「Go 地板降到 go 1.24.0」的发布说明）
+- guardx v0.8.2 → v0.9.0（新增 toolfail 与 sandbox 两个 tier0 原语）
+注意：guardx 的两个新包**不转发**——门面是冻结的兼容层，转发新包就是
+「门面又长出一张新脸」，违反它自己的废弃承诺（门禁按「基线之后新增的包 ⇒ 提示」
+判定，不算缺口）。
+本地门禁：go mod tidy 无差异 / go build / go vet 通过。
+
+
+- 文档(facade)：补 MIGRATION.md 的 port 映射行，统一 48/47 口径并更新到 v1.8.21
+
+门面仓（oagentkit/agentkit）实测出三处不一致，本次一并修掉：
+1. MIGRATION.md 漏了 llm/port 的映射行。门面实际有 48 个 alias.go 包，
+   映射表却只覆盖 47 个活包（另 1 行是已退役的 breaker）——port 是 llm 仓的
+   无 eino 窄接口层，下游按 README「逐包替换」迁出时会漏掉它，而 llm 是
+   tier 2 重依赖仓，漏掉等于把重依赖又拉回来。
+   补一行：| `port` | `llm` | `github.com/oagentkit/llm/port` |
+   补后活包映射 48 个，与门面的 48 个 alias.go 包一一对应。
+2. README 内部口径打架：第 5 行写「48 个包」，第 34 行写「47 个包的完整映射」。
+   统一为「48 个活包」，并写清 MIGRATION.md 的映射表
+   = 48 个活包映射 + 1 行已退役包（breaker）。
+3. README 状态行的版本号陈旧：v1.8.20 -> v1.8.21（实际最新 tag 已是 v1.8.21）。
+另新建 AGENTS.md，写本仓的工程红线（门面仓专属，不照抄别仓规则）：
+禁止新增包（会让「门面已废弃」的承诺失效）、禁止矩阵内部消费门面、
+转发必须 kind 一致（const 不得降级成 var，否则下游常量位置编译失败）、
+上游新增导出符号必须在本仓补别名、以及退役纪律。
+未动任何 alias.go：转发内容与上游一一对应，改了会破坏符号级转发完整性门禁。
+校验：
+- go build ./... / go vet ./... / gofmt -l . 全通过
+- verify_facade_packages.py：门面包数 48，矩阵应覆盖 48，无缺口、无陈旧转发
+- verify_facade_frozen.py：48 个包 ⊆ 冻结基线 48 个
+- verify_facade_symbols.py：符号级转发完整（核对 48 个包）
+- check_facade_imports.py：未发现门面仓/旧单仓 import
+- scan_stale_refs.py：未发现指向已不存在包的文档引用
+
+
 ## [v1.8.21] — 2026-10-20
 
 - 文档：门面仓标记为「已废弃」——v1.x 退役条件已满足
