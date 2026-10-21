@@ -2,6 +2,22 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.32] — 2026-10-22
+
+- 杂务(deps)：门面依赖地板跟到基座最新 tag——oekit/concurrency v0.20.0、oekit/pkg v0.21.0
+
+门面的已发布 tag v1.8.31 的 go.mod 还钉着 oekit/concurrency v0.19.0 与
+oekit/pkg v0.20.0，而基座这两个仓已经各发了一版新 tag。矩阵门禁
+verify_facade_release.py --org oagentkit 因此判红（基座依赖落后 2 处）。
+基座依赖同样参与 MVS：门面 tag 钉着旧版本，消费方 go get 门面仓会静默拿到
+旧实现——不报错、不告警、go build 照样过。
+本次只把 go.mod / go.sum 的基座地板抬到各仓当前最新 tag：
+  github.com/oekit/concurrency  v0.19.0 -> v0.20.0
+  github.com/oekit/pkg          v0.20.0 -> v0.21.0
+其余 13 个矩阵模块的依赖地板本轮已是最新，未动。
+只改 main 不发 tag 等于没修（线上流传的仍是旧 tag），发版另走一步。
+
+
 ## [v1.8.31] — 2026-10-21
 
 - 杂务(deps)：依赖地板跟到矩阵本轮新版本——llm v0.15.2 mcpkit v0.8.5 toolgate v0.12.4 agent v0.10.4
