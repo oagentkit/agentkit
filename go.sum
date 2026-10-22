@@ -250,8 +250,8 @@ github.com/nats-io/nkeys v0.1.0/go.mod h1:xpnFELMwJABBLVhffcfd1MZx6VsNRFpEugbxzi
 github.com/nats-io/nuid v1.0.1/go.mod h1:19wcPz3Ph3q0Jbyiqsd0kePYG7A95tJPxeL+1OSON2c=
 github.com/nikolalohinski/gonja v1.5.3 h1:GsA+EEaZDZPGJ8JtpeGN78jidhOlxeJROpqMT9fTj9c=
 github.com/nikolalohinski/gonja v1.5.3/go.mod h1:RmjwxNiXAEqcq1HeK5SSMmqFJvKOfTfXhkJv6YBtPa4=
-github.com/oagentkit/agent v0.10.4 h1:Ae/QvBTUX+FqSYiotFuERX8vxedlbwra81srU6sZAq0=
-github.com/oagentkit/agent v0.10.4/go.mod h1:19ieApKVv9NKgIiTnb8Vyctvyu+6OhOxlEX5Jt5iSxU=
+github.com/oagentkit/agent v0.10.5 h1:GW9G/PjcvzbPTz5Tw0WuOlSMJLJlxIiY6KrRSI62HtY=
+github.com/oagentkit/agent v0.10.5/go.mod h1:r5KXfJMphl4bW+AIzZbekM6zgLrJ5KgfK71L92zBuWc=
 github.com/oagentkit/guardx v0.13.1 h1:aE7vepfsqw7j+plnbh1CMWsA3WTjbTHBNbg8qr8LxBg=
 github.com/oagentkit/guardx v0.13.1/go.mod h1:1gg5y6sYCgdVlxXjfjxBIk2zbNnQH566iu/qad9sric=
 github.com/oagentkit/llm v0.15.2 h1:V9YKsR5KhTsnXFzlPiMJNqaCszNW69tRasKWj3C1vXQ=
