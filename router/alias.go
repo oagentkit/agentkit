@@ -13,11 +13,18 @@ package router
 import upstream "github.com/oagentkit/agent/router"
 
 type (
-	Config   = upstream.Config
-	Decision = upstream.Decision
-	Route    = upstream.Route
-	Router   = upstream.Router
-	SlotSpec = upstream.SlotSpec
+	Config           = upstream.Config
+	Decision         = upstream.Decision
+	DecisionFace     = upstream.DecisionFace
+	DecisionObserver = upstream.DecisionObserver
+	Route            = upstream.Route
+	Router           = upstream.Router
+	SlotSpec         = upstream.SlotSpec
+)
+
+const (
+	SourceLLM      = upstream.SourceLLM
+	SourceDecision = upstream.SourceDecision
 )
 
 var (
