@@ -2,6 +2,19 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.34] — 2026-10-22
+
+- 杂务(deps)：门面地板跟到 agent v0.10.5
+
+门面 agentkit 转发的 agentrun.Usage 是**类型别名**（Usage = upstream.Usage），
+所以上游新增的 DurationMS 字段自动透传，门面侧无需改动任何符号。
+打 tag 时刻的依赖地板必须是当时的最新（matrix-tools 的 verify_tag_floor 判据）：
+agent v0.10.5 已发布，门面若仍钉 v0.10.4，v1.8.34 就会是「出生即落后」的 tag
+（tag 受 protect-tags 保护不可重打）。
+本地：gofmt -l（空）/ go build ./... / go test -race -count=1 ./... 无失败 /
+go mod tidy -diff（空）。
+
+
 ## [v1.8.33] — 2026-10-22
 
 - 杂务(deps)：obs 依赖地板抬到 v0.9.6
