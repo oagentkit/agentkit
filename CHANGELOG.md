@@ -2,6 +2,22 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.33] — 2026-10-22
+
+- 杂务(deps)：obs 依赖地板抬到 v0.9.6
+
+门面仓是消费方的单一入口，而 Go 的 MVS 只看**被消费的那个版本**的 go.mod。
+obs v0.9.6 已发布，门面若继续钉 obs v0.9.5，下游 `go get
+github.com/oagentkit/agentkit@<最新 tag>` 就会静默拿到 obs 的旧实现
+——不报错、不告警、go build 照样过。
+matrix-tools/scripts/verify_facade_release.py --org oagentkit 判红：
+「obs 应为 v0.9.6，实际 v0.9.5」。
+⚠️ 只改 main 不发 tag 等于没修：线上流传的仍是旧 tag 快照。
+本 PR 只是把地板抬到位，随后必须给门面仓发 tag 才真正闭环。
+其余 12 个模块的地板本来就是最新，本 PR 不动。
+门禁：go build / go vet / go test -race / gofmt -l / go mod tidy -diff 全绿。
+
+
 ## [v1.8.32] — 2026-10-22
 
 - 杂务(deps)：门面依赖地板跟到基座最新 tag——oekit/concurrency v0.20.0、oekit/pkg v0.21.0
