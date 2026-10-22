@@ -2,6 +2,39 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.37] — 2026-10-23
+
+- 杂务(deps)：门面跟到 agent v0.10.6（地板 + 补 router 新符号别名）
+
+门面的依赖地板跟到各模块当前最新 tag：`agent v0.10.5 → v0.10.6`。
+agent v0.10.6 是「决策面」那版（router 新增 System One 等非自回归判定模型的
+决策面：DecisionFace 窄接口 / 影子模式 / fail-open 回落 / Decision.Source）。
+**地板抬高必须连带补别名**，否则下游按门面 import 直接编译失败（`undefined: X`）：
+- `router/alias.go` type 块补 `DecisionFace`、`DecisionObserver`；
+- `router/alias.go` **const 块**补 `SourceLLM`、`SourceDecision`
+  （上游是 const ⇒ 门面必须仍是 const：降级成 var 会让下游在常量位置编译失败）。
+判据（全部亲自跑过，退出码 0）：
+- `python3 matrix-tools/scripts/verify_facade_symbols.py --root . --facade agentkit`
+  → 「门面符号级转发完整（核对 48 个包）」
+  （补别名前同一目录实测报 4 条漏转发：DecisionFace/DecisionObserver/SourceDecision/SourceLLM）
+- `go mod tidy -diff`（干净）/ `gofmt -l`（空）/ `go build ./...`（通过）/
+  `go test -race ./...` 退出码 0（门面 48 个包全是别名转发包，均无测试文件）。
+关联：oagentkit/agent#26、oagentkit/llm#37
+
+- 杂务(deps)：门面依赖地板跟到 llm v0.17.0
+
+门面的依赖地板跟到各模块当前最新 tag：`llm v0.16.0 → v0.17.0`。
+llm v0.17.0 已发布（CostRecord/记账入口/Client 回调补前缀缓存命中量 cached）——
+按现行口径「继续跟随」，每发一个模块就要补一次门面发版。
+地板抬高对下游是**隐式破坏性变更**：不跑 `go mod tidy` 的下游会构建红，
+报错是 `go: updates to go.mod needed`——不提真正原因。
+本仓**自身代码零改动**——只看本仓的 diff 看不出这是一次地板抬高。
+本地验证（全部亲自跑过）：`go mod tidy -diff`（干净）/ `gofmt -l`（空）/
+`go build ./...`（通过）/ `go test -race ./...` 退出码 0
+（门面 48 个包全是别名转发包，均无测试文件）。
+关联：oagentkit/llm#37
+
+
 ## [v1.8.36] — 2026-10-23
 
 - 杂务(deps)：门面依赖地板跟到 llm v0.16.0
