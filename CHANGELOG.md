@@ -2,6 +2,19 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.36] — 2026-10-23
+
+- 杂务(deps)：门面依赖地板跟到 llm v0.16.0
+
+llm v0.16.0 已发布（System One 协议判定面客户端，新增子包 llm/decision）。
+门面的依赖地板要跟到各模块当前最新 tag ⇒ llm v0.15.2 → v0.16.0。
+⚠️ 地板抬高对下游是**隐式破坏性变更**：不跑 `go mod tidy` 的下游会构建红，
+报错是 `go: updates to go.mod needed`——不提真正原因。
+本地验证（全部亲自跑过）：`gofmt -l`（空）/ `go vet ./...`（无输出）/ `go build ./...`（通过）/
+`go test -race -count=1 ./...` 退出码 0（门面 48 个包全是别名转发包，均无测试文件）。
+关联：oagentkit/llm#35（llm v0.16.0 的来源）
+
+
 ## [v1.8.35] — 2026-10-22
 
 - 杂务(deps)：门面依赖地板跟到当前最新（guardx v0.14.0 / oekit/pkg v0.22.0 / oekit/concurrency v0.20.1）
