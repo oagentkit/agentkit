@@ -2,6 +2,34 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.35] — 2026-10-22
+
+- 杂务(deps)：门面依赖地板跟到当前最新（guardx v0.14.0 / oekit/pkg v0.22.0 / oekit/concurrency v0.20.1）
+
+矩阵的发版时刻地板门禁（verify_tag_floor）要求：打 tag 那一刻的依赖地板
+必须是当时的最新。门面 doctor 判红 3：
+- github.com/oagentkit/guardx 钉在 v0.13.1，最新 v0.14.0 —— 本轮 permgate
+  修复随 guardx v0.14.0 发布（issue #24），门面必须跟上。
+- github.com/oekit/pkg 钉在 v0.21.0，最新 v0.22.0。
+- github.com/oekit/concurrency 钉在 v0.20.0，最新 v0.20.1。
+后两条不是本轮引入的——是并发会话在 oekit 侧发的新版使「地板时效」判据
+在**打 tag 的那一刻**变红（判据按发布时刻回看，不是按当前）。不抬就打 tag，
+产出的是「出生即落后」的 tag，而 tag 受 protect-tags 保护不可重打。
+## 行为差异评估（实测）
+- **oekit/pkg v0.21.0 → v0.22.0**：新增全在 pathx / stringx（新文件：
+  MatchGlob、IsSafeFileName、SanitizeFileName、SplitCSVNonEmpty），
+  errors 包逐字未改。门面**零直接 oekit import**（实测 grep = 0），
+  oekit/pkg 是间接依赖 ⇒ 对门面零行为差异。
+- **oekit/concurrency v0.20.0 → v0.20.1**：含一处真修复——
+  「KeyedGate 的 release 幂等标记改用 atomic CAS——裸 bool 在并发释放下
+  竞态并突破 cap 上限」。这是修复不是变更；门面同样只有间接依赖。
+- **guardx v0.13.1 → v0.14.0**：门面的 permgate 是**类型别名**转发
+  （agentkit/permgate/alias.go），新行为自动跟随 ⇒ 门面**无需改任何符号**。
+改动面：go.mod 3 行版本号 + go.sum 6 增 6 删，零代码改动。
+门禁自检：go build ✅ / go vet ✅ / go test -race ✅（48 包，均为别名包无测试文件，
+退出码 0）/ gofmt ✅ / go mod tidy ✅
+
+
 ## [v1.8.34] — 2026-10-22
 
 - 杂务(deps)：门面地板跟到 agent v0.10.5
