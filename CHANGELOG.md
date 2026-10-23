@@ -2,6 +2,26 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.41] — 2026-10-23
+
+- 杂务(deps)：依赖地板跟到 agent v0.11.0
+
+抬 go.mod 的依赖地板，跟到本仓刚发布的模块新版本：
+- github.com/oagentkit/agent  v0.10.6 -> v0.11.0
+本仓自身代码零改动，只改 go.mod / go.sum。
+下游要做什么：**go mod tidy**——地板抬高对下游是**隐式破坏性变更**：
+不跑就报 updates to go.mod needed，且报错不提真正原因。
+为什么抬：agent v0.11.0 已发布，它把自身的第一方依赖地板抬到了 llm v0.17.1
+与 oekit/concurrency v0.20.2。门面按约定跟随各模块当前最新 tag
+（CONTRIBUTING §发版），否则门面会把落后地板继续转发给下游——
+门面的地板就是下游经门面进入矩阵时 MVS 解析到的版本。
+为什么无行为差异：agent v0.10.6 -> v0.11.0 的 diff 里**没有任何 .go 文件**
+（只有 go.mod / go.sum 与它自己的 CHANGELOG——那一版的唯一内容是抬地板，源码零改动）
+⇒ 本仓 48 个 re-export 包逐包逐符号不变，不需要改任何 alias.go。
+门禁：go build / vet / test -race 通过，gofmt -l 空，go mod tidy -diff 空。
+关联 oagentkit/agent#28
+
+
 ## [v1.8.40] — 2026-10-23
 
 - 杂务(deps)：门面地板跟到 llm v0.17.1
