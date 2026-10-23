@@ -2,6 +2,26 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.47] — 2026-10-24
+
+- 杂务(deps)：门面地板跟到 guardx v0.15.0（并补 egress 的新导出符号）
+
+上游 guardx v0.15.0（issue #28）给 egress 新增了放行面本体 `Policy`
+（含 `Check` / `CheckHost` / `NewClient` / `MustClient` 方法）与三个具名放行面
+`PublicOnly` / `PrivateNoLoopback` / `SelfService`。
+按门面「上游新增导出符号必须补转发」的规矩补上：
+- `Policy` 放进 type 块——方法随类型别名一起带走，无需单独转发；
+- 三个具名放行面放进 var 块——上游是 var，门面也用 var（kind 一致）。
+同时把依赖地板跟到 guardx v0.15.0（门面的地板口径 = 各模块当前最新 tag）。
+两者必须同一个 PR：门面的 go.mod 钉在 v0.14.0 时，v0.15.0 才有的符号转不出来。
+兼容性：只增符号，不改既有转发 ⇒ 下游按门面 import 的调用点不受影响。
+`Options` 仍是上游的别名（上游把它收敛成 `type Options = Policy`），
+门面的 `Options = upstream.Options` 转发照旧有效。
+门禁自检：go build ✅ / go vet ✅ / go test -race ✅ / go mod tidy -diff ✅ /
+gofmt ✅ / golangci-lint 0 issues ✅；
+门面符号级门禁本地实测 ✅（48 个包，verify_facade_symbols.py）。
+
+
 ## [v1.8.46] — 2026-10-24
 
 - 杂务(deps)：基座依赖地板跟到 oekit/concurrency v0.20.4 / oekit/pkg v0.22.1
