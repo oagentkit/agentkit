@@ -2,6 +2,37 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.44] — 2026-10-23
+
+- 杂务(deps)：门面地板跟到 tools v0.10.4
+
+抬 go.mod 的依赖地板，跟到本轮新版本：
+- github.com/oagentkit/tools   v0.10.3 -> v0.10.4
+本仓自身代码零改动，只改 go.mod / go.sum（各一行）。
+## 为什么抬
+门面按承诺「依赖地板跟到各模块当前最新 tag」——tools 刚发 v0.10.4
+（annotated tag 落在 2026-10-23T22:54:10+08:00 的 CHANGELOG 提交之后），
+门面的 tools 地板停在 v0.10.3 就是「门面比它转发的那一层旧」。
+## 为什么无行为差异
+tools v0.10.3 -> v0.10.4 的 diff 只动了 CHANGELOG.md / go.mod / go.sum
+（该版的唯一改动就是抬 guardx / concurrency / pkg 三条依赖地板），
+**零 .go 改动**；门面转发的 tools 各包符号面一字未动
+（verify_facade_symbols.py 对 48 个包核对通过）。
+## 下游要做什么
+**go mod tidy**——地板抬高对下游是**隐式破坏性变更**：不跑就报
+updates to go.mod needed，且报错不提真正原因。
+## 版本口径
+走 **patch v1.8.44**——门面是 re-export 兼容层、v1.x 后退役，
+它的地板抬升不引入新的转发面（本次 bump 零行为差异、不新增任何包），
+按门面自身的连续先例（v1.8.41 / v1.8.42 / v1.8.43 全是纯地板抬升走 patch）走 patch。
+## 门禁
+```
+go build / vet / test -race   ✅
+gofmt -l .                    ✅ 空
+go mod tidy -diff             ✅ 无输出
+```
+
+
 ## [v1.8.43] — 2026-10-23
 
 - 杂务(deps)：依赖地板跟到 toolgate v0.12.5
