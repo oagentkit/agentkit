@@ -2,6 +2,26 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.40] — 2026-10-23
+
+- 杂务(deps)：门面地板跟到 llm v0.17.1
+
+把门面的 llm 依赖地板跟到本轮新版本：
+- github.com/oagentkit/llm  v0.17.0 -> v0.17.1
+矩阵口径：门面的第一方依赖地板必须与各模块最新 tag 一致
+（verify_facade_release.py）。llm v0.17.1 已发布，门面地板必须跟上。
+本仓自身代码零改动——48 个门面包一个都没动，只改 go.mod / go.sum。
+下游要做什么：**go mod tidy**——地板抬高对下游是**隐式破坏性变更**：
+不跑就报 updates to go.mod needed，且报错不提真正原因。
+为什么无行为差异：llm v0.17.1 相对 v0.17.0 只有两处——
+① llm 自己把 oekit/concurrency 地板从 v0.20.1 抬到 v0.20.2（上游该版本 diff 里
+**没有任何 .go 文件**，async/ 与 breaker/ 一字未动）；
+② llm#42 的纯文档/注释变更（「题面规范」，只改注释与 godoc）。
+llm 自身的公共 API 与行为零差异 ⇒ 门面对 llm 的转发面是符号级别名，
+未触及任何被改动的包。
+门禁：go build / vet / test -race 通过，gofmt -l 空，go mod tidy -diff 空。
+
+
 ## [v1.8.39] — 2026-10-23
 
 - 杂务(deps)：门面地板跟到 mcpkit v0.8.6
