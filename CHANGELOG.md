@@ -2,6 +2,54 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.38] — 2026-10-23
+
+- 杂务(deps)：门面依赖地板跟到当前最新——oekit/concurrency v0.20.1 → v0.20.2
+
+## 为什么
+`oekit/concurrency v0.20.2` 于 2026-10-23T03:09:39Z 发布，晚于门面上一个 tag
+（agentkit v1.8.37，2026-10-22T22:55:00Z）。于是 v1.8.37 的 go.mod 钉着
+`github.com/oekit/concurrency v0.20.1`，而基座最新已是 v0.20.2。
+这是 `verify_facade_release.py` 判红的场景：**门面 tag 钉着旧版本 ⇒ 消费方
+`go get github.com/oagentkit/agentkit@<tag>` 会静默拿到旧实现**——
+不报错、不告警、`go build` 照样过，只是拿到的是旧代码。
+实测（`release.py doctor --repo agentkit --version v1.8.38`）：
+```
+❌ agentkit: 依赖 github.com/oekit/concurrency 钉在 v0.20.1，远端最新是 v0.20.2
+     ↳ 修法：先发一版把地板抬到 v0.20.2，再发本仓——打 tag 时刻的地板必须是当时的最新
+```
+且这条红已经**挡在 .github 仓的 CI 上**（`repo-ci.yml` 的
+`matrix-docs` job → `verify_facade_release.py --org oagentkit`）⇒
+本仓与 .github 仓的每个 PR 都会红（实测 PR .github#27 的 CI 就红在这一步）。
+## 抬了哪一块、有没有符号面影响
+只抬 `github.com/oekit/concurrency`：`v0.20.1` → `v0.20.2`（indirect 依赖，
+其余 13 个 oagentkit 模块地板与 `oekit/pkg v0.22.0` 都已是当前最新，未动）。
+**门面的别名转发面零改动**，依据是上游 v0.20.1…v0.20.2 的实际 diff：
+```
+$ gh api repos/oekit/concurrency/compare/v0.20.1...v0.20.2 --jq '.files[].filename'
+  .github/dependabot.yml
+  .github/workflows/issue-to-project.yml
+  AGENTS.md
+  CHANGELOG.md
+  README.md
+  go.mod
+  go.sum
+```
+**没有一个 `.go` 文件** ⇒ 上游无新增/变更的导出符号 ⇒ 按本仓 AGENTS.md
+「上游新增导出符号 → 必须在本仓补别名」这条，**本次不需要补任何 alias.go**。
+（v0.20.2 的内容是 `build: 矩阵依赖地板对齐`，纯依赖地板追平。）
+## 下游要做什么
+**`go mod tidy`**。地板抬高对下游是隐式破坏性变更：不跑会报
+`updates to go.mod needed`，且报错不提真正原因（**不是本仓的 API 变了**）。
+本仓**自身代码零改动**——只看本仓的 diff 看不出这是一次地板抬高。
+## 本地验证
+```
+go build ./...          ✅
+go mod tidy -diff       ✅ 无输出（幂等）
+gofmt -l .              ✅ 空
+```
+
+
 ## [v1.8.37] — 2026-10-23
 
 - 杂务(deps)：门面跟到 agent v0.10.6（地板 + 补 router 新符号别名）
