@@ -2,6 +2,25 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.39] — 2026-10-23
+
+- 杂务(deps)：门面地板跟到 mcpkit v0.8.6
+
+把门面的 mcpkit 依赖地板跟到本轮新版本：
+- github.com/oagentkit/mcpkit  v0.8.5 -> v0.8.6
+矩阵口径：门面的第一方依赖地板必须与各模块最新 tag 一致
+（verify_facade_release.py）。mcpkit v0.8.6 已发布，门面地板必须跟上。
+本仓自身代码零改动——48 个门面包一个都没动，只改 go.mod / go.sum。
+下游要做什么：**go mod tidy**——地板抬高对下游是隐式破坏性变更：
+不跑就报 updates to go.mod needed，且报错不提真正原因。
+为什么无行为差异：mcpkit v0.8.6 相对 v0.8.5 只抬了它自己的 oekit 依赖地板
+（oekit/concurrency v0.19.0 -> v0.20.2、oekit/pkg v0.20.0 -> v0.22.0 indirect），
+mcpkit 自身代码零改动；其中上游 concurrency v0.19.0 -> v0.20.2 只动了 syncx/，
+async/ 与 singleflight/ 一字未动。门面对 mcpkit 的转发面是符号级别名，
+未触及任何被改动的包。
+门禁：go build / vet / test -race 通过，gofmt -l 空，go mod tidy -diff 空。
+
+
 ## [v1.8.38] — 2026-10-23
 
 - 杂务(deps)：门面依赖地板跟到当前最新——oekit/concurrency v0.20.1 → v0.20.2
