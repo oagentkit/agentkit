@@ -2,6 +2,28 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.45] — 2026-10-24
+
+- 杂务(deps)：门面地板跟到 skillkit v0.8.5
+
+抬 go.mod 的依赖地板，跟到本轮新版本：
+- github.com/oagentkit/skillkit   v0.8.4 -> v0.8.5
+本仓自身代码零改动，只改 go.mod / go.sum（各一行）。
+## 为什么抬
+门面按承诺「依赖地板跟到各模块当前最新 tag」——skillkit 刚发 v0.8.5
+（annotated tag 落在 2026-10-24T00:07+08:00 之后的 CHANGELOG 提交上），
+门面的 skillkit 地板停在 v0.8.4 就是「门面比它转发的那一层旧」。
+## 为什么无行为差异
+skillkit v0.8.4 -> v0.8.5 的 diff 只动了 go.mod / go.sum / CHANGELOG.md
+（该版的唯一改动就是抬 guardx v0.14.0 / oekit/pkg v0.22.0 两条依赖地板），
+**零 .go 改动**；门面转发的 skillkit 各包符号面一字未动
+（verify_facade_symbols.py 对 48 个包核对通过）。
+## 门禁
+go build / vet / test -race   ✅
+go mod tidy -diff             ✅ 空
+gofmt -l .                    ✅ 空
+
+
 ## [v1.8.44] — 2026-10-23
 
 - 杂务(deps)：门面地板跟到 tools v0.10.4
