@@ -15,6 +15,7 @@ import upstream "github.com/oagentkit/guardx/egress"
 type (
 	BlockedError = upstream.BlockedError
 	Options      = upstream.Options
+	Policy       = upstream.Policy
 )
 
 var (
@@ -22,4 +23,9 @@ var (
 	CheckHost     = upstream.CheckHost
 	CheckHostWith = upstream.CheckHostWith
 	CheckWith     = upstream.CheckWith
+
+	// 具名放行面（上游 guardx v0.15.0 起）：同一个值同时派生写面校验与拨号层守卫。
+	PrivateNoLoopback = upstream.PrivateNoLoopback
+	PublicOnly        = upstream.PublicOnly
+	SelfService       = upstream.SelfService
 )
