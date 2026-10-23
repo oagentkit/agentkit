@@ -2,6 +2,52 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.46] — 2026-10-24
+
+- 杂务(deps)：基座依赖地板跟到 oekit/concurrency v0.20.4 / oekit/pkg v0.22.1
+
+抬 go.mod 的**基座**依赖地板（github.com/oekit/*）：
+- github.com/oekit/concurrency   v0.20.2 -> v0.20.4
+- github.com/oekit/pkg           v0.22.0 -> v0.22.1
+本仓自身代码零改动，只改 go.mod / go.sum。
+## 为什么抬
+门面的依赖地板要跟到各层当前最新 tag——**基座层（oekit/*）同样参与 MVS**：
+门面钉着 `oekit/pkg v0.22.0`，消费方 `go get` 门面仓就静默拿到旧实现，
+不报错、不告警、`go build` 照样过。
+`verify_facade_release.py --org oagentkit` 实跑：
+```
+❌ 基座依赖（github.com/oekit/*）有 2 处落后：
+  concurrency  应为 v0.20.4      实际 v0.20.2
+  pkg          应为 v0.22.1      实际 v0.22.0
+```
+（13 个第一方模块的地板**全部**已是最新，红的只有这 2 条基座依赖。）
+## 为什么无行为差异
+两个版本之间的 diff 只动到这些包：
+| 依赖 | 改动文件 | 改动内容 |
+|---|---|---|
+| `oekit/concurrency` v0.20.2 → v0.20.4 | `ratelimit/keyed.go`、`ratelimit/lockout.go` | Lockout 空闲回收不再截短 Window 滑窗语义；清扫 ticker 间隔下限兜底（修 `ttl<2ns` 时 `NewTicker(0)` panic） |
+| `oekit/pkg` v0.22.0 → v0.22.1 | `urlguard/urlguard.go` | 阻断 IPv6 特殊用途段 / NAT64 段与 exotic IPv4 字面量形态 |
+⇒ 改动**全部落在 `ratelimit/` 与 `urlguard/` 两个包**里。
+而本矩阵 13 个模块仓 + 本门面，**没有任何一个 import 这两个包**：
+```bash
+for r in guardx runtime textx promptx llm mcpkit obs queue rag skillkit toolgate tools agent agentkit; do
+  grep -rhoE "github.com/oekit/(concurrency/ratelimit|pkg/urlguard)[a-z/]*" "$r" --include="*.go" | sort -u
+done
+# ⇒ 无输出
+```
+Go 按包编译 ⇒ 未被 import 的包**不进入任何消费方的构建** ⇒ 对本矩阵**行为中性**。
+（基座侧的两个修复本身是「修得更严 / 修得更对」，对外部消费方是修复，不是破坏。）
+## 门禁
+```
+go build ./...        ✅
+go vet ./...          ✅
+go test -race ./...   ✅
+go mod tidy -diff     ✅ 空（tidy 后两处仍钉在 v0.20.4 / v0.22.1）
+gofmt -l .            ✅ 空
+```
+配套：`verify_facade_release.py --org oagentkit` 合入并打 tag 后由红转绿。
+
+
 ## [v1.8.45] — 2026-10-24
 
 - 杂务(deps)：门面地板跟到 skillkit v0.8.5
