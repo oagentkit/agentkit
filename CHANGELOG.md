@@ -2,6 +2,25 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.48] — 2026-10-24
+
+- 杂务(deps)：基座依赖地板跟到 oekit/pkg v0.23.1
+
+门面的已发布最新 tag v1.8.47 的 go.mod 钉着 github.com/oekit/pkg v0.22.1，
+而基座仓 oekit/pkg 的最新 tag 已是 v0.23.1（commit c50f083f，2026-10-23T22:27:06Z）。
+Go 的 MVS 只看被消费版本的 go.mod ⇒ 消费方
+`go get github.com/oagentkit/agentkit@v1.8.47` 拿到的是 v0.22.1，
+丢掉 oekit/pkg v0.23.0 的行为修复（SingleFlightCache 包装 LocalCache 时
+静默废掉 StaleIfError：前置检查走 Get 的惰性删除路径，把 stale 兜底需要的
+过期真值提前删掉）。
+硬门禁 verify_facade_release.py --org oagentkit 已判红：
+「基座依赖（github.com/oekit/*）有 1 处落后：pkg 应为 v0.23.1 实际 v0.22.1」。
+范围只有基座这 1 条：13 个模块地板已是各仓当前最新 tag，
+另两条基座 oekit/concurrency v0.20.4 / oekit/logx v0.7.1 也已是最新。
+上游模块仓零变更 ⇒ 门面导出符号集不变 ⇒ 不需要补转发。
+关联 oagentkit/matrix-tools#117
+
+
 ## [v1.8.47] — 2026-10-24
 
 - 杂务(deps)：门面地板跟到 guardx v0.15.0（并补 egress 的新导出符号）
