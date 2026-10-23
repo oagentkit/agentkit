@@ -14,7 +14,7 @@ require (
 	github.com/oagentkit/queue v0.6.3
 	github.com/oagentkit/rag v0.8.5
 	github.com/oagentkit/runtime v0.7.2
-	github.com/oagentkit/skillkit v0.8.4
+	github.com/oagentkit/skillkit v0.8.5
 	github.com/oagentkit/textx v0.6.2
 	github.com/oagentkit/toolgate v0.12.5
 	github.com/oagentkit/tools v0.10.4
