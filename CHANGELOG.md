@@ -2,6 +2,13 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.49] — 2026-10-24
+
+- 杂务(deps)：基座依赖地板跟到 oekit/pkg v0.24.0
+
+关联 oagentkit/matrix-tools#121
+
+
 ## [v1.8.48] — 2026-10-24
 
 - 杂务(deps)：基座依赖地板跟到 oekit/pkg v0.23.1
