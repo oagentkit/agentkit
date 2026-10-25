@@ -2,6 +2,29 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.50] — 2026-10-25
+
+- 杂务(deps)：门面依赖地板跟到 llm v0.18.0 + 基座 oekit/pkg v0.26.0 / concurrency v0.21.0
+
+门面仓 agentkit **已发布 tag** 的 go.mod 必须钉在各模块仓与基座仓的当前最新 tag，
+否则消费方 `go get github.com/oagentkit/agentkit@<tag>` 会静默拿到旧实现
+——Go 的 MVS 只看被消费版本那一份 go.mod，不报错、不告警、go build 照样过。
+当前 v1.8.49 处有 3 处落后：
+- github.com/oagentkit/llm      v0.17.1 -> v0.18.0（v0.18.0 = llm/llm 兼容层）
+- github.com/oekit/concurrency  v0.20.4 -> v0.21.0
+- github.com/oekit/pkg          v0.24.0 -> v0.26.0
+判据：matrix-tools/scripts/verify_facade_release.py --org oagentkit
+（oagentkit/.github 的 Repo CI「门面仓已发布 tag 的依赖地板」一步；实测 rc=1、上述 3 处落后）。
+基座两项的 breaking 面已逐条核实（新鲜 clone 的 13 模块 + 门面全矩阵 grep）：
+- oekit/concurrency v0.21.0：`ratelimit.Limiter` 接口启用 `Wait(ctx) error`
+  ——只影响**自行实现**该接口的调用方；全矩阵 `ratelimit.` 零命中
+  （llm/errors.go 里的 "ratelimit" 只是错误文案匹配串，不是该接口）；
+- oekit/pkg v0.26.0：`convert.ResolveClientIP` 去掉 xri 入参（BREAKING）
+  ——全矩阵 `ResolveClientIP` 零命中。
+本地门禁：gofmt -l . 无输出；go build ./... OK；go vet ./... OK；
+go test -race -count=1 ./... 全绿。
+
+
 ## [v1.8.49] — 2026-10-24
 
 - 杂务(deps)：基座依赖地板跟到 oekit/pkg v0.24.0
