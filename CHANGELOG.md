@@ -2,6 +2,49 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.51] — 2026-10-25
+
+- 杂务(deps)：门面跟到 llm v0.18.1 + 基座 oekit/pkg v0.28.0 / concurrency v0.22.0，并刷正 README 版本行
+
+## 现状
+门面仓 `agentkit` **已发布 tag** 的 go.mod 必须钉在各模块仓与基座仓的当前最新 tag，
+否则消费方 `go get github.com/oagentkit/agentkit@<tag>` 会**静默**拿到旧实现
+（Go 的 MVS 只看被消费版本那一份 go.mod，不报错、不告警、`go build` 照样过）。
+当前 `v1.8.50` 处实测 3 处落后
+（`matrix-tools/scripts/verify_facade_release.py --org oagentkit` ⇒ **rc=1**）：
+| 依赖 | 门面钉的 | 远端最新 |
+| --- | --- | --- |
+| `github.com/oagentkit/llm` | v0.18.0 | **v0.18.1** |
+| `github.com/oekit/concurrency` | v0.21.0 | **v0.22.0** |
+| `github.com/oekit/pkg` | v0.26.0 | **v0.28.0** |
+其中 llm v0.18.1 正是本轮为还 matrix-tools#136 记入的**地板欠账**而发的版本
+（llm v0.18.0 打 tag 时基座地板就不是最新，tag 不可重打 ⇒ 只能靠后续版本补齐）。
+## 改动
+- `github.com/oagentkit/llm` v0.18.0 → **v0.18.1**（基座地板已抬到最新）
+- `github.com/oekit/concurrency` v0.21.0 → **v0.22.0**
+- `github.com/oekit/pkg` v0.26.0 → **v0.28.0**
+- `README.md`：第 9 行「当前 v1.8.21」→ **v1.8.51**
+  （该行自 v1.8.21 起就没跟过，落后 29 个版本；本版随发布一起刷正，
+  使 v1.8.51 的 tag 快照自带正确的当前版本号）
+## breaking 面
+基座两项跨越的版本里，唯一的 BREAKING 是 oekit/pkg v0.26.0 的
+`convert.ResolveClientIP` 去掉 `xri` 入参 —— 门面**零调用**
+（门面只做别名转发，全矩阵 `ResolveClientIP` / `GetClientIP` 均无命中）。
+## 验证
+```
+gofmt -l .            # 无输出
+go build ./...        # OK
+go vet ./...          # OK
+go test -race -count=1 ./...   # 全绿
+```
+## 发版
+本 PR 合并后走完整链：门面 **v1.8.51**（预写待发版段 → 合入 → 在该提交上打
+annotated tag）→ 从 `matrix-tools/scripts/tag_floor_debt.json` 移出 `llm@v0.18.0`
+（llm v0.18.1 一发布，v0.18.0 就不再是「最新 tag」，门禁会复判为「不落后」）
+→ `sync-matrix` 刷矩阵源 → 拷站点副本（源先、副本后）。
+关联 matrix-tools#136
+
+
 ## [v1.8.50] — 2026-10-25
 
 - 杂务(deps)：门面依赖地板跟到 llm v0.18.0 + 基座 oekit/pkg v0.26.0 / concurrency v0.21.0
