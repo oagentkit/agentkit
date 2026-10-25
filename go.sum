@@ -254,8 +254,8 @@ github.com/oagentkit/agent v0.11.0 h1:LIT4NW0SCpv446LZMHxe283+bdCRP0ZVDoAe/LqXhM
 github.com/oagentkit/agent v0.11.0/go.mod h1:Vnw1sz1id7mIyTDxf/o1ObVWahe6J100r8iMdS7jfHU=
 github.com/oagentkit/guardx v0.15.0 h1:IkyPq2yehC/wBuviRF2loU14xxrY78pyHGzJuAjGgjc=
 github.com/oagentkit/guardx v0.15.0/go.mod h1:+GcaTjNHL0mqClzpTSvQ242DN6ouEqk/5IeWy1PTL/I=
-github.com/oagentkit/llm v0.17.1 h1:CglwBpZxGN0gMi0wJPcpUtUk1Y3dhsrPAfDbp0wFkRc=
-github.com/oagentkit/llm v0.17.1/go.mod h1:RYNrl1oMNKDkrng8ZEUTKjVYEuEp5r/pdRIb9XdRxXE=
+github.com/oagentkit/llm v0.18.0 h1:lBdCSXIgS9MinC6wSTf86iR4s35mbnK4SDeAbqnpoB4=
+github.com/oagentkit/llm v0.18.0/go.mod h1:RYNrl1oMNKDkrng8ZEUTKjVYEuEp5r/pdRIb9XdRxXE=
 github.com/oagentkit/mcpkit v0.8.6 h1:vQQcEHU+beIj/Xlf1OZ65OkPW485NEMdxRowSEfFjT8=
 github.com/oagentkit/mcpkit v0.8.6/go.mod h1:wVFpzJW+f7/DXzFATPkD7Ij7JMb4MmAjll0F5wF0xcA=
 github.com/oagentkit/obs v0.9.7 h1:4app/SqW0aMfERfzTyCxkqcUkX/6JVfM7oCl6GHyvA8=
@@ -276,12 +276,12 @@ github.com/oagentkit/toolgate v0.12.5 h1:K5KXMC32ZRhq2FnwCcW9dQOsA3A2tAX/R7B58oc
 github.com/oagentkit/toolgate v0.12.5/go.mod h1:TMWJ14RuPkkgsK08BFXsQp/RetqFd+a+WSpx9IeWo+A=
 github.com/oagentkit/tools v0.10.4 h1:lcl1opUrdKMLQeNvJCbafk+RGAz3w1/2GIS/Qf5J9hM=
 github.com/oagentkit/tools v0.10.4/go.mod h1:I9GlZQgnGO/BN0tNOJEYooRmSdK3hduJCXEGDK6LWhw=
-github.com/oekit/concurrency v0.20.4 h1:5UfX/yWl3MgxQAR5l2SL+6tscXGkuB0YwvvFh9pPHvw=
-github.com/oekit/concurrency v0.20.4/go.mod h1:lwbExjpKR1eWmT0qAQr0hUcEw/IzpMdkcPSsJvNFmV0=
+github.com/oekit/concurrency v0.21.0 h1:thG8GP47xdrmaKEYKDbvEGQ7EVU8jbUHH+mpMi4Y4p8=
+github.com/oekit/concurrency v0.21.0/go.mod h1:lwbExjpKR1eWmT0qAQr0hUcEw/IzpMdkcPSsJvNFmV0=
 github.com/oekit/logx v0.7.1 h1:u+AbbPn0iCnzt11brLXpfj+2CIQhThFEsAwBDXzAfyE=
 github.com/oekit/logx v0.7.1/go.mod h1:mU3HRko52yW+XVuJD5ZtiND5zIbBAIZ23Yhu+Mqzy/Q=
-github.com/oekit/pkg v0.24.0 h1:hKb67KRtUnDXWlo22n1v4vj+0FE4AgibNyDvu5O3+rA=
-github.com/oekit/pkg v0.24.0/go.mod h1:sVeOtmG1sLY2aSnzFIbUAF2Qoh7G8R5vnWtWmLCv8NM=
+github.com/oekit/pkg v0.26.0 h1:u060QMNwtf1YDYTG1KnFFp1u4KgfadC23SDrcsnWH4o=
+github.com/oekit/pkg v0.26.0/go.mod h1:sVeOtmG1sLY2aSnzFIbUAF2Qoh7G8R5vnWtWmLCv8NM=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.8.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.10.3/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
