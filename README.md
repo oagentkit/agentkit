@@ -6,7 +6,7 @@
 > 另有 1 个包（`breaker`）已退役，不在此列——见 [MIGRATION.md](MIGRATION.md#已退役的包)。
 > 所以 [MIGRATION.md](MIGRATION.md) 的映射表 = **48 个活包**的迁移映射 **+ 1 行已退役包**。
 >
-> **状态**：v1.x 退役条件**已满足**（当前 v1.8.51）。本仓不接受任何新功能，
+> **状态**：v1.x 退役条件**已满足**（当前 v1.8.52）。本仓不接受任何新功能，
 > 只做别名转发与安全修复。归档（archive）待旧单仓
 > `git.enjoye.top/enjoydream/agentkit`（module path 的实际所在）下线后执行——
 > 那才是真正切断旧路径的一步；在此之前本仓继续可用，**已有 tag 的 `go get` 照常解析**。
