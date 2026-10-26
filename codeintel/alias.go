@@ -13,10 +13,16 @@ package codeintel
 import upstream "github.com/oagentkit/textx/codeintel"
 
 type (
+	CallerRef  = upstream.CallerRef
 	Index      = upstream.Index
 	PolySymbol = upstream.PolySymbol
 	Ref        = upstream.Ref
 	Symbol     = upstream.Symbol
+)
+
+const (
+	// CallerInit 是包级初始化调用的 Caller 取值（上游 textx v0.7.0 新增）。
+	CallerInit = upstream.CallerInit
 )
 
 var (
