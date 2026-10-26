@@ -2,6 +2,39 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.52] — 2026-10-26
+
+- 杂务(facade)：依赖地板再抬一格——textx v0.7.1 / queue v0.6.5
+
+textx 与 queue 本轮为补「发版时刻地板时效」欠账各补发了一版：
+- textx v0.7.0 → **v0.7.1**（抬 oekit/pkg v0.20.0 → v0.28.0）
+- queue  v0.6.4 → **v0.6.5**（抬 oekit/concurrency v0.19.0 → v0.22.0）
+门面已发布 tag 的 go.mod 必须钉在各模块仓**当前最新 tag**，否则消费方
+`go get github.com/oagentkit/agentkit@<tag>` 会静默拿到旧实现（Go 的 MVS 只看
+被消费版本那一份 go.mod，不报错、不告警、`go build` 照样过）。
+上一个 PR #96 钉的是 v0.7.0 / v0.6.4 —— 那两个 tag 的基座地板在发版时刻就落后，
+在补发版出来之前它们不是「当前最新」，故本版再跟一格。
+
+- 杂务(facade)：跟到 textx v0.7.0 / queue v0.6.4——抬依赖地板 + 补 codeintel 符号转发
+
+上游本轮发版后，门面必须跟两件事：
+1. **依赖地板**（go.mod / go.sum）
+   - github.com/oagentkit/textx v0.6.2 → **v0.7.0**（新增 codeintel.PreciseCallers）
+   - github.com/oagentkit/queue  v0.6.3 → **v0.6.4**（worker task_panic 日志补全栈）
+   门面已发布 tag 的 go.mod 必须钉在各模块仓当前最新 tag，否则消费方
+   `go get github.com/oagentkit/agentkit@<tag>` 会静默拿到旧实现。
+2. **符号级转发**（codeintel/alias.go）
+   上游 textx v0.7.0 的 codeintel 新增两个**包级**导出符号，门面须补别名：
+   - `CallerRef`（type）→ `type CallerRef = upstream.CallerRef`
+   - `CallerInit`（const）→ `const CallerInit = upstream.CallerInit`
+   方法 `(*Index).PreciseCallers` **无需**单独转发：门面用类型别名，
+   方法随类型一起过去（symdump 的口径也是「方法不进符号表」）。
+   漏转发不会让门面临时变红于编译期——门面 `go build` 照样过，
+   但下游按门面 import 新 API 时才编译失败。matrix-tools 的
+   `verify_facade_symbols.py` 是这条的独立 oracle。
+另：README.md 版本行 v1.8.51 → v1.8.52（随本次发布刷正）。
+
+
 ## [v1.8.51] — 2026-10-25
 
 - 杂务(deps)：门面跟到 llm v0.18.1 + 基座 oekit/pkg v0.28.0 / concurrency v0.22.0，并刷正 README 版本行
