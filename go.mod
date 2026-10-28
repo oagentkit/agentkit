@@ -6,7 +6,7 @@ toolchain go1.27.2
 
 require (
 	github.com/oagentkit/agent v0.11.0
-	github.com/oagentkit/guardx v0.15.0
+	github.com/oagentkit/guardx v0.16.0
 	github.com/oagentkit/llm v0.18.1
 	github.com/oagentkit/mcpkit v0.8.6
 	github.com/oagentkit/obs v0.9.7
@@ -58,7 +58,7 @@ require (
 	github.com/nikolalohinski/gonja v1.5.3 // indirect
 	github.com/oekit/concurrency v0.22.0 // indirect
 	github.com/oekit/logx v0.7.1 // indirect
-	github.com/oekit/pkg v0.28.0 // indirect
+	github.com/oekit/pkg v0.29.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.9 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rogpeppe/go-internal v1.15.0 // indirect
