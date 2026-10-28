@@ -2,6 +2,27 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.54] — 2026-10-28
+
+- 杂务(facade)：跟到 guardx v0.17.0 / mcpkit v0.9.0 / tools v0.11.0——补 logredact 载荷档转发
+
+上游本轮发了三版，门面按「依赖地板跟到各模块当前最新 tag」的口径跟上：
+- guardx v0.16.0 → **v0.17.0**（载荷只记长度档 + Outcome 第三格）；
+- mcpkit v0.8.6 → **v0.9.0**（Allow 缺省拒绝 + 工具名命名空间 + 按名取单个工具）；
+- tools v0.10.4 → **v0.11.0**（bashguard 不可逆档）。
+转发补齐（AGENTS.md §4：上游新增导出符号必须补别名，否则下游按门面 import
+编译失败）：`logredact` 补 `RedactPayloads` / `RedactPayloadsWith` /
+`RedactPayloadValue` / `NewPayloadRedactor` 四个转发。
+mcp / tools 侧无需补转发：`Pool` / `ToolSpec` / `ToolsResult` / `Decision` 都是
+type 别名，新字段与新方法（`Pool.Tool`）随别名带过去。
+README 版本行刷正到 v1.8.54（门面「安装行版本 = 最新 tag」是人工保持项，
+`verify_docs` 逐字比对）。
+门禁自检：go build ✅ / go vet ✅ / go test -race ✅ 0 失败 /
+go mod tidy -diff ✅ 无漂移 / gofmt ✅ /
+`verify_facade_symbols.py`（本地，48 个包）✅ 转发完整。
+反证样本——删掉 `RedactPayloads` 转发 ⇒ 门面符号门禁当场红（漏转发 1 条）。
+
+
 ## [v1.8.53] — 2026-10-28
 
 - 杂务(deps)：基座依赖地板抬到 concurrency v0.22.1 / logx v0.7.2 + 刷正 README 版本行
