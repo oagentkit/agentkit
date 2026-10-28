@@ -2,6 +2,29 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.56] — 2026-10-29
+
+- 杂务(deps)：依赖地板追到最新——github.com/oekit/concurrency v0.23.1
+
+oekit 基座又发了一版（`concurrency` v0.23.1，2026-10-29 02:19 CST）⇒ 上一轮抬到
+v0.23.0 的地板已经落后 ⇒ 再抬一格。
+本仓只用到 `concurrency` 的少量 API ⇒ 实测 go build / go vet / go test -race 全绿，
+**零行为差异**；go 指令未被顶起。
+只改 go.mod / go.sum ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。
+
+- 杂务(deps)：基座依赖地板抬到最新——github.com/oekit/pkg v0.31.0
+
+oekit 基座又发了新版本（pkg v0.31.0 / concurrency v0.23.0 / logx v0.8.0）⇒ 门面
+**已发布 tag** v1.8.55 钉的仍是旧版本 ⇒ 消费方 `go get` 门面仓会**静默拿到旧实现**
+（门面是消费方的单一入口，MVS 只看被消费版本的 go.mod）⇒ org 规则仓的
+「Matrix docs drift」job 判红。tag 受 `protect-tags` 保护**不可重打** ⇒ 只能发
+一版新的把地板带上。
+本版抬：github.com/oekit/pkg v0.30.0 → v0.31.0（concurrency/logx 已是最新）。
+README 版本行刷正到 v1.8.56（门面「安装行版本 = 最新 tag」是人工保持项，
+`verify_docs` 逐字比对）。
+兼容性实测：go build / go vet / go test -race 全绿，**零行为差异**；go 指令未变。
+
+
 ## [v1.8.55] — 2026-10-28
 
 - 杂务(deps)：基座依赖地板追到最新——concurrency v0.23.0 / logx v0.8.0 / pkg v0.30.0
