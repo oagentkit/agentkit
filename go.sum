@@ -276,8 +276,8 @@ github.com/oagentkit/toolgate v0.12.5 h1:K5KXMC32ZRhq2FnwCcW9dQOsA3A2tAX/R7B58oc
 github.com/oagentkit/toolgate v0.12.5/go.mod h1:TMWJ14RuPkkgsK08BFXsQp/RetqFd+a+WSpx9IeWo+A=
 github.com/oagentkit/tools v0.11.0 h1:cHsX8rswVkDFyhA7KU1lZqtYgX31hdfjmeD/j4lYQg0=
 github.com/oagentkit/tools v0.11.0/go.mod h1:ZjHJA/RhPB05NOyTf+duXRwPNuxqulwvw58h7zH+q0A=
-github.com/oekit/concurrency v0.23.0 h1:drAKrTPrE2gCI7jTZ0d3RVDbex8yfQiLA+EKSb6ppA0=
-github.com/oekit/concurrency v0.23.0/go.mod h1:ht9EmByozS4A4fpEO6O2OSCfMe9/LiBXxL4t9hUb8kM=
+github.com/oekit/concurrency v0.23.1 h1:aW+U6kYBY3hSyrFvjNNecGqUg4RBKSCPc6c5XJ/Kk/0=
+github.com/oekit/concurrency v0.23.1/go.mod h1:ht9EmByozS4A4fpEO6O2OSCfMe9/LiBXxL4t9hUb8kM=
 github.com/oekit/logx v0.8.0 h1:S0KQOiI6h4GGktsv0fl1KtHBcOGZZgj6M6cUCLRk41E=
 github.com/oekit/logx v0.8.0/go.mod h1:mU3HRko52yW+XVuJD5ZtiND5zIbBAIZ23Yhu+Mqzy/Q=
 github.com/oekit/pkg v0.31.0 h1:Yn7UUyYQETQQmVdJxQSnsQD7I/gpLIf0k/fr4a8ymuk=
