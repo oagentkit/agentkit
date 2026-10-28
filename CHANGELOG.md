@@ -2,6 +2,37 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.53] — 2026-10-28
+
+- 杂务(deps)：基座依赖地板抬到 concurrency v0.22.1 / logx v0.7.2 + 刷正 README 版本行
+
+矩阵的**发版时刻地板门禁**（`verify_tag_floor`）要求：打 tag 那一刻的依赖地板
+必须是当时的最新。门面钉在 `oekit/concurrency v0.22.0` 与 `oekit/logx v0.7.1`，
+而基座最新已是 `v0.22.1` / `v0.7.2` ⇒ 不抬地板就打不出 tag（tag 受 `protect-tags`
+保护**不可重打**）。
+同时刷正 README 第 9 行的版本行（v1.8.52 → v1.8.53）：门面的「安装行版本 =
+最新 tag」是人工保持项，门禁 `verify_docs` 逐字比对。
+改动面：`go.mod` 2 行版本号 + `go.sum` 4 增 4 删 + `README.md` 1 行。
+门禁自检：go build ✅ / go vet ✅ / go test -race ✅ 0 失败 /
+go mod tidy -diff ✅ 无漂移 / gofmt ✅。
+
+- 杂务(facade)：跟到 guardx v0.16.0——补 invoke.Outcome 符号转发 + 抬依赖地板
+
+上游 guardx v0.16.0（动作层结论 `invoke.Outcome`，对应 guardx#33）新增了一个导出类型，
+门面按 AGENTS.md §4 必须补对应别名，否则下游按门面 import 直接编译失败
+（`undefined: Outcome`）——机器约束是 matrix-tools 的 `verify_facade_symbols.py`。
+改动：
+- `invoke/alias.go`：type 块补 `Outcome = upstream.Outcome`（kind 一致：上游是 type，
+  门面也用 type 块）；
+- `go.mod` / `go.sum`：guardx 依赖地板 v0.15.0 → v0.16.0（其余 12 个模块的 floors
+  实测均已是各仓最新 tag，无需动）；oekit/pkg 随之 v0.28.0 → v0.29.1（间接依赖，
+  由 guardx v0.16.0 的地板带上来，正好等于基座最新）。
+门禁自检：go build ✅ / go vet ✅ / go test -race ✅ 0 失败 /
+go mod tidy -diff ✅ 无漂移 / gofmt ✅ /
+`verify_facade_symbols.py`（本地，48 个包）✅ 转发完整。
+反证样本——删掉 `Outcome` 转发 ⇒ 门面符号门禁当场红（漏转发 1 条）。
+
+
 ## [v1.8.52] — 2026-10-26
 
 - 杂务(facade)：依赖地板再抬一格——textx v0.7.1 / queue v0.6.5
