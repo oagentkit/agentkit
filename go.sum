@@ -252,8 +252,8 @@ github.com/nikolalohinski/gonja v1.5.3 h1:GsA+EEaZDZPGJ8JtpeGN78jidhOlxeJROpqMT9
 github.com/nikolalohinski/gonja v1.5.3/go.mod h1:RmjwxNiXAEqcq1HeK5SSMmqFJvKOfTfXhkJv6YBtPa4=
 github.com/oagentkit/agent v0.11.0 h1:LIT4NW0SCpv446LZMHxe283+bdCRP0ZVDoAe/LqXhMw=
 github.com/oagentkit/agent v0.11.0/go.mod h1:Vnw1sz1id7mIyTDxf/o1ObVWahe6J100r8iMdS7jfHU=
-github.com/oagentkit/guardx v0.15.0 h1:IkyPq2yehC/wBuviRF2loU14xxrY78pyHGzJuAjGgjc=
-github.com/oagentkit/guardx v0.15.0/go.mod h1:+GcaTjNHL0mqClzpTSvQ242DN6ouEqk/5IeWy1PTL/I=
+github.com/oagentkit/guardx v0.16.0 h1:AvxBhFtLgLekhRtzfPp5k2iuo8JUSBgw5vb4p/ySeWE=
+github.com/oagentkit/guardx v0.16.0/go.mod h1:HDzreklxODO56zLF8Kqcc1Z9O0HL7cnraPlyNjtU7OQ=
 github.com/oagentkit/llm v0.18.1 h1:ym6QVqfVAXg5s0gmbCZCclGxDNZGJ6WWCjDhGzbpWGc=
 github.com/oagentkit/llm v0.18.1/go.mod h1:+C+K+/tygbqaqM9RYsQ0scf33GvnIRyAVKjZyxfSXck=
 github.com/oagentkit/mcpkit v0.8.6 h1:vQQcEHU+beIj/Xlf1OZ65OkPW485NEMdxRowSEfFjT8=
@@ -280,8 +280,8 @@ github.com/oekit/concurrency v0.22.0 h1:0daVHV1pEnbFoKGxxAvCpqj6RbUi4+/W6QwwLvTl
 github.com/oekit/concurrency v0.22.0/go.mod h1:lwbExjpKR1eWmT0qAQr0hUcEw/IzpMdkcPSsJvNFmV0=
 github.com/oekit/logx v0.7.1 h1:u+AbbPn0iCnzt11brLXpfj+2CIQhThFEsAwBDXzAfyE=
 github.com/oekit/logx v0.7.1/go.mod h1:mU3HRko52yW+XVuJD5ZtiND5zIbBAIZ23Yhu+Mqzy/Q=
-github.com/oekit/pkg v0.28.0 h1:I3zrO2keJri8a4/h8Up8gHHUYOzktlQqjKtf+yOK3wo=
-github.com/oekit/pkg v0.28.0/go.mod h1:sVeOtmG1sLY2aSnzFIbUAF2Qoh7G8R5vnWtWmLCv8NM=
+github.com/oekit/pkg v0.29.1 h1:cQtcFgG3CIp+0kEggZS4vheZVrw/Ra5uNV3xLt1qiTU=
+github.com/oekit/pkg v0.29.1/go.mod h1:sVeOtmG1sLY2aSnzFIbUAF2Qoh7G8R5vnWtWmLCv8NM=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.8.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.10.3/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=

@@ -18,6 +18,7 @@ type (
 	ChainOption = upstream.ChainOption
 	DenyError   = upstream.DenyError
 	Handler     = upstream.Handler
+	Outcome     = upstream.Outcome
 	Record      = upstream.Record
 	Result      = upstream.Result
 	Stage       = upstream.Stage
