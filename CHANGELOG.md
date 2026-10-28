@@ -2,6 +2,24 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.55] — 2026-10-28
+
+- 杂务(deps)：基座依赖地板追到最新——concurrency v0.23.0 / logx v0.8.0 / pkg v0.30.0
+
+oekit 基座在本轮期间又发了新版（`concurrency` v0.23.0、`logx` v0.8.0、`pkg`
+v0.30.0）⇒ 门面**已发布 tag** v1.8.54 钉的仍是旧版本。
+为什么这是错误（不是过期事实）：门面仓是消费方的**单一入口**，而 MVS 只看被消费
+版本的 go.mod ⇒ 门面 tag 钉着旧版本 ⇒ 消费方 `go get` 门面仓会**静默拿到旧实现**
+（org 规则仓的「Matrix docs drift」job 就是按这条判的）。
+⇒ 只能发一版新的门面把地板带上（tag 不可重打）。
+兼容性实测：本仓只用这三个基座包的少量 API ⇒ build / vet / test -race 全绿，
+零行为差异。
+README 版本行刷正到 v1.8.55（门面「安装行版本 = 最新 tag」是人工保持项，
+`verify_docs` 逐字比对）。
+门禁自检：go build ✅ / go vet ✅ / go test -race ✅ 0 失败 /
+go mod tidy -diff ✅ 无漂移 / gofmt ✅。
+
+
 ## [v1.8.54] — 2026-10-28
 
 - 杂务(facade)：跟到 guardx v0.17.0 / mcpkit v0.9.0 / tools v0.11.0——补 logredact 载荷档转发
