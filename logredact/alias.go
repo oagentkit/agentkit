@@ -26,13 +26,17 @@ const (
 )
 
 var (
-	MaskHint      = upstream.MaskHint
-	MaskHintWith  = upstream.MaskHintWith
-	NewMasker     = upstream.NewMasker
-	NewRedactor   = upstream.NewRedactor
-	Redact        = upstream.Redact
-	RedactSecrets = upstream.RedactSecrets
-	RedactValue   = upstream.RedactValue
-	RedactWith    = upstream.RedactWith
-	Rules         = upstream.Rules
+	MaskHint           = upstream.MaskHint
+	MaskHintWith       = upstream.MaskHintWith
+	NewMasker          = upstream.NewMasker
+	NewPayloadRedactor = upstream.NewPayloadRedactor
+	NewRedactor        = upstream.NewRedactor
+	Redact             = upstream.Redact
+	RedactPayloads     = upstream.RedactPayloads
+	RedactPayloadsWith = upstream.RedactPayloadsWith
+	RedactPayloadValue = upstream.RedactPayloadValue
+	RedactSecrets      = upstream.RedactSecrets
+	RedactValue        = upstream.RedactValue
+	RedactWith         = upstream.RedactWith
+	Rules              = upstream.Rules
 )
