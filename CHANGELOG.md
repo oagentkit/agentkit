@@ -2,6 +2,30 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.57] — 2026-10-29
+
+- 杂务(docs)：README 版本行刷正到 v1.8.57
+
+门面是消费方的**单一入口**，MVS 只看被消费版本的 go.mod ⇒ 门面的已发布 tag 必须钉住
+当前的基座版本（本次 `oekit/concurrency` v0.23.2）。
+只改 README 第 9 行的版本号（v1.8.56 → **v1.8.57**）——门面「安装行版本 = 最新
+tag」是人工保持项，`verify_docs` 逐字比对。随后的 `prewrite` PR 只改 CHANGELOG.md。
+
+- 杂务(deps)：依赖地板追到最新——github.com/oekit/concurrency v0.23.2
+
+| 依赖 | 现地板 | 抬到 |
+|---|---|---|
+| `github.com/oekit/concurrency` | `v0.23.1` | `v0.23.2` |
+## 为什么
+矩阵的**发版时刻地板时效**门禁（`verify_tag_floor --ref HEAD`）要求：各仓 HEAD
+（= 下次发版会发出去的内容）的依赖地板，相对那一刻的依赖最新版本，不能已落后。
+oekit 基座与矩阵模块都在高频发版 ⇒ 地板是**跑步机**，落后一格就会判红。
+## 兼容性实测
+本工具在提交前跑完 `go build` / `go vet` / `go test -race -count=1 ./...`（全绿才提交）
+与 `go mod tidy -diff`（无漂移）⇒ 改动**只影响依赖版本**，零行为差异。
+只改 `go.mod` / `go.sum` ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。
+
+
 ## [v1.8.56] — 2026-10-29
 
 - 杂务(deps)：依赖地板追到最新——github.com/oekit/concurrency v0.23.1
