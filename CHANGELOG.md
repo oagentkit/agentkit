@@ -2,6 +2,26 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.59] — 2026-10-31
+
+### 修复(deps)：门面依赖地板跟上 agent v0.12.0 —— 补上发 v0.12.0 时漏掉的跟进
+
+门面 agentkit v1.8.58 的 go.mod 把 agent 钉在 v0.11.0，而 agent 已发到 v0.12.0
+⇒ 门面的依赖地板落后 1 处 ⇒ `.github` 仓 CI 的「Matrix docs drift」判红；
+main 上从 2026-10-30 13:22 的 schedule run 起就一直红（**先于**任何相关 PR）。
+为什么这会咬人：门面是消费方的单一入口，而 MVS 只看被消费版本的 go.mod
+⇒ 门面 tag 钉着旧版本 ⇒ 消费方 `go get github.com/oagentkit/agentkit` 会**静默**
+拿到旧实现，不报错、不告警、go build 照样过 —— 只是代码是几个月前的。
+本次只把 agent 从 v0.11.0 提到 v0.12.0：其余 12 个内部依赖逐个对过远端最新 tag，
+均已是最新（agent 是唯一落后的一处）。
+agent v0.12.0 是纯增量（新增 Config.ToolAliases / Config.UnknownToolsHandler），
+不破坏现有 API ⇒ 门面代码零改动。
+go.sum 用 `go mod tidy` 清掉了 v0.11.0 的残留两行（`go get` 只追加不清理，
+残留会让 CI 的 `go mod tidy -diff` 判红）；根模块与全部嵌套子模块的
+`go mod tidy -diff` 均干净。
+验证（用 CI 同版本工具链 go1.26.10，避免与本地 1.27.1 的 tidy 口径错位）：
+gofmt 干净 / go build / go vet / go test -race 全通过。
+
 ## [v1.8.58] — 2026-10-30
 
 - 文档(readme)：修正全矩阵分层表——它写的还是重定位之前的旧分层
