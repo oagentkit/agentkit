@@ -98,12 +98,17 @@ python3 rewrite_imports.py --org oagentkit --modules ./modules.json --root . --a
 
 13 个仓，按 tier 严格自底向上：
 
+<!-- oagentkit:generated:begin -->
 | tier | 模块 |
 |---|---|
-| 0 | `textx` `runtime` `guardx` `queue` |
-| 1 | `promptx` `obs` `skillkit` `mcpkit` `rag` |
-| 2 | `llm` `toolgate` `tools` |
+| 0 | `guardx` `runtime` `textx` |
+| 1 | `promptx` |
+| 2 | `llm` `mcpkit` `obs` `queue` `rag` `skillkit` `toolgate` `tools` |
 | 3 | `agent` |
+<!-- oagentkit:generated:end -->
+
+上表逐仓对齐 [`matrix-tools/modules.json`](https://github.com/oagentkit/matrix-tools)（矩阵单一数据源），
+门禁 `matrix-tools/scripts/verify_facade_tier_table.py` 在 CI 里逐 tier 逐仓比对——**改分层请先改数据源**。
 
 ## License
 
