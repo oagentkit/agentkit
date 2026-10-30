@@ -2,6 +2,51 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.58] — 2026-10-30
+
+- 文档(readme)：修正全矩阵分层表——它写的还是重定位之前的旧分层
+
+## 问题
+本仓 README 的「模块矩阵」分层表写的是**重定位之前**的旧分层：
+| tier | README 写的 | modules.json 实际 |
+|---|---|---|
+| 0 | `textx` `runtime` `guardx` **`queue`** | `guardx` `runtime` `textx`（**3 个**） |
+| 1 | `promptx` **`obs` `skillkit` `mcpkit` `rag`** | `promptx`（**1 个**） |
+| 2 | `llm` `toolgate` `tools` | `llm` `mcpkit` `obs` `queue` `rag` `skillkit` `toolgate` `tools`（**8 个**） |
+⇒ 与 org profile 的分层表**方向相反**：profile 那张早已修成正确值并接上守卫，
+门面这张仍是旧的。读者读门面 README 会按旧世界理解依赖方向
+（以为 queue 是 tier0 基础层、obs 是 tier1 能力层）。
+## 为什么此前没人守
+矩阵里有**三张**分层表，只有两张有门禁：
+| 载体 | 门禁 |
+|---|---|
+| `.github/profile/README.md` | ✅ `verify_profile_tiers.py` |
+| 各模块仓 `AGENTS.md` / `README.md`（自述层位） | ✅ `verify_repo_tiers.py` |
+| **本仓 README 的全矩阵分层表** | ❌ **无** |
+三个本该抓住它的机制逐个失效：
+1. `verify_repo_tiers.py` 判的是「**本仓自述**层位」（`本仓是 tier N`）——
+   本仓没有那种形态，它自述的是**全矩阵**分层表；
+2. `verify_profile_tiers.py` 只守 org profile 一个文件（`--profile` 写死）；
+3. `gen_docs.py` 能生成各仓文档骨架，但本仓**不在它的生成范围**里
+   （它只管 13 个模块仓），且本仓 README 是**手写丰富的那个**——不能整体覆盖。
+⇒ 这张表既没有自动更新路径，也没有任何门禁能发现它漂了。
+## 修法
+- 本表改为**生成区**（`<!-- oagentkit:generated:begin/end -->` 标记）——
+  契约是「这块内容归生成器管」，不再纯手写；
+- 新增门禁 `matrix-tools/scripts/verify_facade_tier_table.py`：
+  逐 tier 逐仓比对，**独立解析表格原文**（不复用任何生成器），
+  缺生成区标记 / 表格被删空 / 数量对但集合错，都会判红；
+- 已在 matrix-tools PR #160 登记为不变量 `facade-tier-table` 并接进 CI。
+**改分层请先改 `matrix-tools/modules.json`**（矩阵单一数据源），
+然后跑 `verify_facade_tier_table.py --root <矩阵根> --write` 重写本表。
+## 验证
+- `python3 matrix-tools/scripts/verify_facade_tier_table.py --root <矩阵根>` ✅
+- 变异验证：把 tier0 退回旧写法（含 `queue`）⇒ 判红；
+- 门禁自测 8 类反证样本（少仓 / 多仓 / 整层漂移 / 少一层 / 缺标记 / 表格删空 / 数量对集合错）。
+本仓是发布件：本次为 docs 修正，按 org CONTRIBUTING 的顺序
+（特性合入 → 预写 CHANGELOG → 打 annotated tag）发 **v1.8.58**。
+
+
 ## [v1.8.57] — 2026-10-29
 
 - 杂务(docs)：README 版本行刷正到 v1.8.57
