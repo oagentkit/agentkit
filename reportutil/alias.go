@@ -19,6 +19,7 @@ type (
 )
 
 const (
+	Critical       = upstream.Critical
 	High           = upstream.High
 	Low            = upstream.Low
 	Medium         = upstream.Medium
