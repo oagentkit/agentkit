@@ -2,6 +2,10 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.60] — 2026-11-04
+
+- 杂务(deps)：矩阵 9 仓升级——llm v0.19.0（BREAKING 限速器接口化）/toolgate v0.12.6/tools v0.11.1/guardx v0.17.1/mcpkit v0.9.1/obs v0.9.8/queue v0.6.6/runtime v0.7.3/textx v0.7.2（oekit 四轮收编矩阵移植轮）
+
 ## [v1.8.59] — 2026-10-31
 
 ### 修复(deps)：门面依赖地板跟上 agent v0.12.0 —— 补上发 v0.12.0 时漏掉的跟进
