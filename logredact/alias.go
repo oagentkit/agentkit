@@ -32,6 +32,7 @@ var (
 	NewPayloadRedactor = upstream.NewPayloadRedactor
 	NewRedactor        = upstream.NewRedactor
 	Redact             = upstream.Redact
+	RedactJSON         = upstream.RedactJSON
 	RedactPayloads     = upstream.RedactPayloads
 	RedactPayloadsWith = upstream.RedactPayloadsWith
 	RedactPayloadValue = upstream.RedactPayloadValue
