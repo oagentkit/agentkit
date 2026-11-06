@@ -15,6 +15,7 @@ verify_facade_symbols 门禁（48 包核对）点名缺失：
 - workcopy: DeepenOptions / EnsureMergeBaseOpts
 - worker: PGLeaseStore / NewPGLeaseStore / PGLeaseDefaultTable
 本地门禁 verify_facade_symbols ✅（48 包）；build/vet/-race 全绿。
+Co-authored-by: Murphy-Yi <zhangyi@Murphy-YideMac-Mini.local>
 
 
 ## [v1.8.61] — 2026-11-06
