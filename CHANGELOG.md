@@ -10,6 +10,10 @@
 （#44 新增 RedactJSON）的导出符号按门面转发完整性门禁补齐别名。
 Co-authored-by: Murphy-Yi <zhangyi@Murphy-YideMac-Mini.local>
 
+- 杂务(deps)：门面地板补 agent v0.13.0
+
+Co-authored-by: Murphy-Yi <zhangyi@Murphy-YideMac-Mini.local>
+
 - 杂务(deps)：门面跟到各仓最新 tag——toolgate v0.13.0 / promptx v0.8.4 / obs v0.9.9 / pkg v0.35.0
 
 verify_facade_release 门禁要求门面 tag 钉住各仓最新 tag（MVS 只看被消费版本
