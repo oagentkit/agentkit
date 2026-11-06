@@ -13,9 +13,10 @@ package logredact
 import upstream "github.com/oagentkit/guardx/logredact"
 
 type (
-	MaskStyle = upstream.MaskStyle
-	Masker    = upstream.Masker
-	Rule      = upstream.Rule
+	MaskStyle    = upstream.MaskStyle
+	Masker       = upstream.Masker
+	Rule         = upstream.Rule
+	ValueOptions = upstream.ValueOptions
 )
 
 const (
@@ -37,7 +38,10 @@ var (
 	RedactPayloadsWith = upstream.RedactPayloadsWith
 	RedactPayloadValue = upstream.RedactPayloadValue
 	RedactSecrets      = upstream.RedactSecrets
+	RedactJSONOpts     = upstream.RedactJSONOpts
 	RedactValue        = upstream.RedactValue
+	RedactValueOpts    = upstream.RedactValueOpts
+	IsCredentialKey    = upstream.IsCredentialKey
 	RedactWith         = upstream.RedactWith
 	Rules              = upstream.Rules
 )

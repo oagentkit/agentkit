@@ -40,4 +40,5 @@ var (
 	Rank                 = upstream.Rank
 	Valid                = upstream.Valid
 	WilsonCI             = upstream.WilsonCI
+	Normalize3           = upstream.Normalize3
 )

@@ -18,7 +18,12 @@ type (
 )
 
 var (
-	EnsureMergeBase    = upstream.EnsureMergeBase
-	EnsureMergeBaseTLS = upstream.EnsureMergeBaseTLS
-	NewPool            = upstream.NewPool
+	EnsureMergeBase     = upstream.EnsureMergeBase
+	EnsureMergeBaseOpts = upstream.EnsureMergeBaseOpts
+	EnsureMergeBaseTLS  = upstream.EnsureMergeBaseTLS
+	NewPool             = upstream.NewPool
+)
+
+type (
+	DeepenOptions = upstream.DeepenOptions
 )
