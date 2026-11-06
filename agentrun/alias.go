@@ -24,21 +24,23 @@ type (
 )
 
 const (
-	DefaultMaxIterations = upstream.DefaultMaxIterations
-	EventAttemptRetry    = upstream.EventAttemptRetry
-	EventReasoning       = upstream.EventReasoning
-	EventReasoningDelta  = upstream.EventReasoningDelta
-	EventText            = upstream.EventText
-	EventTextDelta       = upstream.EventTextDelta
-	EventToolCall        = upstream.EventToolCall
-	EventToolResult      = upstream.EventToolResult
+	DefaultMaxIterations      = upstream.DefaultMaxIterations
+	EventAttemptRetry         = upstream.EventAttemptRetry
+	EventReasoning            = upstream.EventReasoning
+	EventReasoningDelta       = upstream.EventReasoningDelta
+	EventText                 = upstream.EventText
+	EventTextDelta            = upstream.EventTextDelta
+	EventToolCall             = upstream.EventToolCall
+	EventToolResult           = upstream.EventToolResult
+	MinIterationsForToolRound = upstream.MinIterationsForToolRound
 )
 
 var (
-	IsMutatingTool = upstream.IsMutatingTool
-	MutatingVerbs  = upstream.MutatingVerbs
-	PlanAndExecute = upstream.PlanAndExecute
-	Run            = upstream.Run
-	WithOnEvent    = upstream.WithOnEvent
-	WithRetry      = upstream.WithRetry
+	IsMutatingTool              = upstream.IsMutatingTool
+	MutatingVerbs               = upstream.MutatingVerbs
+	PlanAndExecute              = upstream.PlanAndExecute
+	Run                         = upstream.Run
+	WithOnEvent                 = upstream.WithOnEvent
+	WithRetry                   = upstream.WithRetry
+	ErrIterationBudgetExhausted = upstream.ErrIterationBudgetExhausted
 )
