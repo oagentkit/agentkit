@@ -2,6 +2,21 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.62] — 2026-11-06
+
+- 杂务(facade)：符号级转发补齐——本轮上游新增导出符号 15 个
+
+verify_facade_symbols 门禁（48 包核对）点名缺失：
+- clarify: ValidateTermsStrict
+- llm: Waiter
+- logredact: ValueOptions / IsCredentialKey / RedactValueOpts / RedactJSONOpts
+- mcp: RawNamer / RawToolNameOf / DefaultMaxConcurrentDials
+- reportutil: Normalize3
+- workcopy: DeepenOptions / EnsureMergeBaseOpts
+- worker: PGLeaseStore / NewPGLeaseStore / PGLeaseDefaultTable
+本地门禁 verify_facade_symbols ✅（48 包）；build/vet/-race 全绿。
+
+
 ## [v1.8.61] — 2026-11-06
 
 ### 修复(facade)：门面符号级转发补齐——reportutil.Critical、logredact.RedactJSON
