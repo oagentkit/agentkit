@@ -7,17 +7,17 @@ toolchain go1.27.2
 require (
 	github.com/oagentkit/agent v0.12.0
 	github.com/oagentkit/guardx v0.19.0
-	github.com/oagentkit/llm v0.19.0
-	github.com/oagentkit/mcpkit v0.10.0
+	github.com/oagentkit/llm v0.20.0
+	github.com/oagentkit/mcpkit v0.11.0
 	github.com/oagentkit/obs v0.9.8
 	github.com/oagentkit/promptx v0.8.3
-	github.com/oagentkit/queue v0.6.6
-	github.com/oagentkit/rag v0.8.5
+	github.com/oagentkit/queue v0.7.0
+	github.com/oagentkit/rag v0.9.0
 	github.com/oagentkit/runtime v0.8.0
-	github.com/oagentkit/skillkit v0.8.5
+	github.com/oagentkit/skillkit v0.9.0
 	github.com/oagentkit/textx v0.9.0
 	github.com/oagentkit/toolgate v0.12.6
-	github.com/oagentkit/tools v0.11.1
+	github.com/oagentkit/tools v0.12.0
 )
 
 require (
@@ -79,7 +79,6 @@ require (
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	golang.org/x/time v0.14.0 // indirect
 	google.golang.org/genproto v0.0.0-20220503193339-ba3ae3f07e29 // indirect
 	google.golang.org/grpc v1.48.0 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
