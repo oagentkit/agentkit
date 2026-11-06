@@ -17,8 +17,9 @@ type (
 )
 
 var (
-	ChildEnv    = upstream.ChildEnv
-	ErrCanceled = upstream.ErrCanceled
-	ErrTimeout  = upstream.ErrTimeout
-	Run         = upstream.Run
+	ChildEnv         = upstream.ChildEnv
+	ErrCanceled      = upstream.ErrCanceled
+	ErrTimeout       = upstream.ErrTimeout
+	InheritAllExcept = upstream.InheritAllExcept
+	Run              = upstream.Run
 )
