@@ -19,6 +19,7 @@ type (
 	Pool              = upstream.Pool
 	TaskQueue         = upstream.TaskQueue
 	ScopedHeartbeater = upstream.ScopedHeartbeater
+	TokenLeaseStore   = upstream.TokenLeaseStore
 )
 
 const (
