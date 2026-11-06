@@ -2,6 +2,34 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.63] — 2026-11-07
+
+### 修复(facade)：门面符号级转发补齐 10 处（agentrun / pglease / worker），并把地板抬到本轮发布后
+
+上游 textx v0.10.0 / runtime v0.9.0 / queue v0.8.0 / agent v0.14.0 / promptx v0.8.5
+发版后，门面 agentkit 的符号级转发完整性门禁（`verify_facade_symbols.py`，
+48 包核对）点名 10 处漏转发。分两类：
+其一，**本轮上游发版新增的导出符号**——门面必须跟上，否则下游按门面 import
+拿不到它们：
+- `agentrun`：`MinIterationsForToolRound`（const）、`ErrIterationBudgetExhausted`（var）
+  —— 来自 agent v0.14.0（#60：MaxIterations 钉死为模型调用次数 + 预算耗尽可判定）；
+- `pglease`：`MaxKeyLen` / `MaxHolderLen`（const），
+  `ErrEmptyKey` / `ErrEmptyHolder` / `ErrInvalidTTL` / `ErrKeyTooLong` /
+  `ErrHolderTooLong`（var）。
+其二，**此前就漏的存量漂移**，与本次发版无关，同一把尺子一起报出来：
+- `worker`：`ScopedHeartbeater`（type），上游 `queue/worker/pool.go` 早已导出。
+顺带把 8 条第一方地板抬到本轮发布后的最新（agent v0.14.0、promptx v0.8.5、
+queue v0.8.0、runtime v0.9.0、textx v0.10.0，及 concurrency v0.27.0 /
+logx v0.8.4 / pkg v0.35.2）。不抬的话这些别名在门面里根本编译不过 ——
+门面钉的是那些符号还不存在的那一版。
+反向验证（成对断言，不是「补完看着绿」）：
+- 用同一判据（`--root` 本地模式）跑**补好**的门面 ⇒ `漏转发` 0 条；
+- 把三处 alias 回退到改动前再跑 ⇒ **恰好**重新报出上面 10 条，不多不少。
+`go build ./...`、`golangci-lint run ./...` 均绿；agentkit 是纯门面仓、无测试文件。
+⚠️ 与 #127 的关系：那个 PR 补的是另一批 15 个符号（clarify / llm / logredact /
+mcp / reportutil / workcopy / worker 的 PGLease*），与本 PR 的 10 处不相交 ——
+本 PR 是在 #127 已合的最新 main 上重做的，不是重复劳动。
+
 ## [v1.8.62] — 2026-11-06
 
 - 杂务(facade)：符号级转发补齐——本轮上游新增导出符号 15 个
