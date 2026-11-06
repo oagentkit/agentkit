@@ -2,6 +2,28 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.64] — 2026-11-07
+
+### 修复(facade)：补转 worker.TokenLeaseStore，并把 queue 地板抬到 v0.9.0（queue#39）
+
+queue v0.9.0 新增公开接口 `worker.TokenLeaseStore`（可选 fencing token 能力，queue#39），门面未跟进 ⇒ `verify_facade_symbols.py` 报：
+```
+- worker: 漏转发上游导出符号 TokenLeaseStore（上游 kind=type）
+```
+下游若按门面 import `agentkit/worker` 取这个能力，`store.(worker.TokenLeaseStore)` 类型断言会拿到「未定义类型」的编译错误——而门面仓自己的 `go build ./...` 是绿的（它只 import 上游用到的符号）。
+## 修法
+- `worker/alias.go` 补 `TokenLeaseStore = upstream.TokenLeaseStore`（类型别名 = 编译期同一类型，下游的 `errors.As` / 类型断言链继续有效）；
+- `go.mod` 把 `github.com/oagentkit/queue` 地板从 v0.8.0 抬到 **v0.9.0**——该符号在 v0.8.0 里不存在，地板不抬则下游按最低版本解析会编译失败。
+## 反向验证
+把 `worker/alias.go` 回退到 main 后重跑门禁，**恰好**重新报出这一条（`comm -13` 只差这一行）：
+| 状态 | 漏转发条目 |
+|---|---|
+| 回退别名 | `worker: 漏转发上游导出符号 TokenLeaseStore（上游 kind=type）` |
+| 补上别名 | `0` |
+## 为什么这条会静默溜过去
+门面的完整性靠两件事，缺一都不会红：① 门面仓能编译（`go build`）；② 上游符号真的被转到。①对漏转发**完全不敏感**——门面只 import 自己写了别名的上游包，少一个符号不会让任何 import 变成未使用。所以必须由 `verify_facade_symbols.py` 这类「拿上游导出集与门面导出集做差集」的判定来守，而不是靠「编译过了就没事」。
+本轮还顺带确认：门面符号集与上游 queue v0.9.0 的导出集**差集为空**（48 个包全量核对）。
+
 ## [v1.8.63] — 2026-11-07
 
 ### 修复(facade)：门面符号级转发补齐 10 处（agentrun / pglease / worker），并把地板抬到本轮发布后
