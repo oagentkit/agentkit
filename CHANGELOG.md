@@ -2,6 +2,28 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.65] — 2026-11-07
+
+### 修复(facade)：补转 procx.InheritAllExcept，并把 runtime 地板抬到 v0.10.0（runtime#26）
+
+runtime v0.10.0 新增 `procx.InheritAllExcept`（可信父进程场景的继承式环境入口，runtime#26），门面未跟进 ⇒ `verify_facade_symbols.py` 报：
+```
+- procx: 漏转发上游导出符号 InheritAllExcept（上游 kind=func）
+```
+下游按门面 import `agentkit/procx` 取这个函数会拿到「未定义」的编译错误；而门面仓自己 `go build ./...` 是绿的（它只 import 自己写了别名的符号）。
+## 修法
+- `procx/alias.go` 补 `InheritAllExcept = upstream.InheritAllExcept`；
+- `go.mod` 把 `github.com/oagentkit/runtime` 地板从 v0.9.0 抬到 **v0.10.0**——该符号在 v0.9.0 里不存在，地板不抬则下游按最低版本解析会编译失败。
+## 反向验证
+把 `procx/alias.go` 回退到 main 后重跑门禁，**恰好**重新报出这一条（`comm -13` 只差这一行）：
+| 状态 | 漏转发条目 |
+|---|---|
+| 回退别名 | `procx: 漏转发上游导出符号 InheritAllExcept（上游 kind=func）` |
+| 补上别名 | `0` |
+门面符号集与上游 runtime v0.10.0 的导出集差集为空（48 个包全量核对）。
+## 为什么必须由门禁而不是编译来守
+漏转发对 `go build` **完全不可见**：门面只 import 自己写了别名的上游包，少一个符号不会让任何 import 变成未使用。只有「拿上游导出集与门面导出集做差集」的判定能看见它——本轮两次发版（queue v0.9.0 → `TokenLeaseStore`，runtime v0.10.0 → `InheritAllExcept`）都是这条判定先报出来的。
+
 ## [v1.8.64] — 2026-11-07
 
 ### 修复(facade)：补转 worker.TokenLeaseStore，并把 queue 地板抬到 v0.9.0（queue#39）
