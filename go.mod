@@ -11,7 +11,7 @@ require (
 	github.com/oagentkit/mcpkit v0.11.0
 	github.com/oagentkit/obs v0.9.9
 	github.com/oagentkit/promptx v0.8.5
-	github.com/oagentkit/queue v0.8.0
+	github.com/oagentkit/queue v0.9.0
 	github.com/oagentkit/rag v0.9.0
 	github.com/oagentkit/runtime v0.9.0
 	github.com/oagentkit/skillkit v0.9.0
