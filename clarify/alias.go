@@ -18,8 +18,9 @@ type (
 )
 
 var (
-	LoadVocab     = upstream.LoadVocab
-	OrdinalIndex  = upstream.OrdinalIndex
-	ResolveAnswer = upstream.ResolveAnswer
-	Validate      = upstream.Validate
+	LoadVocab           = upstream.LoadVocab
+	OrdinalIndex        = upstream.OrdinalIndex
+	ResolveAnswer       = upstream.ResolveAnswer
+	Validate            = upstream.Validate
+	ValidateTermsStrict = upstream.ValidateTermsStrict
 )

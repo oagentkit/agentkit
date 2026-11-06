@@ -41,6 +41,7 @@ type (
 	RetryHint            = upstream.RetryHint
 	Sink                 = upstream.Sink
 	StageRouter          = upstream.StageRouter
+	Waiter               = upstream.Waiter
 	TokenAccountant      = upstream.TokenAccountant
 	UsageCallCounter     = upstream.UsageCallCounter
 	UsageRecord          = upstream.UsageRecord

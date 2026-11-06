@@ -33,6 +33,7 @@ type (
 	ToolSpec          = upstream.ToolSpec
 	ToolStatus        = upstream.ToolStatus
 	ToolsResult       = upstream.ToolsResult
+	RawNamer          = upstream.RawNamer
 )
 
 const (
@@ -75,4 +76,9 @@ var (
 	UnwrapMCPText          = upstream.UnwrapMCPText
 	WithCallMeta           = upstream.WithCallMeta
 	WrapErrorAsObservation = upstream.WrapErrorAsObservation
+	RawToolNameOf          = upstream.RawToolNameOf
+)
+
+const (
+	DefaultMaxConcurrentDials = upstream.DefaultMaxConcurrentDials
 )

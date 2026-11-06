@@ -27,7 +27,16 @@ const (
 
 var (
 	NewLeaderElector = upstream.NewLeaderElector
+	NewPGLeaseStore  = upstream.NewPGLeaseStore
 	WithLeaderLogger = upstream.WithLeaderLogger
 	WithOnGained     = upstream.WithOnGained
 	WithOnLost       = upstream.WithOnLost
+)
+
+type (
+	PGLeaseStore = upstream.PGLeaseStore
+)
+
+const (
+	PGLeaseDefaultTable = upstream.PGLeaseDefaultTable
 )
