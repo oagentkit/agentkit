@@ -5,7 +5,7 @@ go 1.26.0
 toolchain go1.27.2
 
 require (
-	github.com/oagentkit/agent v0.12.0
+	github.com/oagentkit/agent v0.13.0
 	github.com/oagentkit/guardx v0.19.0
 	github.com/oagentkit/llm v0.20.0
 	github.com/oagentkit/mcpkit v0.11.0
