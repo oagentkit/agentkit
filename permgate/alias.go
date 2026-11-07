@@ -30,3 +30,9 @@ const (
 	ModeReadOnly = upstream.ModeReadOnly
 	ModeYolo     = upstream.ModeYolo
 )
+
+var (
+	// DefaultToolEquivalence 透传上游写面等价缺省实现（Edit↔Write），
+	// 供 Service.ToolEquivalence 钩子显式复用（guardx v0.23.0，#86）。
+	DefaultToolEquivalence = upstream.DefaultToolEquivalence
+)
