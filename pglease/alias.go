@@ -18,15 +18,8 @@ type (
 
 const (
 	DefaultTable = upstream.DefaultTable
-	MaxKeyLen    = upstream.MaxKeyLen
-	MaxHolderLen = upstream.MaxHolderLen
 )
 
 var (
-	NewPGLeaseStore  = upstream.NewPGLeaseStore
-	ErrEmptyKey      = upstream.ErrEmptyKey
-	ErrEmptyHolder   = upstream.ErrEmptyHolder
-	ErrInvalidTTL    = upstream.ErrInvalidTTL
-	ErrKeyTooLong    = upstream.ErrKeyTooLong
-	ErrHolderTooLong = upstream.ErrHolderTooLong
+	NewPGLeaseStore = upstream.NewPGLeaseStore
 )

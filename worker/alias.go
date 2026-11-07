@@ -13,13 +13,11 @@ package worker
 import upstream "github.com/oagentkit/queue/worker"
 
 type (
-	LeaderElector     = upstream.LeaderElector
-	LeaderOption      = upstream.LeaderOption
-	LeaseStore        = upstream.LeaseStore
-	Pool              = upstream.Pool
-	TaskQueue         = upstream.TaskQueue
-	ScopedHeartbeater = upstream.ScopedHeartbeater
-	TokenLeaseStore   = upstream.TokenLeaseStore
+	LeaderElector = upstream.LeaderElector
+	LeaderOption  = upstream.LeaderOption
+	LeaseStore    = upstream.LeaseStore
+	Pool          = upstream.Pool
+	TaskQueue     = upstream.TaskQueue
 )
 
 const (

@@ -17,15 +17,20 @@ type (
 	FlagKind   = upstream.FlagKind
 	Invocation = upstream.Invocation
 	Policy     = upstream.Policy
+	RiskTier   = upstream.RiskTier
 	Table      = upstream.Table
 )
 
 const (
-	FlagBool      = upstream.FlagBool
-	FlagNumber    = upstream.FlagNumber
-	FlagOptional  = upstream.FlagOptional
-	FlagString    = upstream.FlagString
-	MaxCommandLen = upstream.MaxCommandLen
+	FlagBool        = upstream.FlagBool
+	FlagNumber      = upstream.FlagNumber
+	FlagOptional    = upstream.FlagOptional
+	FlagString      = upstream.FlagString
+	MaxCommandLen   = upstream.MaxCommandLen
+	RiskDestructive = upstream.RiskDestructive
+	RiskReadOnly    = upstream.RiskReadOnly
+	RiskUnevaluated = upstream.RiskUnevaluated
+	RiskWrite       = upstream.RiskWrite
 )
 
 var (
