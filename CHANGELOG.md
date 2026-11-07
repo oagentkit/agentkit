@@ -2,6 +2,12 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.69] — 2026-11-08
+
+### 依赖地板：基座与矩阵追平 oekit BOM v0.2.7（concurrency v0.28.3 / pkg v0.37.3 / logx v0.8.8）+ toolgate v0.15.1 / queue v0.10.1 / guardx v0.23.1
+
+concurrency v0.28.2 BREAKING（PanicHandler 签名统一，oekit/concurrency#184）经 toolgate v0.15.1 / queue v0.10.1 适配后收口；oekit BOM 门禁（oekit#163）对齐轮。
+
 ## [v1.8.68] — 2026-11-07
 
 ### 修复(facade)：补转 permgate.DefaultToolEquivalence,恢复 pglease/worker 九符号,地板钉全矩阵最新
