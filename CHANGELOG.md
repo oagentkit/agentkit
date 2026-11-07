@@ -2,6 +2,27 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.68] — 2026-11-07
+
+### 修复(facade)：补转 permgate.DefaultToolEquivalence,恢复 pglease/worker 九符号,地板钉全矩阵最新
+
+- permgate（guardx v0.23.0，#86）：补转 DefaultToolEquivalence 缺省等价实现
+  （SubjectKeys/ToolEquivalence/OnConfigWarn 是 Service 字段随类型转发,无需别名）
+- pglease/worker（queue 上游符号核实）：恢复上一轮误删的 9 个别名——ErrEmpty*/
+  ErrInvalid*/Err*TooLong（var）、MaxKeyLen/MaxHolderLen（const）、
+  ScopedHeartbeater/TokenLeaseStore（type）。上轮 verify_facade_symbols 的
+  「幽灵转发」判定源于本地 queue 克隆陈旧（符号在 v0.9.0/v0.10.0 一直存在）,
+  本轮以新鲜克隆复核后恢复。
+- go.mod：guardx v0.23.0 / llm v0.21.1 / toolgate v0.15.0 / rag v0.11.0 /
+  queue v0.10.0 / agent v0.14.1（runtime v0.12.0 已钉）
+本地 verify_facade_symbols 48 包通过;build/vet/test 全绿。
+Co-authored-by: Murphy-Yi <zhangyi@Murphy-YideMac-Mini.local>
+
+- 杂务(build)：补统一 Makefile——本地 ci 门禁与共享 CI 同口径（agentkit#138）
+
+Co-authored-by: Murphy-Yi <zhangyi@Murphy-YideMac-Mini.local>
+
+
 ## [v1.8.67] — 2026-11-07
 
 - 杂务(deps)：依赖地板追到最新——github.com/oagentkit/runtime v0.12.0
