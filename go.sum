@@ -267,8 +267,8 @@ github.com/oagentkit/queue v0.9.0 h1:UthvqEXutJKTQuTEdvY1UZSjLnY3E3uHHmUau7xVbXU
 github.com/oagentkit/queue v0.9.0/go.mod h1:/iOhWcF8GJ5FKSrhxyl69AT7yMS7mivz7YnYrVhNtgY=
 github.com/oagentkit/rag v0.10.0 h1:3hhXg9JgxfcylcHye18aZI04CDgx86dqD1VOAsS1WeQ=
 github.com/oagentkit/rag v0.10.0/go.mod h1:oVIvCXG+HtzoyhUFH2U79WQJwfhFh284x313CDV46NA=
-github.com/oagentkit/runtime v0.11.0 h1:YwgTrnA4h4hp2/oQqaqYvUZ2/Ufzt5NAaBv4hkpv5oY=
-github.com/oagentkit/runtime v0.11.0/go.mod h1:eCVueLJvuEDonjF8vlxJCnwnsIjvIHM9Q8yRy1seZdU=
+github.com/oagentkit/runtime v0.12.0 h1:03zltby2Le6F0FUTisxYOaD6Idf9wiqmlNxjvg1EltI=
+github.com/oagentkit/runtime v0.12.0/go.mod h1:GgrSuuzeDEq4UKcDzoHoYXY23EePZXgwBOyAvok2DS8=
 github.com/oagentkit/skillkit v0.10.0 h1:rkVH5jnn57DZO4/VKwoK9F0GqLMOUoqGJll4Ljt27yo=
 github.com/oagentkit/skillkit v0.10.0/go.mod h1:UC9RPlm8z3kOo/nclQxR5QXjVvLRounnx11vyrhdzWc=
 github.com/oagentkit/textx v0.10.0 h1:LyjlB4iHuHm6Zd+nPPyhLOsIpXum62YgeJsAs5McRik=
