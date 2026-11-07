@@ -13,7 +13,7 @@ require (
 	github.com/oagentkit/promptx v0.8.5
 	github.com/oagentkit/queue v0.9.0
 	github.com/oagentkit/rag v0.10.0
-	github.com/oagentkit/runtime v0.11.0
+	github.com/oagentkit/runtime v0.12.0
 	github.com/oagentkit/skillkit v0.10.0
 	github.com/oagentkit/textx v0.10.0
 	github.com/oagentkit/toolgate v0.14.0
