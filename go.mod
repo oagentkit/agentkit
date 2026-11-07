@@ -6,18 +6,18 @@ toolchain go1.27.2
 
 require (
 	github.com/oagentkit/agent v0.14.0
-	github.com/oagentkit/guardx v0.19.0
-	github.com/oagentkit/llm v0.20.0
-	github.com/oagentkit/mcpkit v0.11.0
+	github.com/oagentkit/guardx v0.20.0
+	github.com/oagentkit/llm v0.21.0
+	github.com/oagentkit/mcpkit v0.12.0
 	github.com/oagentkit/obs v0.9.9
 	github.com/oagentkit/promptx v0.8.5
 	github.com/oagentkit/queue v0.9.0
-	github.com/oagentkit/rag v0.9.0
-	github.com/oagentkit/runtime v0.10.0
-	github.com/oagentkit/skillkit v0.9.0
+	github.com/oagentkit/rag v0.10.0
+	github.com/oagentkit/runtime v0.11.0
+	github.com/oagentkit/skillkit v0.10.0
 	github.com/oagentkit/textx v0.10.0
-	github.com/oagentkit/toolgate v0.13.0
-	github.com/oagentkit/tools v0.12.0
+	github.com/oagentkit/toolgate v0.14.0
+	github.com/oagentkit/tools v0.13.0
 )
 
 require (
@@ -56,9 +56,9 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nikolalohinski/gonja v1.5.3 // indirect
-	github.com/oekit/concurrency v0.27.0 // indirect
-	github.com/oekit/logx v0.8.4 // indirect
-	github.com/oekit/pkg v0.35.2 // indirect
+	github.com/oekit/concurrency v0.28.0 // indirect
+	github.com/oekit/logx v0.8.5 // indirect
+	github.com/oekit/pkg v0.37.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.9 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rogpeppe/go-internal v1.15.0 // indirect

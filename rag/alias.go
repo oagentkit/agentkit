@@ -35,6 +35,7 @@ var (
 	NewNoop           = upstream.NewNoop
 	NewOpenAIEmbedder = upstream.NewOpenAIEmbedder
 	NewSearchTool     = upstream.NewSearchTool
+	WithBatchSize     = upstream.WithBatchSize
 	WithHTTPClient    = upstream.WithHTTPClient
 	WithRetry         = upstream.WithRetry
 	WithTimeout       = upstream.WithTimeout

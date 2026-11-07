@@ -16,13 +16,16 @@ type (
 	BlockedError = upstream.BlockedError
 	Options      = upstream.Options
 	Policy       = upstream.Policy
+	Resolver     = upstream.Resolver
 )
 
 var (
-	Check         = upstream.Check
-	CheckHost     = upstream.CheckHost
-	CheckHostWith = upstream.CheckHostWith
-	CheckWith     = upstream.CheckWith
+	Check              = upstream.Check
+	CheckHost          = upstream.CheckHost
+	CheckHostResolving = upstream.CheckHostResolving
+	CheckHostWith      = upstream.CheckHostWith
+	CheckResolving     = upstream.CheckResolving
+	CheckWith          = upstream.CheckWith
 
 	// 具名放行面（上游 guardx v0.15.0 起）：同一个值同时派生写面校验与拨号层守卫。
 	PrivateNoLoopback = upstream.PrivateNoLoopback
