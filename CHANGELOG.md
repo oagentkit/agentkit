@@ -2,6 +2,26 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.66] — 2026-11-07
+
+### 修复(facade)：补转本轮 17 符号、清理幽灵转发、地板钉全矩阵最新
+
+上游 2026-11-07 发版波的符号同步：
+- bashguard（tools v0.13.0）：补 RiskTier 类型与 RiskReadOnly/RiskWrite/
+  RiskDestructive/RiskUnevaluated 四档常量（#48 档位单源）
+- egress（guardx v0.20.0）：补 CheckResolving/CheckHostResolving 与
+  Resolver 类型（#60 域名解析围栏）
+- mcp（mcpkit v0.12.0）：补渐进披露门禁契约整面——DisclosureGate/
+  GateOption/Guidance/State/Verdict 类型、三态常量、
+  NewDisclosureGate/WithDisclosureActivator/WithDisclosureGuidance（#64）
+- rag（rag v0.10.0）：补 WithBatchSize（#42 端点批上限）
+- pglease/worker（queue 上游符号退役）：删 7+2 个幽灵转发
+  （ErrEmpty*/ErrInvalid*/Err*TooLong/Max*/ScopedHeartbeater/TokenLeaseStore）
+- go.mod：13 模块仓地板全部钉到本轮最新 tag（guardx v0.20.0 /
+  runtime v0.11.0 / mcpkit v0.12.0 / skillkit v0.10.0 / rag v0.10.0 /
+  llm v0.21.0 / toolgate v0.14.0 / tools v0.13.0）+ oekit 基座三件最新
+本地 verify_facade_symbols 48 包核对通过；go build/vet/test 全绿。
+
 ## [v1.8.65] — 2026-11-07
 
 ### 修复(facade)：补转 procx.InheritAllExcept，并把 runtime 地板抬到 v0.10.0（runtime#26）
