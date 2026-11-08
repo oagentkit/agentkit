@@ -26,3 +26,72 @@ jobs:
       # 门面仓是纯 re-export，没有任何自研实现：
       # 覆盖率门禁对「一行逻辑都没有」的包无意义，关掉
       coverage-threshold: 0
+
+  facade-symbols:
+    name: Facade symbols（符号级转发完整性）
+    # 门面符号对账门禁接进本仓 PR 事件路径（agentkit#157）：此前
+    # verify_facade_symbols.py 只在 matrix-tools 自己的 CI 里跑（触发条件是
+    # matrix-tools 自身 push），agentkit 侧删漏转发符号的 PR 全绿合入——
+    # 缺失符号不让门面自身 build/vet/test 失败（只让下游编译失败），要等
+    # 下一次有人 push matrix-tools 才会红，这正是 #133/#135/#140/#146 一连串
+    # 事后「补转」的结构性原因。
+    #
+    # 模式取「上游 = versions.json 的 latest 发布版快照（联网拉取），门面 = 本
+    # PR head（本地 checkout）」的自足变体（agentkit#157 的兜底条款）：
+    #   - 门面：--facade 指向本 checkout（PR head）——纯 --org 模式会把门面也
+    #     取成 main，PR 上删掉符号照样全绿，门禁对本仓 PR 就成了摆设（实测：
+    #     删掉 llm.WithRetryAttempts 转发本门禁即红）；
+    #   - 上游：钉 versions.json 登记的 latest **发布版**而非 main。理由：下游
+    #     按门面 import 装的是**发布版**上游（go.mod 地板），对账对象就该是那张
+    #     脸——对账上游 main 会把「上游已合入、发布版还没有」的符号判成漏转发
+    #     （实测今日 4 个：guardx.HasTruncatedPayloadMarker / queue.LeaseCleaner /
+    #     tools.RedirInfo / toolgate.PolicyRejectedPrefix，都是未发版的既有欠账，
+    #     补转须等上游发版，不该由无关 PR 背红）。上游 main → 门面的前向漂移
+    #     仍由 matrix-tools 自己的 CI（main 口径 oracle）兜底，两个口径互补。
+    #   - 上游快照复用判据自带的 repo_meta.fetch_repo_snapshot（tarball 一次一仓，
+    #     落到临时矩阵根 <root>/<repo>，与 --org 联网模式同一取数器）。
+    # 判据本体零复用门面逻辑（独立 oracle，go/parser 提取两侧符号），
+    # 与 matrix-tools CI（matrix-tools-ci.yml :: facade-symbols）同一脚本。
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: ${{ runner.temp }}/matrix-root
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Checkout matrix-tools（判据脚本与矩阵真相源 versions.json）
+        uses: actions/checkout@v7
+        with:
+          repository: oagentkit/matrix-tools
+          path: matrix-tools
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: 拉上游仓发布版快照（判据自带的取数器；取不到即红——守卫最危险的形态是一直绿但从没生效过）
+        run: |
+          mkdir -p "$ROOT"
+          python3 - <<'PY'
+          import json, os, sys
+          sys.path.insert(0, "matrix-tools/scripts")
+          import repo_meta
+          idx = json.load(open("matrix-tools/versions.json"))
+          repos = {m["repo"]: m.get("latest") or "main"
+                   for m in idx["modules"] if m["repo"] != "agentkit"}
+          root = os.environ["ROOT"]
+          for repo, ref in sorted(repos.items()):
+              if repo_meta.fetch_repo_snapshot("oagentkit", repo, root, ref) is None:
+                  raise SystemExit(f"取不到 oagentkit/{repo}@{ref} 的源码快照，判不了即红")
+          print(f"已拉取 {len(repos)} 个上游仓的发布版快照")
+          PY
+
+      - name: 门面符号级转发完整性（门面=本 PR head，上游=发布版快照）
+        run: python3 matrix-tools/scripts/verify_facade_symbols.py --root "$ROOT" --facade .
