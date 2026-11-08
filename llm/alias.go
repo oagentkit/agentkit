@@ -36,6 +36,8 @@ type (
 	PriceTable           = upstream.PriceTable
 	PricedProvider       = upstream.PricedProvider
 	Provider             = upstream.Provider
+	RateLimitRetryModel  = upstream.RateLimitRetryModel
+	RateLimitRetryOption = upstream.RateLimitRetryOption
 	Resilient            = upstream.Resilient
 	ResilientConfig      = upstream.ResilientConfig
 	RetryHint            = upstream.RetryHint
@@ -92,6 +94,11 @@ var (
 	SelectRetryDelay      = upstream.SelectRetryDelay
 	SuspiciousEmptyResult = upstream.SuspiciousEmptyResult
 	WithCallCounter       = upstream.WithCallCounter
+	WithRateLimitRetry    = upstream.WithRateLimitRetry
 	WithRetryAfterSink    = upstream.WithRetryAfterSink
+	WithRetryAttempts     = upstream.WithRetryAttempts
+	WithRetryBaseDelay    = upstream.WithRetryBaseDelay
+	WithRetryJitterRatio  = upstream.WithRetryJitterRatio
+	WithRetryMaxDelay     = upstream.WithRetryMaxDelay
 	WithUsageLabels       = upstream.WithUsageLabels
 )
