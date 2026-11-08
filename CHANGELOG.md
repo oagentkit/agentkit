@@ -4,14 +4,9 @@
 
 ## [v1.8.70] — 2026-11-08
 
-- 杂务(deps)：依赖地板全量追平——矩阵 13 仓新 tag + 基座 concurrency v0.28.4 / logx v0.8.10 / pkg v0.37.4
+- 杂务(deps)：依赖地板全量追平——矩阵 13 仓新 tag + 基座 v0.28.4/v0.8.10/v0.37.4
 
-| 依赖 | 抬到 |
-|---|---|
-| 矩阵 | textx v0.10.1 / guardx v0.23.1 / runtime v0.12.1 / queue v0.10.1 / obs v0.9.10 / mcpkit v0.12.1 / skillkit v0.10.1 / rag v0.11.1 / llm v0.21.2 / promptx v0.8.6 / tools v0.13.1 / toolgate v0.15.2 / agent v0.14.3 |
-| 基座 | concurrency v0.28.4 / logx v0.8.10 / pkg v0.37.4 |
-发版时刻地板时效门禁（verify_tag_floor --ref HEAD）要求追平（matrix-tools#188 发版链）。
-兼容性实测：go build / go vet / go test -race -count=1 ./... 全绿，go mod tidy -diff 无漂移。
+docs(changelog): 预写 v1.8.70 待发版段
 
 
 ## [v1.8.69] — 2026-11-08
