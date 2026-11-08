@@ -13,6 +13,7 @@ package worker
 import upstream "github.com/oagentkit/queue/worker"
 
 type (
+	DetailedClaimer   = upstream.DetailedClaimer
 	LeaderElector     = upstream.LeaderElector
 	LeaderOption      = upstream.LeaderOption
 	LeaseStore        = upstream.LeaseStore
