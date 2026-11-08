@@ -27,21 +27,22 @@ const (
 )
 
 var (
-	MaskHint           = upstream.MaskHint
-	MaskHintWith       = upstream.MaskHintWith
-	NewMasker          = upstream.NewMasker
-	NewPayloadRedactor = upstream.NewPayloadRedactor
-	NewRedactor        = upstream.NewRedactor
-	Redact             = upstream.Redact
-	RedactJSON         = upstream.RedactJSON
-	RedactPayloads     = upstream.RedactPayloads
-	RedactPayloadsWith = upstream.RedactPayloadsWith
-	RedactPayloadValue = upstream.RedactPayloadValue
-	RedactSecrets      = upstream.RedactSecrets
-	RedactJSONOpts     = upstream.RedactJSONOpts
-	RedactValue        = upstream.RedactValue
-	RedactValueOpts    = upstream.RedactValueOpts
-	IsCredentialKey    = upstream.IsCredentialKey
-	RedactWith         = upstream.RedactWith
-	Rules              = upstream.Rules
+	MaskHint                  = upstream.MaskHint
+	MaskHintWith              = upstream.MaskHintWith
+	NewMasker                 = upstream.NewMasker
+	NewPayloadRedactor        = upstream.NewPayloadRedactor
+	NewRedactor               = upstream.NewRedactor
+	Redact                    = upstream.Redact
+	RedactJSON                = upstream.RedactJSON
+	RedactPayloads            = upstream.RedactPayloads
+	RedactPayloadsWith        = upstream.RedactPayloadsWith
+	RedactPayloadValue        = upstream.RedactPayloadValue
+	RedactSecrets             = upstream.RedactSecrets
+	RedactJSONOpts            = upstream.RedactJSONOpts
+	RedactValue               = upstream.RedactValue
+	RedactValueOpts           = upstream.RedactValueOpts
+	IsCredentialKey           = upstream.IsCredentialKey
+	RedactWith                = upstream.RedactWith
+	Rules                     = upstream.Rules
+	HasTruncatedPayloadMarker = upstream.HasTruncatedPayloadMarker
 )

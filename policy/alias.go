@@ -55,3 +55,7 @@ var (
 	Stage         = upstream.Stage
 	ValidMode     = upstream.ValidMode
 )
+
+const (
+	PolicyRejectedPrefix = upstream.PolicyRejectedPrefix
+)

@@ -37,3 +37,7 @@ var (
 	Analyze      = upstream.Analyze
 	DefaultTable = upstream.DefaultTable
 )
+
+type (
+	RedirInfo = upstream.RedirInfo
+)
