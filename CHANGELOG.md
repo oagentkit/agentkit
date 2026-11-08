@@ -2,6 +2,22 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.71] — 2026-11-08
+
+- 杂务(deps)：依赖地板全量追平——矩阵 13 仓审计批次新 tag + 基座 v0.38.0/v0.29.0/v0.8.11 + 门面符号同步
+
+| 依赖 | 抬到 |
+|---|---|
+| 矩阵 | textx v0.10.3 / guardx v0.23.3 / runtime v0.12.3 / queue v0.10.3 / obs v0.9.12 / mcpkit v0.12.3 / skillkit v0.10.2 / rag v0.11.3 / llm v0.21.4 / promptx v0.8.6 / tools v0.13.3 / toolgate v0.15.2 / agent v0.14.4 |
+| 基座 | concurrency v0.29.0 / logx v0.8.11 / pkg v0.38.0 |
+门面符号同步（verify_facade_symbols 对账）：llm 新增 RateLimitRetryModel/RateLimitRetryOption
+（type）+ WithRateLimitRetry/WithRetryAttempts/WithRetryBaseDelay/WithRetryJitterRatio/
+WithRetryMaxDelay（func）——llm#100 审计修复的导出面；worker 新增 DetailedClaimer
+（type，可选接口）——queue#70 审计修复的导出面。
+发版时刻地板时效门禁要求追平。
+兼容性实测：go build / go vet / go test -race -count=1 ./... 全绿，go mod tidy -diff 无漂移，门面符号对账 48 包完整。
+
+
 ## [v1.8.70] — 2026-11-08
 
 - 杂务(deps)：依赖地板全量追平——矩阵 13 仓新 tag + 基座 v0.28.4/v0.8.10/v0.37.4
