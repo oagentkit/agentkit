@@ -85,7 +85,8 @@ jobs:
           idx = json.load(open("matrix-tools/versions.json"))
           repos = {m["repo"]: m.get("latest") or "main"
                    for m in idx["modules"] if m["repo"] != "agentkit"}
-          root = os.path.join(os.environ["RUNNER_TEMP"], "matrix-root")
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "matrix-root"
           for repo, ref in sorted(repos.items()):
               if repo_meta.fetch_repo_snapshot("oagentkit", repo, root, ref) is None:
                   raise SystemExit(f"取不到 oagentkit/{repo}@{ref} 的源码快照，判不了即红")
