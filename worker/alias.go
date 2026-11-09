@@ -38,6 +38,7 @@ var (
 
 type (
 	PGLeaseStore = upstream.PGLeaseStore
+	LeaseCleaner = upstream.LeaseCleaner
 )
 
 const (

@@ -273,10 +273,10 @@ github.com/oagentkit/skillkit v0.10.3 h1:EB2ndE1seyKCFZbsqvNmWUX22sWtbvlx/Eze3p9
 github.com/oagentkit/skillkit v0.10.3/go.mod h1:q7GapqRhseL9bPiQ7uvNztutJBmAVHrd0WnDJaEGpmU=
 github.com/oagentkit/textx v0.10.6 h1:fgz2zgsDQcoVrDJmyfX2DdT+mONEWIe/+F1XywVCiBM=
 github.com/oagentkit/textx v0.10.6/go.mod h1:TPg9wLUjt93rJVAwGbwzA6G5kA43YbYDH4IgnqH/thc=
-github.com/oagentkit/toolgate v0.15.3 h1:/MzJ4o0OPB42Axm39fxcb9XCxYTFiEiDtHvsKYEBU2g=
-github.com/oagentkit/toolgate v0.15.3/go.mod h1:rAd2/S6MwWD2zEyEojNYP/EcUZ3l0ifj6zwA36939Uw=
-github.com/oagentkit/tools v0.13.4 h1:xYdbZMPolz0G+49f5iCBqyEbZfyU+mVa1pDNcR8H5vc=
-github.com/oagentkit/tools v0.13.4/go.mod h1:XRWL1G6dBN9qc+HaNXjrWmiFWE5X0SSbJQ//ZqglKCM=
+github.com/oagentkit/toolgate v0.16.0 h1:aTPqzqQP5uam/V4fSvEmbhVco7pEEeh711az4IRq9GI=
+github.com/oagentkit/toolgate v0.16.0/go.mod h1:w72mEa1rm9UAMLbYLljciZSQJezRlBRk0Z6n3n8iZcg=
+github.com/oagentkit/tools v0.14.0 h1:3RZHjhchM5vzNYaRMYjPDBDIS2XMfULCRKXe8KAFFn8=
+github.com/oagentkit/tools v0.14.0/go.mod h1:u5eAgzF7culOK6HrVSMpGBsnN3FdMQduxCr4Cy/37xw=
 github.com/oekit/concurrency v0.31.0 h1:QlGcQatkA4UEGm4ZTytylaxzTDhtYf/IJHQ5e8MKzS4=
 github.com/oekit/concurrency v0.31.0/go.mod h1:EyZjS2fksLwxNa2BeJ/UYASWCyWDPPYghsdv6EtYFbs=
 github.com/oekit/logx v0.8.12 h1:cs/SRKTm9lSvOS303dSnx7o4yUdZEU7PTD8mnMIKHvM=
