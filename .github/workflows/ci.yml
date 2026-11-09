@@ -77,7 +77,7 @@ jobs:
 
       - name: 拉上游仓发布版快照（判据自带的取数器；取不到即红——守卫最危险的形态是一直绿但从没生效过）
         run: |
-          mkdir -p "$ROOT"
+          mkdir -p "$RUNNER_TEMP/matrix-root"
           python3 - <<'PY'
           import json, os, sys
           sys.path.insert(0, "matrix-tools/scripts")
