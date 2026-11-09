@@ -34,5 +34,8 @@ var (
 	KeywordHitExcept         = upstream.KeywordHitExcept
 	KeywordPostNegated       = upstream.KeywordPostNegated
 	New                      = upstream.New
-	OnNegationHit            = upstream.OnNegationHit
+	// ⚠️ 经门面给 OnNegationHit 赋值是**死写**（agentkit#155）：本别名是 init
+	// 时的值拷贝，赋值只改写门面副本，上游 keyword.go 运行时读的是上游包的
+	// var——钩子静默失效。注册钩子请用 SetOnNegationHit（negation_hook.go）。
+	OnNegationHit = upstream.OnNegationHit
 )

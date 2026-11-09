@@ -59,6 +59,15 @@
   **不转发**，并登记进显式白名单（`matrix-tools/scripts/verify_facade_symbols.py` 的
   `GENERIC_FUNC_WHITELIST`，当前 3 个：`hotplug.NewHolder`、`progress.NewBus`、
   `reportutil.Aggregate`）。泛型**类型**可以用类型别名转发，**必须转发**。
+- ⚠️ **运行时读取的可写 var 不得值拷贝转发**（agentkit#155/#156）：func 钩子与
+  哨兵 error 是值拷贝**安全**的（哨兵本就该共享、钩子的运行时读取在上游——
+  前者的修法是门面加 setter 直写上游 var，如 `router.SetOnNegationHit`、
+  `llm.SetBusyAdmissionDelays`）；但上游运行时**读取**的切片 var（如
+  `llm.BusyAdmissionDelays`——recovery.go 的访问器按 `len()` 取档）值拷贝转发后，
+  下游经门面 reassign/append 只改写门面副本，上游读不到，调优静默失效；
+  未 append 前的索引写恰因共享底层数组能传播，最易误判正常。map 引用共享且
+  上游文档化用法是原地写（如 `agentrun.MutatingVerbs`），经门面生效，**豁免**。
+  这类符号转发时必须在 alias.go 行内注释指路 setter。
 
 ### 4. 上游新增导出符号 → 必须在本仓补别名
 
