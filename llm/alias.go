@@ -60,30 +60,39 @@ const (
 )
 
 var (
-	BusyAdmissionDelay      = upstream.BusyAdmissionDelay
-	BusyAdmissionDelays     = upstream.BusyAdmissionDelays
-	ClassifyLLMError        = upstream.ClassifyLLMError
-	DefaultPriceTable       = upstream.DefaultPriceTable
-	ErrPriceUnknown         = upstream.ErrPriceUnknown
-	IsContextExceededError  = upstream.IsContextExceededError
-	IsContextExceededFinish = upstream.IsContextExceededFinish
-	IsProviderBusyCode      = upstream.IsProviderBusyCode
-	IsRateLimitError        = upstream.IsRateLimitError
-	IsTransientStreamError  = upstream.IsTransientStreamError
-	IsTruncatedError        = upstream.IsTruncatedError
-	LookupPrice             = upstream.LookupPrice
-	LookupPriceStrict       = upstream.LookupPriceStrict
-	NewBudget               = upstream.NewBudget
-	NewClient               = upstream.NewClient
-	NewCostTracker          = upstream.NewCostTracker
-	NewCostTrackerWithTable = upstream.NewCostTrackerWithTable
-	NewFailoverModel        = upstream.NewFailoverModel
-	NewFallbackChain        = upstream.NewFallbackChain
-	NewOpenAIProvider       = upstream.NewOpenAIProvider
-	NewPriceTable           = upstream.NewPriceTable
-	NewResilient            = upstream.NewResilient
-	NewStageRouter          = upstream.NewStageRouter
-	NewUsageHandler         = upstream.NewUsageHandler
+	BusyAdmissionDelay = upstream.BusyAdmissionDelay
+	// ⚠️ agentkit#156/#166/#169：本别名是 init 时的切片头拷贝。上游 llm v0.21.8
+	// 起，运行时取值读 SetBusyAdmissionDelays 维护的原子快照——本别名**读写都不
+	// 反映已生效的表**（读数停在初始化缺省、赋值是死写），调优请走
+	// SetBusyAdmissionDelays（下方别名，原子替换 + 防御性拷贝 + 空表拒绝）。
+	// Deprecated: use SetBusyAdmissionDelays instead（agentkit#166）。
+	BusyAdmissionDelays = upstream.BusyAdmissionDelays
+	// ErrEmptyBusyAdmissionDelays 空退避表被 setter 拒绝（上游口径下沉门面，
+	// agentkit#156/#166）：转发上游同名哨兵，errors.Is 判定两侧一致。
+	ErrEmptyBusyAdmissionDelays = upstream.ErrEmptyBusyAdmissionDelays
+	SetBusyAdmissionDelays      = upstream.SetBusyAdmissionDelays
+	ClassifyLLMError            = upstream.ClassifyLLMError
+	DefaultPriceTable           = upstream.DefaultPriceTable
+	ErrPriceUnknown             = upstream.ErrPriceUnknown
+	IsContextExceededError      = upstream.IsContextExceededError
+	IsContextExceededFinish     = upstream.IsContextExceededFinish
+	IsProviderBusyCode          = upstream.IsProviderBusyCode
+	IsRateLimitError            = upstream.IsRateLimitError
+	IsTransientStreamError      = upstream.IsTransientStreamError
+	IsTruncatedError            = upstream.IsTruncatedError
+	LookupPrice                 = upstream.LookupPrice
+	LookupPriceStrict           = upstream.LookupPriceStrict
+	NewBudget                   = upstream.NewBudget
+	NewClient                   = upstream.NewClient
+	NewCostTracker              = upstream.NewCostTracker
+	NewCostTrackerWithTable     = upstream.NewCostTrackerWithTable
+	NewFailoverModel            = upstream.NewFailoverModel
+	NewFallbackChain            = upstream.NewFallbackChain
+	NewOpenAIProvider           = upstream.NewOpenAIProvider
+	NewPriceTable               = upstream.NewPriceTable
+	NewResilient                = upstream.NewResilient
+	NewStageRouter              = upstream.NewStageRouter
+	NewUsageHandler             = upstream.NewUsageHandler
 	// 门面按契约转发上游的**全部**导出符号；上游标 Deprecated 的符号在此仍必须转发
 	// （删掉会让走门面的下游编译断裂，而符号级门禁也会判成「幽灵转发」）。
 	// 故此处按行豁免 SA1019——豁免的是「转发」这个动作，不是「上游已弃用」这个事实。

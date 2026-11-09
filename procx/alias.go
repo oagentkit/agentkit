@@ -14,6 +14,7 @@ import upstream "github.com/oagentkit/runtime/procx"
 
 type (
 	RunRequest = upstream.RunRequest
+	RunResult  = upstream.RunResult
 )
 
 var (
@@ -22,4 +23,5 @@ var (
 	ErrTimeout       = upstream.ErrTimeout
 	InheritAllExcept = upstream.InheritAllExcept
 	Run              = upstream.Run
+	RunDetailed      = upstream.RunDetailed
 )
