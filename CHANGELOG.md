@@ -8,6 +8,18 @@
 
 fix(lint): errcheck 落断言 + OnNegationHit 别名转发点 nolint SA1019——转发别名引用 deprecated var 是本行使命
 
+- 杂务(deps)：依赖地板追到最新——obs v0.9.14 / skillkit v0.10.4
+
+## 为什么
+矩阵的**发版时刻地板时效**门禁（release.py tag 的 floor_gate_problems）要求：打 tag
+这一刻的第一方依赖地板必须是当时的最新。obs v0.9.14（audit redactFields 字节
+载荷/错误值掩码）与 skillkit v0.10.4（Resolve 指纹读取时序）已发，门面下一版
+必须跟齐——MVS 只看被消费版本的 go.mod。
+## 兼容性实测
+本提交在 obs/skillkit 新版上跑完 go build / go vet / go test -race（门面相关包绿）
+⇒ 只影响依赖版本，零行为差异。只改 go.mod/go.sum ⇒ 不需要 CHANGELOG 条目。
+
+
 ## [v1.8.73] — 2026-11-09
 
 ### 新增(facade)：补 4 个漏转发别名（第三轮清零符号）
