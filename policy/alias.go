@@ -13,16 +13,17 @@ package policy
 import upstream "github.com/oagentkit/toolgate/policy"
 
 type (
-	Arbiter  = upstream.Arbiter
-	Decider  = upstream.Decider
-	Decision = upstream.Decision
-	Gate     = upstream.Gate
-	Mode     = upstream.Mode
-	Op       = upstream.Op
-	OpType   = upstream.OpType
-	Policy   = upstream.Policy
-	Rule     = upstream.Rule
-	Verdict  = upstream.Verdict
+	Arbiter     = upstream.Arbiter
+	Decider     = upstream.Decider
+	Decision    = upstream.Decision
+	Gate        = upstream.Gate
+	Mode        = upstream.Mode
+	Op          = upstream.Op
+	OpType      = upstream.OpType
+	Policy      = upstream.Policy
+	Rule        = upstream.Rule
+	StageOption = upstream.StageOption
+	Verdict     = upstream.Verdict
 )
 
 const (
@@ -48,12 +49,16 @@ var (
 	AuditGate     = upstream.AuditGate
 	DefaultPolicy = upstream.DefaultPolicy
 	Disposition   = upstream.Disposition
-	FailureClass  = upstream.FailureClass
-	LoadOverrides = upstream.LoadOverrides
-	NewGate       = upstream.NewGate
-	Normalize     = upstream.Normalize
-	Stage         = upstream.Stage
-	ValidMode     = upstream.ValidMode
+	// Mutating / WithMutatingClassifier（toolgate#85 落进门面）：Op.Mutating
+	// 三态化后的分类器接线原语。
+	Mutating               = upstream.Mutating
+	WithMutatingClassifier = upstream.WithMutatingClassifier
+	FailureClass           = upstream.FailureClass
+	LoadOverrides          = upstream.LoadOverrides
+	NewGate                = upstream.NewGate
+	Normalize              = upstream.Normalize
+	Stage                  = upstream.Stage
+	ValidMode              = upstream.ValidMode
 )
 
 const (

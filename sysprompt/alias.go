@@ -13,20 +13,37 @@ package sysprompt
 import upstream "github.com/oagentkit/promptx/sysprompt"
 
 type (
-	Block    = upstream.Block
-	Boundary = upstream.Boundary
-	Builder  = upstream.Builder
-	EnvInfo  = upstream.EnvInfo
-	GitInfo  = upstream.GitInfo
-	Result   = upstream.Result
-	Section  = upstream.Section
-	Target   = upstream.Target
+	Assembled    = upstream.Assembled
+	Assembler    = upstream.Assembler
+	Block        = upstream.Block
+	Boundary     = upstream.Boundary
+	Builder      = upstream.Builder
+	EnvInfo      = upstream.EnvInfo
+	GitInfo      = upstream.GitInfo
+	Result       = upstream.Result
+	Section      = upstream.Section
+	SegMeter     = upstream.SegMeter
+	SegOrder     = upstream.SegOrder
+	SegStability = upstream.SegStability
+	SegSemantics = upstream.SegSemantics
+	Segment      = upstream.Segment
+	Target       = upstream.Target
 )
 
 const (
+	DataHeader                   = upstream.DataHeader
+	DataHeaderGuard              = upstream.DataHeaderGuard
+	DataHeaderLead               = upstream.DataHeaderLead
 	DefaultUserContextDisclaimer = upstream.DefaultUserContextDisclaimer
 	DefaultUserContextIntro      = upstream.DefaultUserContextIntro
 	Dynamic                      = upstream.Dynamic
+	SegData                      = upstream.SegData
+	SegDirective                 = upstream.SegDirective
+	SegDynamic                   = upstream.SegDynamic
+	SegOrderAfterUser            = upstream.SegOrderAfterUser
+	SegOrderBeforeUser           = upstream.SegOrderBeforeUser
+	SegOrderTail                 = upstream.SegOrderTail
+	SegPrefixStable              = upstream.SegPrefixStable
 	Stable                       = upstream.Stable
 	TargetSystem                 = upstream.TargetSystem
 	TargetUserContext            = upstream.TargetUserContext
@@ -38,5 +55,6 @@ var (
 	EnvSection      = upstream.EnvSection
 	GitSection      = upstream.GitSection
 	IdentitySection = upstream.IdentitySection
+	NewAssembler    = upstream.NewAssembler
 	NewSection      = upstream.NewSection
 )
