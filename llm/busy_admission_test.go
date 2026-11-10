@@ -45,7 +45,9 @@ func TestSetBusyAdmissionDelaysReachesUpstream(t *testing.T) {
 	}
 
 	// 门面 var 别名（Deprecated）读数停在初始化缺省，不反映 setter 后的表（#169）
-	SetBusyAdmissionDelays([]time.Duration{3 * time.Second, 7 * time.Second, 11 * time.Second})
+	if err := SetBusyAdmissionDelays([]time.Duration{3 * time.Second, 7 * time.Second, 11 * time.Second}); err != nil {
+		t.Fatalf("SetBusyAdmissionDelays: %v", err)
+	}
 	if len(BusyAdmissionDelays) == 3 {
 		t.Fatalf("门面 var 别名不应反映 setter 后的表（别名是 init 拷贝；此断言失败说明别名与快照又耦合了）——len=%d", len(BusyAdmissionDelays))
 	}

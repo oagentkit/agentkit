@@ -38,6 +38,7 @@ var (
 	// init 时的值拷贝，赋值只改写门面副本；上游 keyword.go 运行时读的是
 	// SetOnNegationHit 维护的原子快照——本别名读写都不反映已生效的钩子。
 	// Deprecated: use SetOnNegationHit instead（agentkit#166）。
+	//nolint:staticcheck // SA1019：转发别名必须引用上游 var 才保住编译兼容；本行的使命就是带标记退役它。
 	OnNegationHit    = upstream.OnNegationHit
 	SetOnNegationHit = upstream.SetOnNegationHit
 )
