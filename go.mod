@@ -9,12 +9,12 @@ require (
 	github.com/oagentkit/guardx v0.24.1
 	github.com/oagentkit/llm v0.21.8
 	github.com/oagentkit/mcpkit v0.12.7
-	github.com/oagentkit/obs v0.9.13
+	github.com/oagentkit/obs v0.9.14
 	github.com/oagentkit/promptx v0.9.2
 	github.com/oagentkit/queue v0.11.1
 	github.com/oagentkit/rag v0.11.6
 	github.com/oagentkit/runtime v0.12.6
-	github.com/oagentkit/skillkit v0.10.3
+	github.com/oagentkit/skillkit v0.10.4
 	github.com/oagentkit/textx v0.10.6
 	github.com/oagentkit/toolgate v0.16.1
 	github.com/oagentkit/tools v0.14.2
