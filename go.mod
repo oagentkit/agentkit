@@ -15,9 +15,9 @@ require (
 	github.com/oagentkit/rag v0.11.6
 	github.com/oagentkit/runtime v0.12.6
 	github.com/oagentkit/skillkit v0.10.4
-	github.com/oagentkit/textx v0.10.6
+	github.com/oagentkit/textx v0.10.7
 	github.com/oagentkit/toolgate v0.16.1
-	github.com/oagentkit/tools v0.14.2
+	github.com/oagentkit/tools v0.14.3
 )
 
 require (
@@ -56,8 +56,8 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nikolalohinski/gonja v1.5.3 // indirect
-	github.com/oekit/concurrency v0.31.1 // indirect
-	github.com/oekit/logx v0.9.0 // indirect
+	github.com/oekit/concurrency v0.31.2 // indirect
+	github.com/oekit/logx v0.9.1 // indirect
 	github.com/oekit/pkg v0.41.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.9 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
