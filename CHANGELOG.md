@@ -2,6 +2,12 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.74] — 2026-11-10
+
+### 修复(facade)：var 别名治理三连 + 上游新符号全量转发（#166 #167 #169）
+
+fix(lint): errcheck 落断言 + OnNegationHit 别名转发点 nolint SA1019——转发别名引用 deprecated var 是本行使命
+
 ## [v1.8.73] — 2026-11-09
 
 ### 新增(facade)：补 4 个漏转发别名（第三轮清零符号）
