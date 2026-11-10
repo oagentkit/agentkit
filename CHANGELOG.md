@@ -2,6 +2,14 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.75] — 2026-11-10
+
+- 杂务(facade)：tools 地板跟到 v0.14.3 + bashguard 新符号转发（InnerCmd 四定位形态原语）
+
+tools#107/#117 的 ExecFlags/InnerCmd 表驱动原语进 v0.14.3 ⇒ 门面转发面同步
+（facade-symbols 门禁要求全量转发）。只改 go.mod/go.sum + alias.go 转发表。
+
+
 ## [v1.8.74] — 2026-11-10
 
 ### 修复(facade)：var 别名治理三连 + 上游新符号全量转发（#166 #167 #169）
@@ -1520,20 +1528,6 @@ oekit 基座：
 依据 oagentkit/matrix-tools#44：各仓最新 tag 的依赖地板在「打 tag 那一刻」就已
 落后一格，tag 受 protect-tags ruleset 保护不能重打，只能靠后续版本补齐。
 本仓是最后发的那一个——它的地板必须等各模块的新 tag 出来才能跟。
-
-
-- 文档(changelog)：按新生成器规则重生成 CHANGELOG.md
-
-生成器修复（oagentkit/matrix-tools#43）落地：
-① `[round-N] ` 前缀被剥离 → conventional commit 解析不再失效，
-   **commit body 保留**（此前整段被丢弃，发布说明只剩标题）；
-② 非 conventional 提交也保留 body；
-③ `--check` 识别「待发版段」（预写了但还没打 tag 的那段）。
-本 PR 恢复的是**本就在 commit body 里**的正文（迁移步骤、代码块、
-判据锚点）——此前被 `[round-N] ` 前缀导致的解析失败丢弃了。
-**没有任何发布说明内容被删除**：删除的行都能在新增行里找到对应
-（规范化掉 `(#N)` 与 `[round-N] ` 前缀后逐行比对）。
-关联：oagentkit/matrix-tools#43、oagentkit/matrix-tools#40
 
 
 ## [v1.8.17] — 2026-10-20
