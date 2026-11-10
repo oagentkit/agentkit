@@ -48,8 +48,11 @@ jobs:
     #     tools.RedirInfo / toolgate.PolicyRejectedPrefix，都是未发版的既有欠账，
     #     补转须等上游发版，不该由无关 PR 背红）。上游 main → 门面的前向漂移
     #     仍由 matrix-tools 自己的 CI（main 口径 oracle）兜底，两个口径互补。
-    #   - 上游快照复用判据自带的 repo_meta.fetch_repo_snapshot（tarball 一次一仓，
-    #     落到临时矩阵根 <root>/<repo>，与 --org 联网模式同一取数器）。
+    #   - 上游快照由本 workflow 预拉 **git object store**（浅克隆到
+    #     <root>/<repo>），判据本地模式按门面 go.mod 钉定 tag 解快照
+    #     （git archive + shallow fetch 单 tag 兜底）——⚠️ 判据要求 <root>/<repo>
+    #     有 .git（issue agentkit#180 实测：tarball 快照会让 git fetch 报
+    #     「fatal: not a git repository」，全部判红的假红）。
     # 判据本体零复用门面逻辑（独立 oracle，go/parser 提取两侧符号），
     # 与 matrix-tools CI（matrix-tools-ci.yml :: facade-symbols）同一脚本。
     runs-on: ubuntu-latest
@@ -75,22 +78,33 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: 拉上游仓发布版快照（判据自带的取数器；取不到即红——守卫最危险的形态是一直绿但从没生效过）
+      - name: 拉上游仓 git object store（判据 _git_snapshot 的前提；取不到即红——守卫最危险的形态是一直绿但从没生效过）
         run: |
           mkdir -p "$RUNNER_TEMP/matrix-root"
           python3 - <<'PY'
-          import json, os, sys
-          sys.path.insert(0, "matrix-tools/scripts")
-          import repo_meta
-          idx = json.load(open("matrix-tools/versions.json"))
-          repos = {m["repo"]: m.get("latest") or "main"
-                   for m in idx["modules"] if m["repo"] != "agentkit"}
+          import json, os, subprocess
           from pathlib import Path
+          idx = json.load(open("matrix-tools/versions.json"))
+          repos = sorted({m["repo"] for m in idx["modules"] if m["repo"] != "agentkit"})
           root = Path(os.environ["RUNNER_TEMP"]) / "matrix-root"
-          for repo, ref in sorted(repos.items()):
-              if repo_meta.fetch_repo_snapshot("oagentkit", repo, root, ref) is None:
-                  raise SystemExit(f"取不到 oagentkit/{repo}@{ref} 的源码快照，判不了即红")
-          print(f"已拉取 {len(repos)} 个上游仓的发布版快照")
+          for repo in repos:
+              dest = root / repo
+              # 判据的本地模式从 <root>/<repo> 的 git object store 按门面
+              # go.mod 钉定 tag 解快照（git archive + shallow fetch 单 tag
+              # 兜底）。这里不猜 ref：钉定版本由判据从 go.mod 解析并按需
+              # shallow fetch 那一个 tag（兜底条款：「.github repo-ci 的浅克隆
+              # 走的就是这条路」）——tarball 快照没有 .git，判据 fetch 时报
+              # 「fatal: not a git repository」全部判红（fail-closed 的假红，
+              # agentkit#180 实测形态）。
+              r = subprocess.run(
+                  ["git", "clone", "-q", "--depth", "1", "--no-tags", "--no-checkout",
+                   f"https://github.com/oagentkit/{repo}", str(dest)],
+                  capture_output=True, text=True)
+              if r.returncode != 0:
+                  raise SystemExit(
+                      f"取不到 oagentkit/{repo} 的 git 快照，判不了即红："
+                      f"{(r.stderr or '').strip()[:300]}")
+          print(f"已克隆 {len(repos)} 个上游仓的 git object store")
           PY
 
       - name: 门面符号级转发完整性（门面=本 PR head，上游=发布版快照）

@@ -16,6 +16,7 @@ type (
 	Call        = upstream.Call
 	Chain       = upstream.Chain
 	ChainOption = upstream.ChainOption
+	Delivery    = upstream.Delivery
 	DenyError   = upstream.DenyError
 	Handler     = upstream.Handler
 	Outcome     = upstream.Outcome
@@ -25,6 +26,11 @@ type (
 	StageFunc   = upstream.StageFunc
 	StageResult = upstream.StageResult
 	Verdict     = upstream.Verdict
+)
+
+const (
+	DeliveryMaybeSent = upstream.DeliveryMaybeSent
+	DeliveryNotSent   = upstream.DeliveryNotSent
 )
 
 var (
