@@ -4,6 +4,14 @@
 
 ## [v1.8.75] — 2026-11-10
 
+- 杂务(deps)：依赖地板追到最新——mcpkit v0.12.8 / obs v0.9.15 / promptx v0.9.3 / rag v0.11.7
+
+## 为什么
+发版时刻地板时效门禁：二轮列车 4 仓已 tag，门面下一版必须跟齐（MVS 只看被
+消费版本的 go.mod）。
+## 兼容性实测
+go build / go vet / 门面相关包 go test -race 全绿 ⇒ 只影响依赖版本，零行为差异。
+
 - 杂务(facade)：tools 地板跟到 v0.14.3 + bashguard 新符号转发（InnerCmd 四定位形态原语）
 
 tools#107/#117 的 ExecFlags/InnerCmd 表驱动原语进 v0.14.3 ⇒ 门面转发面同步
