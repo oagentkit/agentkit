@@ -2,6 +2,68 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.77] — 2026-11-12
+
+- 杂务(deps)：依赖地板追到最新——矩阵模块 wave（guardx v0.24.5 / llm v0.21.11 等）
+
+chore(deps): 依赖地板追到最新——github.com/oagentkit/guardx v0.24.5
+| 依赖 | 现地板 | 抬到 |
+|---|---|---|
+| `github.com/oagentkit/guardx` | `v0.24.4` | `v0.24.5` |
+| `github.com/oagentkit/llm` | `v0.21.10` | `v0.21.11` |
+| `github.com/oagentkit/mcpkit` | `v0.13.1` | `v0.13.2` |
+| `github.com/oagentkit/promptx` | `v0.9.5` | `v0.9.6` |
+| `github.com/oagentkit/queue` | `v0.11.2` | `v0.11.3` |
+| `github.com/oagentkit/rag` | `v0.11.9` | `v0.11.10` |
+| `github.com/oagentkit/skillkit` | `v0.10.6` | `v0.10.7` |
+| `github.com/oagentkit/toolgate` | `v0.17.2` | `v0.17.3` |
+| `github.com/oekit/concurrency` | `v0.33.0` | `v0.34.0` |
+| `github.com/oekit/logx` | `v0.9.2` | `v0.10.0` |
+| `github.com/oekit/pkg` | `v0.44.0` | `v0.46.0` |
+## 为什么
+矩阵的**发版时刻地板时效**门禁（`verify_tag_floor --ref HEAD`）要求：各仓 HEAD
+（= 下次发版会发出去的内容）的依赖地板，相对那一刻的依赖最新版本，不能已落后。
+oekit 基座与矩阵模块都在高频发版 ⇒ 地板是**跑步机**，落后一格就会判红。
+## 兼容性实测
+本工具在提交前跑完 `go build` / `go vet` / `go test -race -count=1 ./...`（全绿才提交）
+与 `go mod tidy -diff`（无漂移）⇒ 改动**只影响依赖版本**，零行为差异。
+只改 `go.mod` / `go.sum` ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。
+
+- 杂务(deps)：依赖地板追到最新——github.com/oagentkit/guardx v0.24.4
+
+| 依赖 | 现地板 | 抬到 |
+|---|---|---|
+| `github.com/oagentkit/guardx` | `v0.24.3` | `v0.24.4` |
+| `github.com/oagentkit/runtime` | `v0.12.8` | `v0.12.9` |
+| `github.com/oagentkit/textx` | `v0.10.9` | `v0.11.0` |
+## 为什么
+矩阵的**发版时刻地板时效**门禁（`verify_tag_floor --ref HEAD`）要求：各仓 HEAD
+（= 下次发版会发出去的内容）的依赖地板，相对那一刻的依赖最新版本，不能已落后。
+oekit 基座与矩阵模块都在高频发版 ⇒ 地板是**跑步机**，落后一格就会判红。
+## 兼容性实测
+本工具在提交前跑完 `go build` / `go vet` / `go test -race -count=1 ./...`（全绿才提交）
+与 `go mod tidy -diff`（无漂移）⇒ 改动**只影响依赖版本**，零行为差异。
+只改 `go.mod` / `go.sum` ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。
+
+- 杂务(deps)：依赖地板追到最新——github.com/oagentkit/agent v0.14.10
+
+| 依赖 | 现地板 | 抬到 |
+|---|---|---|
+| `github.com/oagentkit/agent` | `v0.14.9` | `v0.14.10` |
+| `github.com/oagentkit/llm` | `v0.21.9` | `v0.21.10` |
+| `github.com/oagentkit/mcpkit` | `v0.13.0` | `v0.13.1` |
+| `github.com/oagentkit/rag` | `v0.11.8` | `v0.11.9` |
+| `github.com/oagentkit/toolgate` | `v0.17.1` | `v0.17.2` |
+## 为什么
+矩阵的**发版时刻地板时效**门禁（`verify_tag_floor --ref HEAD`）要求：各仓 HEAD
+（= 下次发版会发出去的内容）的依赖地板，相对那一刻的依赖最新版本，不能已落后。
+oekit 基座与矩阵模块都在高频发版 ⇒ 地板是**跑步机**，落后一格就会判红。
+## 兼容性实测
+本工具在提交前跑完 `go build` / `go vet` / `go test -race -count=1 ./...`（全绿才提交）
+与 `go mod tidy -diff`（无漂移）⇒ 改动**只影响依赖版本**，零行为差异。
+只改 `go.mod` / `go.sum` ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。
+
+
 ## [v1.8.76] — 2026-11-11
 
 ### 修复(facade)：invoke 补转发 guardx v0.24.2 新符号 Delivery / DeliveryMaybeSent / DeliveryNotSent
