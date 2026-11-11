@@ -32,11 +32,13 @@ const (
 	InnerAfterOperand = upstream.InnerAfterOperand
 	InnerFirstOperand = upstream.InnerFirstOperand
 	InnerFlagValue    = upstream.InnerFlagValue
-	MaxCommandLen     = upstream.MaxCommandLen
-	RiskDestructive   = upstream.RiskDestructive
-	RiskReadOnly      = upstream.RiskReadOnly
-	RiskUnevaluated   = upstream.RiskUnevaluated
-	RiskWrite         = upstream.RiskWrite
+	// InnerOperandShellText 操作数按 shell 文本再判（tools#134 eval 形态）。
+	InnerOperandShellText = upstream.InnerOperandShellText
+	MaxCommandLen         = upstream.MaxCommandLen
+	RiskDestructive       = upstream.RiskDestructive
+	RiskReadOnly          = upstream.RiskReadOnly
+	RiskUnevaluated       = upstream.RiskUnevaluated
+	RiskWrite             = upstream.RiskWrite
 )
 
 var (
