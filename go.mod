@@ -5,18 +5,18 @@ go 1.26.0
 toolchain go1.27.2
 
 require (
-	github.com/oagentkit/agent v0.14.9
+	github.com/oagentkit/agent v0.14.10
 	github.com/oagentkit/guardx v0.24.3
-	github.com/oagentkit/llm v0.21.9
-	github.com/oagentkit/mcpkit v0.13.0
+	github.com/oagentkit/llm v0.21.10
+	github.com/oagentkit/mcpkit v0.13.1
 	github.com/oagentkit/obs v0.9.17
 	github.com/oagentkit/promptx v0.9.5
 	github.com/oagentkit/queue v0.11.2
-	github.com/oagentkit/rag v0.11.8
+	github.com/oagentkit/rag v0.11.9
 	github.com/oagentkit/runtime v0.12.8
 	github.com/oagentkit/skillkit v0.10.6
 	github.com/oagentkit/textx v0.10.9
-	github.com/oagentkit/toolgate v0.17.1
+	github.com/oagentkit/toolgate v0.17.2
 	github.com/oagentkit/tools v0.14.5
 )
 
