@@ -2,6 +2,96 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.8.76] — 2026-11-11
+
+### 修复(facade)：invoke 补转发 guardx v0.24.2 新符号 Delivery / DeliveryMaybeSent / DeliveryNotSent
+
+guardx 地板抬到 v0.24.2 后，invoke 包进入符号级对账口径的新符号：
+- `Delivery`（type）：投递状态，「跑没跑」之外的第三问——「发出去多远」；
+- `DeliveryNotSent` / `DeliveryMaybeSent`（const）：重试安全 / 永不重放。
+漏转发 = 下游按门面 import 编译失败（undefined），facade-symbols 门禁要求
+全量转发（与 tools v0.14.3 + bashguard 新符号转发同一先例）。这 3 个符号正是
+matrix-tools#201 当时实测「补了就编译不过」的那批——当时钉定版本还没有它们；
+如今抬钉进口径，按 kind 对位补上即可编译。
+## 兼容性实测
+gofmt / go build / go vet / go test -race -count=1 ./... 全绿；
+符号级门禁同判据本地复跑 ✅（核对 48 个包）。
+
+### 修复(ci)：Facade 门禁取数改 git object store——tarball 快照致 _git_snapshot 全判红
+
+「拉上游仓发布版快照」步预拉的是 tarball（repo_meta.fetch_repo_snapshot），
+但判据 verify_facade_symbols.py 的本地模式要求 <root>/<repo> 是 **git object
+store**（按门面 go.mod 钉定 tag `git archive` 解快照，本地检不出该 tag 时
+shallow fetch 单 tag 兜底）——tarball 目录没有 .git，兜底 fetch 报
+「fatal: not a git repository」，13 个仓全部判不了即红（fail-closed 的假红，
+实测本 PR 的 Facade symbols 检查因此一直红，门禁从未真正生效过）。
+改为浅克隆（--depth 1 --no-tags --no-checkout）落 <root>/<repo>：
+- 恰是判据兜底条款预期的输入形态（「.github repo-ci 的浅克隆走的就是这条路」）；
+- 不猜 ref：钉定版本由判据从 go.mod 解析、按需 shallow fetch 那一个 tag，
+  CI 只负责把仓的 git object store 备好（仓集合 = versions.json 的 modules）。
+本地同判据复现实测：修复前 13 仓全部「not a git repository」判红；
+修复后 48 包核对通过。
+
+- 杂务(deps)：依赖地板追到最新——promptx v0.9.5 / tools v0.14.5
+
+* chore(deps): 依赖地板追到最新——promptx v0.9.5 / tools v0.14.5（第二轮列车收官）
+* fix(bashguard): 门面补转发 InnerOperandShellText（tools#134 新增常量，Facade symbols 门禁）
+* style: gofmt bashguard/alias.go
+---------
+Co-authored-by: Murphy-Yi <zhangyi@Murphy-YideMac-Mini.local>
+
+- 杂务(deps)：依赖地板追到最新——github.com/oagentkit/agent v0.14.9
+
+| 依赖 | 现地板 | 抬到 |
+|---|---|---|
+| `github.com/oagentkit/agent` | `v0.14.8` | `v0.14.9` |
+| `github.com/oagentkit/guardx` | `v0.24.1` | `v0.24.3` |
+| `github.com/oagentkit/llm` | `v0.21.8` | `v0.21.9` |
+| `github.com/oagentkit/mcpkit` | `v0.12.8` | `v0.13.0` |
+| `github.com/oagentkit/obs` | `v0.9.15` | `v0.9.17` |
+| `github.com/oagentkit/promptx` | `v0.9.3` | `v0.9.4` |
+| `github.com/oagentkit/queue` | `v0.11.1` | `v0.11.2` |
+| `github.com/oagentkit/rag` | `v0.11.7` | `v0.11.8` |
+| `github.com/oagentkit/runtime` | `v0.12.6` | `v0.12.8` |
+| `github.com/oagentkit/skillkit` | `v0.10.4` | `v0.10.6` |
+| `github.com/oagentkit/textx` | `v0.10.7` | `v0.10.9` |
+| `github.com/oagentkit/toolgate` | `v0.16.1` | `v0.17.1` |
+| `github.com/oagentkit/tools` | `v0.14.3` | `v0.14.4` |
+| `github.com/oekit/logx` | `v0.9.1` | `v0.9.2` |
+| `github.com/oekit/pkg` | `v0.43.0` | `v0.44.0` |
+## 为什么
+矩阵的**发版时刻地板时效**门禁（`verify_tag_floor --ref HEAD`）要求：各仓 HEAD
+（= 下次发版会发出去的内容）的依赖地板，相对那一刻的依赖最新版本，不能已落后。
+oekit 基座与矩阵模块都在高频发版 ⇒ 地板是**跑步机**，落后一格就会判红。
+## 兼容性实测
+本工具在提交前跑完 `go build` / `go vet` / `go test -race -count=1 ./...`（全绿才提交）
+与 `go mod tidy -diff`（无漂移）⇒ 改动**只影响依赖版本**，零行为差异。
+只改 `go.mod` / `go.sum` ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。
+
+- 杂务(deps)：依赖地板追到最新——github.com/oagentkit/guardx v0.24.2
+
+| 依赖 | 现地板 | 抬到 |
+|---|---|---|
+| `github.com/oagentkit/guardx` | `v0.24.1` | `v0.24.2` |
+| `github.com/oagentkit/obs` | `v0.9.15` | `v0.9.16` |
+| `github.com/oagentkit/queue` | `v0.11.1` | `v0.11.2` |
+| `github.com/oagentkit/runtime` | `v0.12.6` | `v0.12.7` |
+| `github.com/oagentkit/skillkit` | `v0.10.4` | `v0.10.5` |
+| `github.com/oagentkit/textx` | `v0.10.7` | `v0.10.8` |
+| `github.com/oagentkit/toolgate` | `v0.16.1` | `v0.17.1` |
+| `github.com/oekit/concurrency` | `v0.31.2` | `v0.33.0` |
+| `github.com/oekit/logx` | `v0.9.1` | `v0.9.2` |
+| `github.com/oekit/pkg` | `v0.41.1` | `v0.43.0` |
+## 为什么
+矩阵的**发版时刻地板时效**门禁（`verify_tag_floor --ref HEAD`）要求：各仓 HEAD
+（= 下次发版会发出去的内容）的依赖地板，相对那一刻的依赖最新版本，不能已落后。
+oekit 基座与矩阵模块都在高频发版 ⇒ 地板是**跑步机**，落后一格就会判红。
+## 兼容性实测
+本工具在提交前跑完 `go build` / `go vet` / `go test -race -count=1 ./...`（全绿才提交）
+与 `go mod tidy -diff`（无漂移）⇒ 改动**只影响依赖版本**，零行为差异。
+只改 `go.mod` / `go.sum` ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。
+
+
 ## [v1.8.75] — 2026-11-10
 
 - 杂务(deps)：依赖地板追到最新——mcpkit v0.12.8 / obs v0.9.15 / promptx v0.9.3 / rag v0.11.7
