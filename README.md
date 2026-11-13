@@ -14,8 +14,8 @@
 本仓原是单仓 `git.enjoye.top/enjoydream/agentkit`，拆分为
 [`github.com/oagentkit/*`](https://github.com/oagentkit) 下 13 个独立发版仓后，
 作为**兼容门面**存在：48 个活包各配一个 `alias.go`，让存量下游只需改 import
-前缀、无需改调用点。门面自 v1.8.x 起废弃（不接受新功能），矩阵内零消费验证
-通过后，于 v1.9.0 整仓退役（兼容逻辑清仓车道，BREAKING）。
+前缀、无需改调用点。门面自 v1.8.x 起**已废弃**（不接受任何新功能），矩阵内
+零消费验证通过后，于 v1.9.0 整仓退役（兼容逻辑清仓车道，BREAKING）。
 
 ## 48 个包 → 上游真身对照表
 
