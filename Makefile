@@ -1,42 +1,29 @@
-# oagentkit/agentkit —— 与共享 CI(oagentkit/.github go-ci.yml)同口径的本地门禁载体(agentkit#138)
-.PHONY: test test-race test-coverage lint fmt vet ci tidy help
+# oagentkit/agentkit —— 退役仓（v1.9.0 终版）：本地门禁与 CI(retired-contract)同口径
+# 仓里没有代码，门禁守的是「墓碑形状」：零 .go、零依赖、README 刷正。
+.PHONY: check retired-shape readme-fresh help
 
-## test: 运行所有单元测试
-test:
-	go test ./...
+## check: 跑全部退役契约检查（与 CI retired-contract 同口径）
+check: retired-shape readme-fresh
 
-## test-race: 运行竞态检测测试
-test-race:
-	go test -race ./...
+## retired-shape: 零 .go 文件 + go.mod 只许 module 声明
+retired-shape:
+	@bad=$$(find . -name '*.go' -not -path './.git/*'); if [ -n "$$bad" ]; then \
+		echo "退役仓出现 .go 文件："; echo "$$bad"; exit 1; fi
+	@if grep -qE '^[[:space:]]*(require|exclude|replace)[ (]' go.mod; then \
+		echo "go.mod 出现 require/exclude/replace——墓碑长出了依赖"; exit 1; fi
+	@grep -q '^module github.com/oagentkit/agentkit$$' go.mod || \
+		{ echo "go.mod 缺 module 声明"; exit 1; }
+	@echo "OK：零 .go 文件，go.mod = module 声明 + 零依赖"
 
-## test-coverage: 生成测试覆盖率报告
-test-coverage:
-	go test -coverprofile=coverage.out ./...
-	go tool cover -func=coverage.out
+## readme-fresh: README 状态行不落后最新 tag（沿用 #192 刷正纪律）
+readme-fresh:
+	@latest=$$(git describe --tags --abbrev=0); \
+	readme=$$(grep -oE '当前 v[0-9]+\.[0-9]+\.[0-9]+' README.md | head -n1 | sed 's/^当前 //'); \
+	if [ -z "$$readme" ]; then echo "README 状态行找不到「当前 vX.Y.Z」"; exit 1; fi; \
+	if [ "$$(printf '%s\n%s\n' "$$latest" "$$readme" | sort -V | head -n1)" != "$$latest" ]; then \
+		echo "README 状态行 $$readme 落后最新 tag $$latest"; exit 1; fi
+	@echo "OK：README 状态行 ≥ 最新 tag"
 
-## lint: 运行 golangci-lint（需要先安装）
-lint:
-	golangci-lint run ./...
-
-## fmt: 格式化所有 Go 文件
-fmt:
-	gofmt -s -w .
-	goimports -w .
-
-## vet: 运行 go vet
-vet:
-	go vet ./...
-
-## ci: 模拟 CI 流程（fmt 检查 + vet + test-race），与共享 CI go-ci.yml 同口径
-ci:
-	@test -z "$$(gofmt -l . | grep -v vendor | tee /dev/stderr)" || (echo "请运行 make fmt" && exit 1)
-	go vet ./...
-	go test -race -count=1 ./...
-
-## tidy: 整理 go.mod
-tidy:
-	go mod tidy
-
-## help: 显示帮助
+## help: 显示本文件的目标
 help:
 	@grep -E '^## ' $(MAKEFILE_LIST) | sed 's/## //'
