@@ -2,6 +2,103 @@
 
 > 本文件由 `matrix-tools/scripts/gen_changelogs.py` 从 git 历史生成，按 tag 切段、取每段内的 conventional commit 渲染。
 
+## [v1.9.0] — 2026-11-13
+
+### 重构：整仓退役——48 个兼容转发子包全删，终版 v1.9.0（BREAKING）
+
+本仓是原单仓 git.enjoye.top/enjoydream/agentkit 拆分后的兼容门面，
+48 个子包全是 re-export 垫片（alias.go）。兼容逻辑清仓车道整仓退役：
+- 删除全部 48 个子包目录（各含 alias.go；llm/busy_admission_test.go、
+  router/negation_hook_test.go 两个门面契约测试一并删）
+- 删除 MIGRATION.md（映射表并入 README）
+- README 重写为退役公告：48 子包 → 上游真身仓对照表
+- AGENTS.md 重写为退役契约（禁止 .go、禁止依赖、仅文档勘误）
+- go.mod 只保留 module 声明，清空全部 require（无代码无依赖），
+  go.sum 删除
+- ci.yml：go-ci / facade-symbols / facade-contract 三个 job 退役，
+  换成 retired-contract（零 .go、零 require、README 刷正、48 行对照表守恒）
+## BREAKING：下游要做什么
+`github.com/oagentkit/agentkit/<pkg>` 的全部 import 路径在 v1.9.0 起
+编译失败。逐包改到上游真身（符号同名、调用点零改动），go.mod 换掉
+require github.com/oagentkit/agentkit 后 go mod tidy：
+| 旧门面包（48 个） | 上游模块 | 新 import 路径 |
+|---|---|---|
+| `acpx` | tools | `github.com/oagentkit/tools/acpx` |
+| `agentrun` / `blackboard` / `clarify` / `dispatch` / `reflection` / `router` | agent | `github.com/oagentkit/agent/<pkg>` |
+| `audit` / `langfuse` | obs | `github.com/oagentkit/obs/<pkg>` |
+| `bashguard` / `sast` / `websearch` / `workcopy` | tools | `github.com/oagentkit/tools/<pkg>` |
+| `codeintel` / `compact` / `conversation` / `diffx` / `reportutil` / `textutil` | textx | `github.com/oagentkit/textx/<pkg>` |
+| `egress` / `fence` / `injectband` / `invoke` / `logredact` / `permgate` | guardx | `github.com/oagentkit/guardx/<pkg>` |
+| `filestate` / `steering` / `sysprompt` | promptx | `github.com/oagentkit/promptx/<pkg>` |
+| `hookx` / `hotplug` / `pacer` / `procx` / `progress` | runtime | `github.com/oagentkit/runtime/<pkg>` |
+| `lineage` / `pack` / `skill` | skillkit | `github.com/oagentkit/skillkit/<pkg>` |
+| `llm` / `llmtest` / `obsx` / `port` / `wrap` | llm | `github.com/oagentkit/llm`、`…/llm/llmtest`、`…/llm/obsx`、`…/llm/port`、`…/llm/wrap` |
+| `mcp` | mcpkit | `github.com/oagentkit/mcpkit/mcp` |
+| `pglease` / `worker` | queue | `github.com/oagentkit/queue/<pkg>` |
+| `policy` / `toolprior` / `toolsched` | toolgate | `github.com/oagentkit/toolgate/<pkg>` |
+| `rag` | rag | `github.com/oagentkit/rag` |
+（README 有 48 行逐包全表；机器可读源 matrix-tools/modules.json。）
+旧单仓 module path git.enjoye.top/enjoydream/agentkit 同步作废；
+归档（archive）待旧单仓下线后执行，v1.8.x 及更早 tag 的 go get 照常解析。
+
+- 杂务(deps)：依赖地板追到最新——runtime v0.13.0 / agent v0.14.11 / obs v0.9.18
+
+* chore(deps): 依赖地板追到最新——runtime v0.13.0 / agent v0.14.11 / obs v0.9.18 / concurrency v0.35.1
+适配 runtime v0.13.0 breaking：pacer.Option 改名 StreamOption（runtime#110
+禁裸 Option），门面保留 Option 历史别名供下游兼容。
+* fix(pacer): 删 Option 幽灵转发——runtime v0.13.0 起上游只导出 StreamOption（facade 门禁口径）
+
+- 杂务(deps)：依赖地板追到最新——github.com/oagentkit/guardx v0.24.6
+
+| 依赖 | 现地板 | 抬到 |
+|---|---|---|
+| `github.com/oagentkit/guardx` | `v0.24.5` | `v0.24.6` |
+| `github.com/oagentkit/llm` | `v0.21.11` | `v0.21.12` |
+| `github.com/oagentkit/queue` | `v0.11.3` | `v0.11.4` |
+| `github.com/oekit/concurrency` | `v0.34.0` | `v0.35.0` |
+| `github.com/oekit/pkg` | `v0.46.0` | `v0.47.1` |
+## 为什么
+矩阵的**发版时刻地板时效**门禁（`verify_tag_floor --ref HEAD`）要求：各仓 HEAD
+（= 下次发版会发出去的内容）的依赖地板，相对那一刻的依赖最新版本，不能已落后。
+oekit 基座与矩阵模块都在高频发版 ⇒ 地板是**跑步机**，落后一格就会判红。
+## 兼容性实测
+本工具在提交前跑完 `go build` / `go vet` / `go test -race -count=1 ./...`（全绿才提交）
+与 `go mod tidy -diff`（无漂移）⇒ 改动**只影响依赖版本**，零行为差异。
+只改 `go.mod` / `go.sum` ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。
+
+- 杂务(deps)：依赖地板追到最新——github.com/oagentkit/guardx v0.24.6
+
+| 依赖 | 现地板 | 抬到 |
+|---|---|---|
+| `github.com/oagentkit/guardx` | `v0.24.5` | `v0.24.6` |
+| `github.com/oagentkit/llm` | `v0.21.11` | `v0.21.12` |
+| `github.com/oagentkit/queue` | `v0.11.3` | `v0.11.4` |
+| `github.com/oekit/concurrency` | `v0.34.0` | `v0.34.1` |
+| `github.com/oekit/pkg` | `v0.46.0` | `v0.47.0` |
+## 为什么
+矩阵的**发版时刻地板时效**门禁（`verify_tag_floor --ref HEAD`）要求：各仓 HEAD
+（= 下次发版会发出去的内容）的依赖地板，相对那一刻的依赖最新版本，不能已落后。
+oekit 基座与矩阵模块都在高频发版 ⇒ 地板是**跑步机**，落后一格就会判红。
+## 兼容性实测
+本工具在提交前跑完 `go build` / `go vet` / `go test -race -count=1 ./...`（全绿才提交）
+与 `go mod tidy -diff`（无漂移）⇒ 改动**只影响依赖版本**，零行为差异。
+只改 `go.mod` / `go.sum` ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。
+
+
+- 文档(governance)：治理契约四单清零——§3 快照口径 / 前缀替换例外 / 测试豁免面 / README 版本行刷正 (#189 #190 #191 #192)
+
+- #189 AGENTS.md §3 换成与 llm/alias.go、上游钉定版一致的快照口径：
+  BusyAdmissionDelays 是快照特例（上游热路径读原子快照不读该 var，
+  赋值/append/索引写全死写），失实的「len() 取档」「索引写能传播」示例句删除
+- #190 AGENTS.md/README 补前缀替换 4 例例外（worker/pglease、knowledge/rag、
+  llm/llmtest、llm/wrap 平铺目录），指路 MIGRATION 新路径列/门面平铺路径
+- #191 「只有一个 alias.go」红线修订为 alias.go + *_test.go 豁免面
+  （在册 2 个测试文件），ci.yml 注释同步
+- #192 README 状态行刷正 v1.8.57 → v1.8.77
+- 新增 facade-contract CI 门禁（.go 文件集合 / README 版本行不落后 tag /
+  AGENTS.md 契约文本），把四单的盲区机械拦截
+
+
 ## [v1.8.77] — 2026-11-12
 
 - 杂务(deps)：依赖地板追到最新——矩阵模块 wave（guardx v0.24.5 / llm v0.21.11 等）
