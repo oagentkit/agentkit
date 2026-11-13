@@ -13,9 +13,12 @@ package pacer
 import upstream "github.com/oagentkit/runtime/pacer"
 
 type (
-	Delta  = upstream.Delta
-	Option = upstream.Option
-	Stream = upstream.Stream
+	Delta = upstream.Delta
+	// StreamOption：runtime v0.13.0 起裸 Option 改名 StreamOption（runtime#110
+	// 禁裸 Option）——门面只转发上游现存符号，旧名 Option 不再保留（幽灵转发
+	// 门禁），下游改引 StreamOption 或直接用上游 runtime/pacer。
+	StreamOption = upstream.StreamOption
+	Stream       = upstream.Stream
 )
 
 const (
