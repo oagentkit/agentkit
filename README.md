@@ -3,10 +3,11 @@
 > 🗄️ **本仓已废弃：只保留兼容转发，不是开发目标，新代码不要引它。**
 > 原单仓已拆分为 [`github.com/oagentkit/*`](https://github.com/oagentkit) 下 **13 个独立发版的仓**。
 > 本仓只把 **48 个活包**的导出符号做成别名转发，让**存量**下游只需改 import 前缀、无需改调用点。
+> ⚠️ **前缀替换 4 例例外**（[agentkit#190](https://github.com/oagentkit/agentkit/issues/190)）：旧单仓嵌套路径 `worker/pglease`、`knowledge/rag`、`llm/llmtest`、`llm/wrap` 在本仓是**平铺**目录（`pglease/` `rag/` `llmtest/` `wrap/`），只改前缀会指向不存在的包——这 4 条按 [MIGRATION.md](MIGRATION.md)「新 import 路径」列改写，或改用门面平铺路径（`github.com/oagentkit/agentkit/pglease` 等）。
 > 另有 1 个包（`breaker`）已退役，不在此列——见 [MIGRATION.md](MIGRATION.md#已退役的包)。
 > 所以 [MIGRATION.md](MIGRATION.md) 的映射表 = **48 个活包**的迁移映射 **+ 1 行已退役包**。
 >
-> **状态**：v1.x 退役条件**已满足**（当前 v1.8.57）。本仓不接受任何新功能，
+> **状态**：v1.x 退役条件**已满足**（当前 v1.8.77）。本仓不接受任何新功能，
 > 只做别名转发与安全修复。归档（archive）待旧单仓
 > `git.enjoye.top/enjoydream/agentkit`（module path 的实际所在）下线后执行——
 > 那才是真正切断旧路径的一步；在此之前本仓继续可用，**已有 tag 的 `go get` 照常解析**。

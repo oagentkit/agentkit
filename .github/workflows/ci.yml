@@ -23,7 +23,8 @@ jobs:
     uses: oagentkit/.github/.github/workflows/go-ci.yml@main
     with:
       go-version: '1.26'
-      # 门面仓是纯 re-export，没有任何自研实现：
+      # 门面仓是纯 re-export，除 *_test.go 回归测试外没有任何自研实现
+      # （agentkit#191：红线豁免面 = alias.go + *_test.go）：
       # 覆盖率门禁对「一行逻辑都没有」的包无意义，关掉
       coverage-threshold: 0
 
@@ -109,3 +110,73 @@ jobs:
 
       - name: 门面符号级转发完整性（门面=本 PR head，上游=发布版快照）
         run: python3 matrix-tools/scripts/verify_facade_symbols.py --root "$RUNNER_TEMP/matrix-root" --facade .
+
+  facade-contract:
+    name: Facade contract（治理契约文本/结构）
+    # 门面治理契约此前零机械拦截（agentkit#189/#190/#191/#192 四单同款盲区）：
+    #   #189 AGENTS.md §3 用 llm.BusyAdmissionDelays 讲解的语义与同仓 alias.go、
+    #       上游钉定版三方互斥（示例句失实）；
+    #   #190 「只需改 import 前缀」对 4 个嵌套旧包不成立，例外无文档无门禁；
+    #   #191 「每包只有一个 alias.go」被 2 个 *_test.go 字面违反，契约未修订；
+    #   #192 README 状态行版本断更 20 个 release（#94/#100/#110 纪律无门禁）。
+    # 判据全在本仓文本/文件集合/本仓 tag 上，不联网、秒级。
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # fetch-depth: 0 —— README 版本行判据要 git describe --tags（#192），
+      # 浅克隆没有 tag 会让判据 fail-closed 假红（agentkit#180 的同款教训）。
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: '.go 文件集合只许 alias.go + *_test.go（零自研实现红线，#191）'
+        run: |
+          bad=$(find . -name '*.go' -not -name 'alias.go' -not -name '*_test.go' -not -path './.git/*')
+          if [ -n "$bad" ]; then
+            echo "::error::越出「零自研实现」红线的 .go（只许 alias.go + *_test.go）："
+            echo "$bad"
+            exit 1
+          fi
+          echo "OK：全部 .go ∈ {alias.go, *_test.go}"
+
+      - name: README 状态行版本不得落后最新 tag（刷正纪律门禁，#192）
+        run: |
+          latest=$(git describe --tags --abbrev=0)
+          readme=$(grep -oE '当前 v[0-9]+\.[0-9]+\.[0-9]+' README.md | head -n1 | sed 's/^当前 //')
+          if [ -z "$readme" ]; then
+            echo "::error::README 状态行找不到「当前 vX.Y.Z」判据（#192）"
+            exit 1
+          fi
+          # 判据取「不落后」而非相等：#94/#100/#110 的刷正发生在打 tag 前
+          # （README 允许领先最新 tag 一个待发版号），落后才是断更（#192 实测落后 20 个）。
+          if [ "$(printf '%s\n%s\n' "$latest" "$readme" | sort -V | head -n1)" != "$latest" ]; then
+            echo "::error::README 状态行 $readme 落后最新 tag $latest——刷正纪律断更（#94/#100/#110，#192）"
+            exit 1
+          fi
+          echo "OK：README 状态行 $readme ≥ 最新 tag $latest"
+
+      - name: AGENTS.md 契约文本（#189/#190/#191）
+        run: |
+          fail=0
+          # #189：§3 示例句不得再残留已失实的「len() 取档」口径，且须有快照特例条目
+          if grep -q 'recovery.go 的访问器按' AGENTS.md; then
+            echo "::error::AGENTS.md §3 仍残留 BusyAdmissionDelays 失实语义（#189）"
+            fail=1
+          fi
+          if ! grep -q '快照特例' AGENTS.md; then
+            echo "::error::AGENTS.md §3 缺 BusyAdmissionDelays 快照特例条目（#189）"
+            fail=1
+          fi
+          # #190：前缀替换 4 例例外必须在契约里逐条点名
+          for p in worker/pglease knowledge/rag llm/llmtest llm/wrap; do
+            if ! grep -q "$p" AGENTS.md; then
+              echo "::error::AGENTS.md 缺嵌套旧包例外 $p（#190）"
+              fail=1
+            fi
+          done
+          # #191：测试豁免面必须写进红线
+          if ! grep -q '_test.go' AGENTS.md; then
+            echo "::error::AGENTS.md 红线未写 _test.go 豁免面（#191）"
+            fail=1
+          fi
+          exit $fail

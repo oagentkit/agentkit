@@ -2,13 +2,19 @@
 
 > 已废弃的**兼容门面**——把 13 个真实模块仓的 48 个包做成**别名转发**，
 > 让**存量**下游只需改 import 前缀、无需改调用点。
+> ⚠️ 前缀替换 4 例例外（agentkit#190）：旧单仓嵌套路径 `worker/pglease`、
+> `knowledge/rag`、`llm/llmtest`、`llm/wrap` 在门面是**平铺末段目录**
+> （`pglease/` `rag/` `llmtest/` `wrap/`），纯改前缀会指向不存在的包——
+> 这 4 条按 [MIGRATION.md](MIGRATION.md)「新 import 路径」列改写，
+> 或改用门面平铺路径（`github.com/oagentkit/agentkit/pglease` 等）。
 > module：`github.com/oagentkit/agentkit` · org：[oagentkit = Open Agent Kit](https://github.com/oagentkit)
 > **本仓不是开发目标**：v1.x 退役条件已满足，只做别名转发与安全修复。
 
 ## 本仓包含
 
 ```
-每个包目录 = 一个门面包 = **只有一个** `alias.go`（门面零自研实现）
+每个包目录 = 一个门面包 = **只有** `alias.go` 一个实现文件
+（外加可选的 `*_test.go` 回归测试——测试是唯一豁免面，不构成实现）
 共 48 个活包：`textutil/` `diffx/` `conversation/` … `llmtest/` `wrap/` `port/` …
 ```
 
@@ -61,13 +67,18 @@
   `reportutil.Aggregate`）。泛型**类型**可以用类型别名转发，**必须转发**。
 - ⚠️ **运行时读取的可写 var 不得值拷贝转发**（agentkit#155/#156）：func 钩子与
   哨兵 error 是值拷贝**安全**的（哨兵本就该共享、钩子的运行时读取在上游——
-  前者的修法是门面加 setter 直写上游 var，如 `router.SetOnNegationHit`、
-  `llm.SetBusyAdmissionDelays`）；但上游运行时**读取**的切片 var（如
-  `llm.BusyAdmissionDelays`——recovery.go 的访问器按 `len()` 取档）值拷贝转发后，
-  下游经门面 reassign/append 只改写门面副本，上游读不到，调优静默失效；
-  未 append 前的索引写恰因共享底层数组能传播，最易误判正常。map 引用共享且
-  上游文档化用法是原地写（如 `agentrun.MutatingVerbs`），经门面生效，**豁免**。
+  前者的修法是门面加 setter 直写上游 var，如 `router.SetOnNegationHit`）；
+  但上游运行时**直接读取**的切片 var 值拷贝转发后，下游经门面 reassign/append
+  只改写门面副本，上游读不到，调优静默失效；未 append 前的索引写恰因共享底层
+  数组能传播，最易误判正常。map 引用共享且上游文档化用法是原地写（如
+  `agentrun.MutatingVerbs`），经门面生效，**豁免**。
   这类符号转发时必须在 alias.go 行内注释指路 setter。
+- 📌 `llm.BusyAdmissionDelays` 是上条规则的**快照特例**（llm v0.21.8+，agentkit#170，
+  契约面 agentkit#189）：上游热路径读 `SetBusyAdmissionDelays` 维护的原子快照、
+  **不读该 var**（recovery.go init 时防御性拷贝入快照，与 var 连底层数组都不共享）
+  ⇒ 经门面**读写都不反映已生效的表**：读数停在初始化缺省，赋值 / append / 索引写
+  全是死写（**不传播**——与本节旧文案相反）。调优一律走 `SetBusyAdmissionDelays`，
+  与 `llm/alias.go` 行内注释同口径。
 
 ### 4. 上游新增导出符号 → 必须在本仓补别名
 
@@ -102,7 +113,10 @@
 - **门面已废弃 ≠ 已转发的兼容面可以烂掉。** 门面活着期间，§3 / §4 的符号级门禁
   必须继续绿——那 48 个 `alias.go` 是存量下游**唯一编译得过的那张脸**。
 - 门面**零自研实现**：任何不是「转发上游」的 `.go` 代码都是越界
-  （门面自研包比多转发一个上游更严重）。
+  （门面自研包比多转发一个上游更严重）。`.go` 文件集合只许 `alias.go` +
+  `*_test.go`——回归测试是唯一豁免面（只钉转发/门禁语义，不构成实现），
+  在册两个：`llm/busy_admission_test.go`、`router/negation_hook_test.go`
+  （agentkit#191：红线此前写「只有一个 .go」，与这 2 个测试文件字面冲突）。
 
 ## 明确不属于本仓的
 
