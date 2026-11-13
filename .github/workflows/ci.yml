@@ -1,7 +1,10 @@
 name: CI
 
-# 薄调用层：门禁规则本体在 oagentkit/.github/.github/workflows/go-ci.yml。
-# 改门禁规则只改那一个仓，这里不用动。
+# 退役仓契约检查：本仓已于 v1.9.0 整仓退役（48 个兼容转发子包全删、零代码、
+# 零依赖），不再跑 Go 构建门禁——「仓里没有任何 .go」正是要守的不变量。
+# 历史上的 shared go-ci（Lint & Test）、facade-symbols（符号级转发完整性）、
+# facade-contract（门面治理契约）三个 job 随门面一起退役，由本 job 接管
+# 「墓碑形状」的机器约束。
 
 on:
   push:
@@ -18,165 +21,62 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ci:
-    name: Lint & Test
-    uses: oagentkit/.github/.github/workflows/go-ci.yml@main
-    with:
-      go-version: '1.26'
-      # 门面仓是纯 re-export，除 *_test.go 回归测试外没有任何自研实现
-      # （agentkit#191：红线豁免面 = alias.go + *_test.go）：
-      # 覆盖率门禁对「一行逻辑都没有」的包无意义，关掉
-      coverage-threshold: 0
-
-  facade-symbols:
-    name: Facade symbols（符号级转发完整性）
-    # 门面符号对账门禁接进本仓 PR 事件路径（agentkit#157）：此前
-    # verify_facade_symbols.py 只在 matrix-tools 自己的 CI 里跑（触发条件是
-    # matrix-tools 自身 push），agentkit 侧删漏转发符号的 PR 全绿合入——
-    # 缺失符号不让门面自身 build/vet/test 失败（只让下游编译失败），要等
-    # 下一次有人 push matrix-tools 才会红，这正是 #133/#135/#140/#146 一连串
-    # 事后「补转」的结构性原因。
-    #
-    # 模式取「上游 = versions.json 的 latest 发布版快照（联网拉取），门面 = 本
-    # PR head（本地 checkout）」的自足变体（agentkit#157 的兜底条款）：
-    #   - 门面：--facade 指向本 checkout（PR head）——纯 --org 模式会把门面也
-    #     取成 main，PR 上删掉符号照样全绿，门禁对本仓 PR 就成了摆设（实测：
-    #     删掉 llm.WithRetryAttempts 转发本门禁即红）；
-    #   - 上游：钉 versions.json 登记的 latest **发布版**而非 main。理由：下游
-    #     按门面 import 装的是**发布版**上游（go.mod 地板），对账对象就该是那张
-    #     脸——对账上游 main 会把「上游已合入、发布版还没有」的符号判成漏转发
-    #     （实测今日 4 个：guardx.HasTruncatedPayloadMarker / queue.LeaseCleaner /
-    #     tools.RedirInfo / toolgate.PolicyRejectedPrefix，都是未发版的既有欠账，
-    #     补转须等上游发版，不该由无关 PR 背红）。上游 main → 门面的前向漂移
-    #     仍由 matrix-tools 自己的 CI（main 口径 oracle）兜底，两个口径互补。
-    #   - 上游快照由本 workflow 预拉 **git object store**（浅克隆到
-    #     <root>/<repo>），判据本地模式按门面 go.mod 钉定 tag 解快照
-    #     （git archive + shallow fetch 单 tag 兜底）——⚠️ 判据要求 <root>/<repo>
-    #     有 .git（issue agentkit#180 实测：tarball 快照会让 git fetch 报
-    #     「fatal: not a git repository」，全部判红的假红）。
-    # 判据本体零复用门面逻辑（独立 oracle，go/parser 提取两侧符号），
-    # 与 matrix-tools CI（matrix-tools-ci.yml :: facade-symbols）同一脚本。
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    env:
-      GH_TOKEN: ${{ github.token }}
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Checkout matrix-tools（判据脚本与矩阵真相源 versions.json）
-        uses: actions/checkout@v7
-        with:
-          repository: oagentkit/matrix-tools
-          path: matrix-tools
-
-      - uses: actions/setup-go@v5
-        with:
-          go-version: '1.26'
-
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.12'
-
-      - name: 拉上游仓 git object store（判据 _git_snapshot 的前提；取不到即红——守卫最危险的形态是一直绿但从没生效过）
-        run: |
-          mkdir -p "$RUNNER_TEMP/matrix-root"
-          python3 - <<'PY'
-          import json, os, subprocess
-          from pathlib import Path
-          idx = json.load(open("matrix-tools/versions.json"))
-          repos = sorted({m["repo"] for m in idx["modules"] if m["repo"] != "agentkit"})
-          root = Path(os.environ["RUNNER_TEMP"]) / "matrix-root"
-          for repo in repos:
-              dest = root / repo
-              # 判据的本地模式从 <root>/<repo> 的 git object store 按门面
-              # go.mod 钉定 tag 解快照（git archive + shallow fetch 单 tag
-              # 兜底）。这里不猜 ref：钉定版本由判据从 go.mod 解析并按需
-              # shallow fetch 那一个 tag（兜底条款：「.github repo-ci 的浅克隆
-              # 走的就是这条路」）——tarball 快照没有 .git，判据 fetch 时报
-              # 「fatal: not a git repository」全部判红（fail-closed 的假红，
-              # agentkit#180 实测形态）。
-              r = subprocess.run(
-                  ["git", "clone", "-q", "--depth", "1", "--no-tags", "--no-checkout",
-                   f"https://github.com/oagentkit/{repo}", str(dest)],
-                  capture_output=True, text=True)
-              if r.returncode != 0:
-                  raise SystemExit(
-                      f"取不到 oagentkit/{repo} 的 git 快照，判不了即红："
-                      f"{(r.stderr or '').strip()[:300]}")
-          print(f"已克隆 {len(repos)} 个上游仓的 git object store")
-          PY
-
-      - name: 门面符号级转发完整性（门面=本 PR head，上游=发布版快照）
-        run: python3 matrix-tools/scripts/verify_facade_symbols.py --root "$RUNNER_TEMP/matrix-root" --facade .
-
-  facade-contract:
-    name: Facade contract（治理契约文本/结构）
-    # 门面治理契约此前零机械拦截（agentkit#189/#190/#191/#192 四单同款盲区）：
-    #   #189 AGENTS.md §3 用 llm.BusyAdmissionDelays 讲解的语义与同仓 alias.go、
-    #       上游钉定版三方互斥（示例句失实）；
-    #   #190 「只需改 import 前缀」对 4 个嵌套旧包不成立，例外无文档无门禁；
-    #   #191 「每包只有一个 alias.go」被 2 个 *_test.go 字面违反，契约未修订；
-    #   #192 README 状态行版本断更 20 个 release（#94/#100/#110 纪律无门禁）。
-    # 判据全在本仓文本/文件集合/本仓 tag 上，不联网、秒级。
+  retired-contract:
+    name: Retired contract（退役墓碑形状）
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      # fetch-depth: 0 —— README 版本行判据要 git describe --tags（#192），
-      # 浅克隆没有 tag 会让判据 fail-closed 假红（agentkit#180 的同款教训）。
+      # fetch-depth: 0 —— README 状态行判据要 git describe --tags（沿用 #192 的
+      # 浅克隆教训：没有 tag 会让判据 fail-closed 假红）。
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - name: '.go 文件集合只许 alias.go + *_test.go（零自研实现红线，#191）'
+      - name: 仓里不得再有任何 .go 文件（退役 = 不再提供 API）
         run: |
-          bad=$(find . -name '*.go' -not -name 'alias.go' -not -name '*_test.go' -not -path './.git/*')
+          bad=$(find . -name '*.go' -not -path './.git/*')
           if [ -n "$bad" ]; then
-            echo "::error::越出「零自研实现」红线的 .go（只许 alias.go + *_test.go）："
+            echo "::error::退役仓出现 .go 文件（复活包请去上游模块仓，不要在这里加回 alias）："
             echo "$bad"
             exit 1
           fi
-          echo "OK：全部 .go ∈ {alias.go, *_test.go}"
+          echo "OK：零 .go 文件"
 
-      - name: README 状态行版本不得落后最新 tag（刷正纪律门禁，#192）
+      - name: go.mod 只许 module 声明（零依赖墓碑）
+        run: |
+          if grep -qE '^[[:space:]]*(require|exclude|replace)[ (]' go.mod; then
+            echo "::error::go.mod 出现 require/exclude/replace——墓碑长出了依赖"
+            exit 1
+          fi
+          if ! grep -q '^module github.com/oagentkit/agentkit$' go.mod; then
+            echo "::error::go.mod 缺 module github.com/oagentkit/agentkit 声明"
+            exit 1
+          fi
+          echo "OK：go.mod = module 声明 + 零依赖"
+
+      - name: README 退役公告与状态行不得落后最新 tag（刷正纪律，沿用 #192）
         run: |
           latest=$(git describe --tags --abbrev=0)
           readme=$(grep -oE '当前 v[0-9]+\.[0-9]+\.[0-9]+' README.md | head -n1 | sed 's/^当前 //')
           if [ -z "$readme" ]; then
-            echo "::error::README 状态行找不到「当前 vX.Y.Z」判据（#192）"
+            echo "::error::README 状态行找不到「当前 vX.Y.Z」判据"
             exit 1
           fi
-          # 判据取「不落后」而非相等：#94/#100/#110 的刷正发生在打 tag 前
-          # （README 允许领先最新 tag 一个待发版号），落后才是断更（#192 实测落后 20 个）。
           if [ "$(printf '%s\n%s\n' "$latest" "$readme" | sort -V | head -n1)" != "$latest" ]; then
-            echo "::error::README 状态行 $readme 落后最新 tag $latest——刷正纪律断更（#94/#100/#110，#192）"
+            echo "::error::README 状态行 $readme 落后最新 tag $latest——刷正纪律断更"
             exit 1
           fi
-          echo "OK：README 状态行 $readme ≥ 最新 tag $latest"
+          if ! grep -q '已退役' README.md; then
+            echo "::error::README 缺「已退役」公告标记"
+            exit 1
+          fi
+          echo "OK：README 退役公告在，状态行 $readme ≥ 最新 tag $latest"
 
-      - name: AGENTS.md 契约文本（#189/#190/#191）
+      - name: 48 包对照表行数守恒（迁移指引是墓碑的唯一正文）
         run: |
-          fail=0
-          # #189：§3 示例句不得再残留已失实的「len() 取档」口径，且须有快照特例条目
-          if grep -q 'recovery.go 的访问器按' AGENTS.md; then
-            echo "::error::AGENTS.md §3 仍残留 BusyAdmissionDelays 失实语义（#189）"
-            fail=1
+          n=$(grep -cE '^\| `[a-z0-9]+` \| [a-z]+ \| `github\.com/oagentkit/' README.md)
+          if [ "$n" -ne 48 ]; then
+            echo "::error::README 对照表应有 48 行，实际 $n——包表增删都要给出理由"
+            exit 1
           fi
-          if ! grep -q '快照特例' AGENTS.md; then
-            echo "::error::AGENTS.md §3 缺 BusyAdmissionDelays 快照特例条目（#189）"
-            fail=1
-          fi
-          # #190：前缀替换 4 例例外必须在契约里逐条点名
-          for p in worker/pglease knowledge/rag llm/llmtest llm/wrap; do
-            if ! grep -q "$p" AGENTS.md; then
-              echo "::error::AGENTS.md 缺嵌套旧包例外 $p（#190）"
-              fail=1
-            fi
-          done
-          # #191：测试豁免面必须写进红线
-          if ! grep -q '_test.go' AGENTS.md; then
-            echo "::error::AGENTS.md 红线未写 _test.go 豁免面（#191）"
-            fail=1
-          fi
-          exit $fail
+          echo "OK：对照表 48 行"

@@ -1,116 +1,84 @@
-# agentkit（门面仓 · 已废弃）
+# agentkit（已退役 · 终版 v1.9.0）
 
-> 🗄️ **本仓已废弃：只保留兼容转发，不是开发目标，新代码不要引它。**
-> 原单仓已拆分为 [`github.com/oagentkit/*`](https://github.com/oagentkit) 下 **13 个独立发版的仓**。
-> 本仓只把 **48 个活包**的导出符号做成别名转发，让**存量**下游只需改 import 前缀、无需改调用点。
-> ⚠️ **前缀替换 4 例例外**（[agentkit#190](https://github.com/oagentkit/agentkit/issues/190)）：旧单仓嵌套路径 `worker/pglease`、`knowledge/rag`、`llm/llmtest`、`llm/wrap` 在本仓是**平铺**目录（`pglease/` `rag/` `llmtest/` `wrap/`），只改前缀会指向不存在的包——这 4 条按 [MIGRATION.md](MIGRATION.md)「新 import 路径」列改写，或改用门面平铺路径（`github.com/oagentkit/agentkit/pglease` 等）。
-> 另有 1 个包（`breaker`）已退役，不在此列——见 [MIGRATION.md](MIGRATION.md#已退役的包)。
-> 所以 [MIGRATION.md](MIGRATION.md) 的映射表 = **48 个活包**的迁移映射 **+ 1 行已退役包**。
+> 🪦 **本模块已退役（v1.9.0，2026-11-13）**：48 个兼容转发子包**全部删除**，
+> `github.com/oagentkit/agentkit/*` 的所有 import 路径在 v1.9.0 起编译失败。
+> 本仓保留 module 声明与零依赖的 go.mod，仅作墓碑与迁移指引，**不再有任何代码**。
 >
-> **状态**：v1.x 退役条件**已满足**（当前 v1.8.77）。本仓不接受任何新功能，
-> 只做别名转发与安全修复。归档（archive）待旧单仓
-> `git.enjoye.top/enjoydream/agentkit`（module path 的实际所在）下线后执行——
-> 那才是真正切断旧路径的一步；在此之前本仓继续可用，**已有 tag 的 `go get` 照常解析**。
->
-> **新代码请直接 import 上游模块**（见下方「迁移」与 [MIGRATION.md](MIGRATION.md)）。
+> **下游要做什么**：把 `github.com/oagentkit/agentkit/<pkg>` 的 import 改到下表
+> 上游真身（符号同名，调用点零改动），并把 go.mod 的
+> `require github.com/oagentkit/agentkit` 换成对应上游模块后 `go mod tidy`。
+> 旧单仓 module path `git.enjoye.top/enjoydream/agentkit` 同步作废。
 
-## 为什么还有这个仓
+## 历史
 
-原 module path 是 `git.enjoye.top/enjoydream/agentkit`。拆分意味着所有下游的
-`go.mod` 都得改。直接 archive 会让下游在 `go get` 时拿到 404，破坏面比留一个门面大得多 ——
-留门面至少给一个平滑过渡期。
+本仓原是单仓 `git.enjoye.top/enjoydream/agentkit`，拆分为
+[`github.com/oagentkit/*`](https://github.com/oagentkit) 下 13 个独立发版仓后，
+作为**兼容门面**存在：48 个活包各配一个 `alias.go`，让存量下游只需改 import
+前缀、无需改调用点。门面自 v1.8.x 起废弃（不接受新功能），矩阵内零消费验证
+通过后，于 v1.9.0 整仓退役（兼容逻辑清仓车道，BREAKING）。
 
-代价是本仓会成为垃圾场：每个人都往里加东西，一年后又变回单体。所以**设死退役时间表**，
-并且本仓**不接受任何新功能**，只做别名转发。
+## 48 个包 → 上游真身对照表
 
-> 过渡期已经走完：矩阵内**零消费方**（org 内 0、姊妹 org oekit 内 0、
-> GitHub 全站代码搜索命中 0），门面符号级门禁与「谁还在引门面」门禁都在守。
-> 剩下的唯一阻塞是 GitCode 侧旧单仓尚未归档。
+| 旧门面包 | 上游模块 | 新 import 路径 |
+|---|---|---|
+| `acpx` | tools | `github.com/oagentkit/tools/acpx` |
+| `agentrun` | agent | `github.com/oagentkit/agent/agentrun` |
+| `audit` | obs | `github.com/oagentkit/obs/audit` |
+| `bashguard` | tools | `github.com/oagentkit/tools/bashguard` |
+| `blackboard` | agent | `github.com/oagentkit/agent/blackboard` |
+| `clarify` | agent | `github.com/oagentkit/agent/clarify` |
+| `codeintel` | textx | `github.com/oagentkit/textx/codeintel` |
+| `compact` | textx | `github.com/oagentkit/textx/compact` |
+| `conversation` | textx | `github.com/oagentkit/textx/conversation` |
+| `diffx` | textx | `github.com/oagentkit/textx/diffx` |
+| `dispatch` | agent | `github.com/oagentkit/agent/dispatch` |
+| `egress` | guardx | `github.com/oagentkit/guardx/egress` |
+| `fence` | guardx | `github.com/oagentkit/guardx/fence` |
+| `filestate` | promptx | `github.com/oagentkit/promptx/filestate` |
+| `hookx` | runtime | `github.com/oagentkit/runtime/hookx` |
+| `hotplug` | runtime | `github.com/oagentkit/runtime/hotplug` |
+| `injectband` | guardx | `github.com/oagentkit/guardx/injectband` |
+| `invoke` | guardx | `github.com/oagentkit/guardx/invoke` |
+| `langfuse` | obs | `github.com/oagentkit/obs/langfuse` |
+| `lineage` | skillkit | `github.com/oagentkit/skillkit/lineage` |
+| `llm` | llm | `github.com/oagentkit/llm` |
+| `llmtest` | llm | `github.com/oagentkit/llm/llmtest` |
+| `logredact` | guardx | `github.com/oagentkit/guardx/logredact` |
+| `mcp` | mcpkit | `github.com/oagentkit/mcpkit/mcp` |
+| `obsx` | llm | `github.com/oagentkit/llm/obsx` |
+| `pacer` | runtime | `github.com/oagentkit/runtime/pacer` |
+| `pack` | skillkit | `github.com/oagentkit/skillkit/pack` |
+| `permgate` | guardx | `github.com/oagentkit/guardx/permgate` |
+| `pglease` | queue | `github.com/oagentkit/queue/pglease` |
+| `policy` | toolgate | `github.com/oagentkit/toolgate/policy` |
+| `port` | llm | `github.com/oagentkit/llm/port` |
+| `procx` | runtime | `github.com/oagentkit/runtime/procx` |
+| `progress` | runtime | `github.com/oagentkit/runtime/progress` |
+| `rag` | rag | `github.com/oagentkit/rag` |
+| `reflection` | agent | `github.com/oagentkit/agent/reflection` |
+| `reportutil` | textx | `github.com/oagentkit/textx/reportutil` |
+| `router` | agent | `github.com/oagentkit/agent/router` |
+| `sast` | tools | `github.com/oagentkit/tools/sast` |
+| `skill` | skillkit | `github.com/oagentkit/skillkit/skill` |
+| `steering` | promptx | `github.com/oagentkit/promptx/steering` |
+| `sysprompt` | promptx | `github.com/oagentkit/promptx/sysprompt` |
+| `textutil` | textx | `github.com/oagentkit/textx/textutil` |
+| `toolprior` | toolgate | `github.com/oagentkit/toolgate/toolprior` |
+| `toolsched` | toolgate | `github.com/oagentkit/toolgate/toolsched` |
+| `websearch` | tools | `github.com/oagentkit/tools/websearch` |
+| `workcopy` | tools | `github.com/oagentkit/tools/workcopy` |
+| `worker` | queue | `github.com/oagentkit/queue/worker` |
+| `wrap` | llm | `github.com/oagentkit/llm/wrap` |
 
-## 迁移
+另有 1 个早已退役的包 `breaker` → `github.com/oekit/concurrency/breaker`。
 
-```
-# 迁移前
-import "git.enjoye.top/enjoydream/agentkit/textutil"
+迁移映射的机器可读源见 [matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools/blob/main/modules.json)
+（`retiringPackages` / `droppedPackages` 账本）。批量改写可用
+[matrix-tools/scripts/rewrite_imports.py](https://github.com/oagentkit/matrix-tools/blob/main/scripts/rewrite_imports.py)
+（`--print-rules` 先看映射表，`--apply` 真改写）。
 
-# 迁移后（48 个包的完整映射见 MIGRATION.md）
-import "github.com/oagentkit/textx/textutil"
-```
+## 状态
 
-包名全部保留，只加了模块前缀，所以调用点一行都不用改。
-
-一次性改写：
-
-```bash
-# 建议按 MIGRATION.md 的映射表逐包替换，逐条核对而不是一条通配。
-# 通配 sed 的坑：新路径的模块段不是旧包名（worker/pglease -> queue/pglease、
-# knowledge/rag -> rag），正则很难覆盖；且改写会打乱 import 组内字母序，
-# 必须让 gofmt 重排，否则挂 CI 门禁。
-#
-# 用 matrix-tools 的脚本（只改 import 块内的引号字符串，改完自动 gofmt）：
-#
-#   三个文件必须放在同一目录：rewrite_imports.py 依赖同目录的 matrix_paths.py，
-#   矩阵定义 modules.json 用 --modules 显式指定。
-#   ⚠️ 不能用 `python3 -c "exec(urlopen(...).read())"` 的写法：exec 的代码里
-#   没有 __file__，脚本定位同目录依赖与 spawn 子进程都会炸（NameError）。
-#   脚本必须作为文件运行。
-curl -sSfL https://raw.githubusercontent.com/oagentkit/matrix-tools/main/scripts/rewrite_imports.py -o rewrite_imports.py
-curl -sSfL https://raw.githubusercontent.com/oagentkit/matrix-tools/main/scripts/matrix_paths.py -o matrix_paths.py
-curl -sSfL https://raw.githubusercontent.com/oagentkit/matrix-tools/main/modules.json -o modules.json
-
-# 看映射表（不动文件）
-python3 rewrite_imports.py --org oagentkit --modules ./modules.json --print-rules
-
-# 真改写（--root 指向你的工程根；只改 import 块内的引号字符串，改完自动 gofmt）
-python3 rewrite_imports.py --org oagentkit --modules ./modules.json --root . --apply
-```
-
-改写后按脚本提示收尾：`go mod tidy && go build ./... && gofmt -l .`。
-
-**推荐做法**：按 [MIGRATION.md](MIGRATION.md) 的映射表直接换到最终路径，不要先引门面 ——
-门面只是过渡手段。
-
-## 门面覆盖不到的东西
-
-**3 个泛型函数无法用变量别名转发**（Go 的泛型函数不能赋值给变量），
-需要直接引用上游：
-
-| 符号 | 上游路径 |
-|---|---|
-| `hotplug.NewHolder` | `github.com/oagentkit/runtime/hotplug` |
-| `progress.NewBus` | `github.com/oagentkit/runtime/progress` |
-| `reportutil.Aggregate` | `github.com/oagentkit/textx/reportutil` |
-
-未导出符号（内部实现）不在门面范围内，这是 Go 包机制的固有边界。
-
-## 转发保真度
-
-门面对每个包做 **kind 一致** 的转发：上游的 `type` 用 type 块、`const` 用 const 块、
-`func`/`var` 用 var 块。所以：
-
-- 上游的 `const` 在门面这边**仍是 const**——可以用于常量位置（const 声明、数组长度、
-  const 块、iota 组），语义与直接 import 上游完全一致。（不是「降级成 var」：
-  那样会丢掉常量位置，编译不过。）
-- 上游新增导出符号时，必须在本仓对应包的 `alias.go` 里补上对应别名，否则下游按门面
-  import 会编译失败。矩阵侧有符号级门禁
-  （`matrix-tools/scripts/verify_facade_symbols.py`）守着这条不变量。
-
-## 模块矩阵
-
-13 个仓，按 tier 严格自底向上：
-
-<!-- oagentkit:generated:begin -->
-| tier | 模块 |
-|---|---|
-| 0 | `guardx` `runtime` `textx` |
-| 1 | `promptx` |
-| 2 | `llm` `mcpkit` `obs` `queue` `rag` `skillkit` `toolgate` `tools` |
-| 3 | `agent` |
-<!-- oagentkit:generated:end -->
-
-上表逐仓对齐 [`matrix-tools/modules.json`](https://github.com/oagentkit/matrix-tools)（矩阵单一数据源），
-门禁 `matrix-tools/scripts/verify_facade_tier_table.py` 在 CI 里逐 tier 逐仓比对——**改分层请先改数据源**。
-
-## License
-
-MIT
+- **当前 v1.9.0**（退役终版，BREAKING：全部 48 个转发包删除）。
+- 本仓不再发含代码的版本；后续提交仅限文档勘误。
+- 归档（archive）待旧单仓 `git.enjoye.top/enjoydream/agentkit` 下线后执行。
